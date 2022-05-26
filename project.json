@@ -4,9 +4,9 @@
   ],
   "assets": [],
   "build": {
-    "build_id": "1000ADE5-43",
-    "build_number": 43,
-    "build_time": 1652509489963,
+    "build_id": "08C52697-44",
+    "build_number": 44,
+    "build_time": 1653520375587,
     "release": false
   },
   "encryptLevel": 3,
@@ -15,7 +15,8 @@
   "launchConfig": {
     "displaySplash": false,
     "hideLogs": false,
-    "splashText": "",
+    "splashIcon": "images/ic_splash.png",
+    "splashText": "self-ruler",
     "stableMode": false
   },
   "main": "main.js",

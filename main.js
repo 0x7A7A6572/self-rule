@@ -87,7 +87,7 @@ ui.layout(
     
     <relative id="toolbar" clipChildren="false" bg="#ffffff" padding="30px 30px 30px 0px" >
         <relative h="30" gravity="right" id="title_button" layout_alignParentRight="true" clipChildren="false" bg="#ffffff">
-            <img id="imgRunService" src="{{icon_base64.runing_90}}" w="60dp" paddingLeft="5"/><text  text="开启" textSize="10sp"  layout_toRightOf="@id/imgRunService" /> 
+            <img id="imgRunService" src="{{icon_base64.runing_90}}" w="60dp" paddingLeft="25"/><text  text="开启" textSize="10sp"  layout_toRightOf="@id/imgRunService" /> 
             <img id="showfloatwindow" src="{{icon_base64.add_list_90}}" paddingLeft="25" w="60dp" layout_toRightOf="@id/imgRunService"/> <text  text="添加" textSize="10sp"  layout_toRightOf="@id/showfloatwindow" />
             <img id="imgSyncCloud" src="{{icon_base64.cloud_90}}" paddingLeft="25" w="60dp" layout_toRightOf="@id/showfloatwindow"/><text  text="同步" textSize="10sp" layout_toRightOf="@id/imgSyncCloud" />
             <img id="imgInfo" src="@drawable/ic_import_contacts_black_48dp" w="60dp" paddingLeft="25" layout_toRightOf="@id/imgSyncCloud"/> <text  text="关于" textSize="10sp"  layout_toRightOf="@id/imgInfo" />

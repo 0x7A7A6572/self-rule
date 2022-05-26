@@ -42,7 +42,7 @@ events.on("exit", function() {
     if (clear != null) {
         new ContextWrapper(context).unregisterReceiver(clear);
         BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
-        toastLog("service stop..." );
+        toastLog("service stop...");
         removeNotify();
         console.log("清理完毕");
     }
@@ -89,18 +89,18 @@ function sendNotify(notifyTitle, contentText, subText) {
         channel.setShowBadge(false);
         manager.createNotificationChannel(channel);
         notification = new android.app.Notification.Builder(context, "channel_ruler")
-           // .setTicker(contentText)
+            // .setTicker(contentText)
             .setContentTitle(notifyTitle)
             .setContentText(contentText)
-           // .setSubText(subText)
+            // .setSubText(subText)
             .setWhen(new Date().getTime())
-            .setSmallIcon(-1)//org.autojs.autojs.R.drawable.autojs_material)
+            .setSmallIcon(-1) //org.autojs.autojs.R.drawable.autojs_material)
             .setOngoing(true)
             .setAutoCancel(false)
             .setContentIntent(snoozePendingIntent) //点击跳转activity
             .addAction(-1, "设置", snoozePendingIntent) //图标，文字，点击事件 //
             .addAction(-1, "停止服务", stopServiceIntent) //图标，文字，点击事件 // 
-            
+
             .build();
     } else {
         notification = new android.app.Notification.Builder(context)
@@ -128,13 +128,13 @@ function removeNotify() {
 }
 
 function toUishowMenu() {
-launch("cn.zzerx.selfruler");
-   /* //运行脚本
-    let e = engines.execScriptFile("./main.js");
-    setTimeout(function() {
-        e.getEngine().emit("msg", "launch_window");
-    }, 2000);
-    //向该脚本发送事件*/
+    launch("cn.zzerx.selfruler");
+    /* //运行脚本
+     let e = engines.execScriptFile("./main.js");
+     setTimeout(function() {
+         e.getEngine().emit("msg", "launch_window");
+     }, 2000);
+     //向该脚本发送事件*/
 }
 
 /*function stopService(){
@@ -143,7 +143,7 @@ launch("cn.zzerx.selfruler");
   exit();
  }
 }*/
-sendNotify("律者", "服务已启动",);
+sendNotify("律者", "服务已启动", );
 
 toastLog("注册广播成功")
 BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
@@ -156,36 +156,36 @@ BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
 };*/
 
 let myDialog = DialogPlus.setView(loadLayouts.alertLayout)
-              .setTitle(null)
-              .setEmptyMode(true)
-              .build()       
-      //去除dialog白色背景         
-    myDialog.getDialog().getWindow().getDecorView().setBackground(null);
-   loadLayouts.alertLayout.floatImgBack.on("click",function(){
-   
-        myDialog.dismiss();
-        back();
-   //延迟解锁服务 back返回需要时间     
-    setTimeout(function(){
-       isAlertWindowShow = false;
+    .setTitle(null)
+    .setEmptyMode(true)
+    .build()
+//去除dialog白色背景         
+myDialog.getDialog().getWindow().getDecorView().setBackground(null);
+loadLayouts.alertLayout.floatImgBack.on("click", function() {
+
+    myDialog.dismiss();
+    back();
+    //延迟解锁服务 back返回需要时间     
+    setTimeout(function() {
+        isAlertWindowShow = false;
     }, 800);
-       
-       
-   });
-              
+
+
+});
+
 var ruler_thread = threads.start(function() {
     //在子线程执行的定时器 
     setInterval(function() {
         let current_activity = currentActivity();
         if (isEvilActivitys(current_activity) && isAlertWindowShow == false) {
             //back();
-            alertTipsText=rulerStorage.get("alertTipsText");
-           // alert(alertTipsText);
-          ui.run(()=>{ 
-            loadLayouts.alertLayout.floatTextAlertText.setText(alertTipsText);
-            myDialog.show();
-             isAlertWindowShow = true;
-           });
+            alertTipsText = rulerStorage.get("alertTipsText");
+            // alert(alertTipsText);
+            ui.run(() => {
+                loadLayouts.alertLayout.floatTextAlertText.setText(alertTipsText);
+                myDialog.show();
+                isAlertWindowShow = true;
+            });
         }
     }, 800);
 });
@@ -262,4 +262,6 @@ events.onKeyDown("volume_up", function(event) {
 toastLog(e)
 }*/
 //保活
-setInterval(function() {BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");}, 1000);
+setInterval(function() {
+    BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
+}, 1000);
