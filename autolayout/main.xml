@@ -1,0 +1,423 @@
+<relative h="*">
+    <ScrollView layout_below="@id/toolbar">
+        <relative h="*">
+
+            <vertical
+                padding="30px"
+                layout_gravity="center"
+                h="*">
+                <linear margin="0 0 0 10">
+                    <img
+                        src="@drawable/ic_flash_on_black_48dp"
+                        tint="#ff8800" />
+                    <text
+                        id="_textPromissTitle"
+                        text="Promiss权限"
+                        textSize="18sp"
+                        textStyle="bold"
+                        h="*"
+                        gravity="center"
+                        color="#2B2B2B" />
+                </linear>
+
+                <linear
+                    id="permission_status"
+                    w="*"
+                    margin="0 0 0 0"
+                    padding="12"
+                    bg="#2b2b2b">
+                    <text
+                        id="ps_accessibility"
+                        layout_weight="1"
+                        text="●无障碍"
+                        textSize="12sp"
+                        color="red"
+                        textStyle="bold" />
+                    <text
+                        id="ps_floatwindow"
+                        layout_weight="1"
+                        text="●悬浮窗"
+                        textSize="12sp"
+                        color="green"
+                        textStyle="bold" />
+                    <text
+                        id="ps_startauto"
+                        layout_weight="1"
+                        text="●开机自启"
+                        textSize="12sp"
+                        color="yellow"
+                        textStyle="bold" />
+                    <text
+                        id="ps_battery_opt"
+                        layout_weight="1"
+                        text="●电池优化"
+                        textSize="12sp"
+                        color="red"
+                        textStyle="bold" />
+                </linear>
+
+                <linear margin="0 20 0 0">
+                    <img
+                        src="@drawable/ic_security_black_48dp"
+                        tint="#ff8888" />
+                    <text
+                        text="Activity黑名单"
+                        textSize="18sp"
+                        h="*"
+                        gravity="center"
+                        textStyle="bold"
+                        color="#2B2B2B" />
+                    <linear
+                        layout_weight="1"
+                        gravity="right">
+                        <!--img src="@drawable/ic_search_black_48dp" padding="5 0 5 0"/-->
+                        <img
+                            id="expand_img_switch_backlist"
+                            padding="10 0 10 0"
+                            src="@drawable/ic_unfold_more_black_48dp"
+                            bg="?selectableItemBackgroundBorderless" />
+                    </linear>
+                </linear>
+                <list
+                    id="blacklist"
+                    h="300"
+                    padding="10"
+                    margin="0 10 0 10"
+                    bg="#23ff0000">
+                    <card
+                        w="*"
+                        h="70"
+                        margin="0 5"
+                        cardCornerRadius="10"
+                        cardElevation="1dp"
+                        foreground="?selectableItemBackground"
+                        gravity="right"
+                        w="*">
+
+                        <vertical
+                            padding="5"
+                            layout_weight="1"
+                            w="*">
+                            <text
+                                id="activity"
+                                textSize="11sp"
+                                textColor="#FF5555"
+                                text="{{activity}}"
+                                textStyle="bold"
+                                paddingRight="50"
+                                w="*" />
+                            <text
+                                id="pckage"
+                                textSize="10sp"
+                                textColor="#000000"
+                                text="所属包名: {{pckage}}（{{appname}}）" />
+                        </vertical>
+
+                        <View
+                            bg="#f44336"
+                            h="*"
+                            w="46"
+                            layout_gravity="right" />
+                        <img
+                            id="deleteItem"
+                            src="@drawable/ic_delete_black_48dp"
+                            layout_gravity="right|center"
+                            w="34"
+                            tint="#ffffff"
+                            paddingRight="10" />
+                    </card>
+                </list>
+                <text
+                    id="blacklist_empty"
+                    w="*"
+                    text="空"
+                    gravity="center"
+                    padding="50" />
+                <linear marginTop="15">
+                    <img
+                        src="@drawable/ic_verified_user_black_48dp"
+                        tint="#88ff88" />
+                    <text
+                        text="Activity白名单"
+                        textSize="18sp"
+                        textStyle="bold"
+                        h="*"
+                        gravity="center"
+                        color="#2B2B2B" />
+                    <linear
+                        layout_weight="1"
+                        gravity="right">
+                        <!--img src="@drawable/ic_search_black_48dp" padding="5 0 5 0"/-->
+                        <img
+                            id="expand_img_switch_whitelist"
+                            padding="5 0 15 0"
+                            src="@drawable/ic_unfold_more_black_48dp"
+                            bg="?selectableItemBackgroundBorderless" />
+                    </linear>
+                </linear>
+                <list
+                    id="whitelist"
+                    h="200"
+                    w="*"
+                    padding="10"
+                    margin="0 10 0 10"
+                    bg="#2388ff88">
+                    <card
+                        w="*"
+                        h="70"
+                        margin="0 5"
+                        cardCornerRadius="10"
+                        cardElevation="1dp"
+                        foreground="?selectableItemBackground"
+                        gravity="right"
+                        w="*">
+                        <linear
+                            padding="5"
+                            w="*">
+                            <vertical
+                                layout_weight="1"
+                                w="*">
+                                <text
+                                    id="activity"
+                                    textSize="11sp"
+                                    textColor="#55FF55"
+                                    text="{{activity}}"
+                                    textStyle="bold"
+                                    paddingRight="50"
+                                    w="*" />
+                                <text
+                                    id="pckage"
+                                    textSize="10sp"
+                                    textColor="#000000"
+                                    text="所属包名: {{pckage}}（{{appname}}）"
+                                    w="*" />
+                            </vertical>
+                        </linear>
+                        <View
+                            bg="#43F436"
+                            h="*"
+                            w="46"
+                            layout_gravity="right" />
+                        <img
+                            id="deleteItem"
+                            src="@drawable/ic_delete_black_48dp"
+                            layout_gravity="right|center"
+                            w="34"
+                            tint="#ffffff"
+                            paddingRight="10" />
+                    </card>
+                </list>
+                <text
+                    id="whitelist_empty"
+                    w="*"
+                    text="空"
+                    gravity="center"
+                    padding="50"
+                    margin="0 10 0 10"
+                    bg="#2300ff00" />
+                <linear margin="0 15 0 10">
+                    <img
+                        src="@drawable/ic_report_black_48dp"
+                        tint="#8888ff" />
+                    <text
+                        text="Alert警告词"
+                        textSize="18sp"
+                        textStyle="bold"
+                        h="*"
+                        gravity="center"
+                        marginLeft="5"
+                        color="#2B2B2B" />
+                    <img
+                        src="@drawable/question"
+                        padding="5 0 5 0"
+                        h="20dp" />
+                    <linear
+                        layout_weight="1"
+                        gravity="right">
+
+                        <img
+                            id="preview_alert"
+                            padding="5 0 15 0"
+                            src="@drawable/eye" />
+                    </linear>
+                </linear>
+                <input
+                    id="tips_input"
+                    hint="当前Activity为黑名单时，弹窗显示的文字内容。"
+                    padding="10"
+                    color="#ffffffff"
+                    textStyle="bold"
+                    textSize="14sp"
+                    marginBottom="20" />
+
+
+            </vertical>
+        </relative>
+    </ScrollView>
+
+    <relative
+        id="toolbar"
+        clipChildren="false"
+        bg="#ffffff"
+        padding="10px 10px 10px 0px">
+        <img
+            src="@drawable/logo"
+            h="55dp"
+            marginTop="-20px" />
+        <relative
+            h="30"
+            gravity="right"
+            id="title_button"
+            layout_alignParentRight="true"
+            clipChildren="false"
+            bg="#ffffff">
+
+            <img
+                id="imgRunService"
+                src="@drawable/rocket"
+                w="55dp"
+                paddingLeft="30" />
+            <text
+                text="开启"
+                textSize="10sp"
+                layout_toRightOf="@id/imgRunService"
+                color="#2B2B2B" />
+            <img
+                id="showfloatwindow"
+                src="@drawable/activity_list_add_90"
+                paddingLeft="30"
+                w="55dp"
+                layout_toRightOf="@id/imgRunService" />
+            <text
+                text="添加"
+                textSize="10sp"
+                layout_toRightOf="@id/showfloatwindow"
+                color="#2B2B2B" />
+            <img
+                id="imgSyncCloud"
+                src="@drawable/cloud-download"
+                paddingLeft="30"
+                w="56dp"
+                layout_toRightOf="@id/showfloatwindow" />
+            <text
+                text="同步"
+                textSize="10sp"
+                layout_toRightOf="@id/imgSyncCloud"
+                color="#2B2B2B" />
+            <img
+                id="imgInfo"
+                src="@drawable/leaf"
+                w="53dp"
+                paddingLeft="30"
+                layout_toRightOf="@id/imgSyncCloud" />
+            <text
+                text="关于"
+                textSize="10sp"
+                layout_toRightOf="@id/imgInfo"
+                color="#2B2B2B" />
+        </relative>
+    </relative>
+    <relative
+        id="cardInfoLayout"
+        visibility="gone"
+        w="*"
+        h="*"
+        bg="#CC000000"
+        layout_centerInparent="true">
+        <card
+        bg="#00000000"
+            w="*" 
+            layout_centerHrizontal="true"
+            layout_centerVertical="true"
+            margin="30 30 30 30"
+            cardCornerRadius="10"
+            cardElevation="1dp"
+            foreground="?selectableItemBackground">
+            <!--img bg="@drawable/logo" h="350" w="350dp" layout_gravity="top|right" alpha="0.5"/-->
+            <ScrollView padding="5">
+                <vertical
+                    layout_weight="1"
+                    padding="30">
+                    <!--text textSize="23sp" textColor="#000000" text="律已" textStyle="bold|italic" />
+    <text textSize="16sp" textColor="#000000" text="开发者: zzerX"/-->
+                    <text
+                        textSize="40sp"
+                        textColor="#f4a386">律</text>
+                    <text
+                        margin="40sp -30sp"
+                        textSize="40sp"
+                        textColor="#f46677">已</text>
+                    <text textSize="12sp" color="white">v1.0.0</text>
+                    <View bg="#55cccc"
+                        h="3"
+                        w="40sp"
+                        margin="0 0 0 0" />
+                    <View
+                        bg="#55cccc"
+                        h="3"
+                        w="260"
+                        margin="10 10 0 0" />
+                     <linear>
+                     <img src="@drawable/hammer" tint="white" h="14sp" marginTop="20"/>
+                    <text id="info_mypage" marginTop="20" textColor="white">zzerX (0x7A7A6572)</text>
+                    </linear>
+                    
+                      <linear>
+                     <img src="@drawable/github" tint="white" h="14sp"/>
+                    <text id="info_open" textColor="white">开源项目地址 -></text>
+                    </linear>
+                    
+                      <linear>
+                     <img src="@drawable/mail" tint="white" h="14sp"/>
+                    <text id="info_mail" textColor="white">zzerx@qq.com -></text>
+                    </linear>
+                    
+                      <linear>
+                     <img src="@drawable/bubbles2" tint="white" h="14sp"/>
+                     <text id="info_group" textColor="white">交流群: 782523813 -></text>
+                       </linear>
+
+                    <text
+                        padding="8"
+                        marginTop="10"
+                        w="*"
+                        textColor="white"
+                        bg="#33dbdbdb">更多信息 -></text>
+             <text autoLink="all" color="grey" marginTop="15" w="*" gravity="center"> .:       逃离时间的黑洞！    :.</text>
+            <img
+                id="imgCloseInfo"
+                src="@drawable/enter"
+                layout_gravity="center"
+                w="54"
+                h="54"
+                tint="white"
+                marginTop="30" />
+                </vertical>
+
+            </ScrollView>
+            <!--View
+                bg="#f4a386"
+                h="4"
+                w="*"
+                layout_gravity="top" /-->
+            <!--img
+                id="imgCloseInfo"
+                src="@drawable/ic_clear_black_48dp"
+                layout_gravity="top|right"
+                w="44"
+                h="44"
+                tint="white"
+                paddingRight="10" /-->
+        </card>
+
+    </relative>
+    <!--card id="permission_status" w="100" cardCornerRadius="10"  layout_alignParentLeft="true" margin="30 0 30 0">
+
+<linear padding="5" bg="#2b2b2b">
+    <text id="ps_accessibility" layout_weight="1" text="●无障碍" textSize="12sp" color="red" textStyle="bold"/>
+    <text id="ps_floatwindow" layout_weight="1" text="●悬浮窗" textSize="12sp" color="green" textStyle="bold"/>
+    <text id="ps_startauto" layout_weight="1" text="●开机自启" textSize="12sp" color="yellow" textStyle="bold"/>
+    <text id="ps_battery_opt" layout_weight="1" text="●电池优化" textSize="12sp" color="red" textStyle="bold"/>
+</linear>
+</card-->
+</relative>

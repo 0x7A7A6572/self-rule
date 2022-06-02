@@ -2,11 +2,15 @@
   "abis": [
     "arm64-v8a"
   ],
+  "androidResources": {
+    "manifest": "AndroidManifest.xml",
+    "resDir": "res"
+  },
   "assets": [],
   "build": {
-    "build_id": "08C52697-44",
-    "build_number": 44,
-    "build_time": 1653520375587,
+    "build_id": "66602B0C-48",
+    "build_number": 48,
+    "build_time": 1654143298126,
     "release": false
   },
   "encryptLevel": 3,

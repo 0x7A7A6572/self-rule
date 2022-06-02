@@ -1,4 +1,4 @@
-//try{
+
 importClass(android.content.ContextWrapper);
 importClass(android.app.PendingIntent);
 //importClass(android.content.BroadcastReceiver);
@@ -223,7 +223,7 @@ function isEvilActivitys(activity) {
         EvilActivity.forEach(function(value, key) {
             //console. log(activityName,value, key, list);
             if (value.activity == activity) {
-                console.log(" is Evil");
+                console.log(" is Evil:",activity);
                 is_evil = true;
                 return;
             }
@@ -235,6 +235,25 @@ function isEvilActivitys(activity) {
     return is_evil;
 }
 
+function isWhiteListActivitys(activity) {
+    let is_white_list = false;
+    //重新获取whitelistActivity
+    whitelistActivity = rulerStorage.get("whitelistActivity");
+    try {
+        whitelistActivity.forEach(function(value, key) {
+            //console. log(activityName,value, key, list);
+            if (value.activity == activity) {
+                console.log(" is white Activity");
+                is_white_list = true;
+                return;
+            }
+        });
+    } catch (e) {
+        console.log('whitelistActivity.length:', whitelistActivity.length, '\n', whitelistActivity);
+        console.log(e)
+    }
+    return is_white_list;
+}
 function dynamicText() {
     var date = new Date();
     var str = util.format("时间: %d:%d:%d\n", date.getHours(), date.getMinutes(), date.getSeconds());
