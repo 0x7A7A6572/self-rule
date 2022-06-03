@@ -17,9 +17,10 @@ importClass(android.graphics.Bitmap);
 importClass(android.graphics.BitmapFactory);
 importClass(android.graphics.BitmapShader);
 let BroadcastUtil = require('util/BroadcastUtil.js');
-let DialogPlus = require("DialogPlus.js");
+//let DialogPlus = require("./components/DialogPlus.js");
 //let icon_base64 = require("images/icon_bese64.js");
-let loadLayouts = require('./dialogplus_alert.js')
+//let loadLayouts = require('./components/dialogplus_alert.js');
+let denyAlert = require("./components/denyAlert.js");
 let SERVICE_EXTRA_KEY = "SELF_RULER_SERVICE_STATU";
 let SERVICE_SCRIPT_PATH = "./service.js";
 let serviceStatu;
@@ -339,7 +340,13 @@ $ui.expand_img_switch_whitelist.on("click", (v) => {
         expand_img_switch.whitelist = 1;
     }
 
-})
+});
+
+$ui.preview_alert.on("click", ()=>{
+ denyAlert.init()
+ denyAlert.setText($ui.tips_input.getText())
+ denyAlert.show()
+});
 
 $ui.info_mypage.on('click',()=>{
    app.openUrl("https://zzerx.cn");

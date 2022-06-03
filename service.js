@@ -1,12 +1,11 @@
-
 importClass(android.content.ContextWrapper);
 importClass(android.app.PendingIntent);
 //importClass(android.content.BroadcastReceiver);
 importClass(android.content.IntentFilter);
 importClass(android.widget.Button);
-BroadcastUtil = require('util/BroadcastUtil.js');
-let loadLayouts = require('./dialogplus_alert.js')
-DialogPlus = require("DialogPlus.js");
+BroadcastUtil = require('./util/BroadcastUtil.js');
+let loadLayouts = require('./components/dialogplus_alert.js')
+DialogPlus = require("./components/DialogPlus.js");
 //注册接收广播start
 let ExtraKey = "SELF_RULER_SERVICE_STATU";
 let serviceStatu;
@@ -26,7 +25,8 @@ BroadcastUtil.register(function(context, intent) {
 
 
 filter.addAction("BroadcastReceiver");
-new ContextWrapper(context).registerReceiver(clear = new BroadcastReceiver({
+new ContextWrapper(context)
+    .registerReceiver(clear = new BroadcastReceiver({
     onReceive: function(context, intent) {
         // toastLog(intent)
         let BroadcastData = intent.getStringExtra("action");
@@ -40,7 +40,8 @@ new ContextWrapper(context).registerReceiver(clear = new BroadcastReceiver({
 //退出脚本时清理广播  
 events.on("exit", function() {
     if (clear != null) {
-        new ContextWrapper(context).unregisterReceiver(clear);
+        new ContextWrapper(context)
+            .unregisterReceiver(clear);
         BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
         toastLog("service stop...");
         removeNotify();
@@ -78,72 +79,74 @@ var stopServiceIntent = PendingIntent.getBroadcast(context, 0, stopIntent, Pendi
 var snoozePendingIntent = PendingIntent.getBroadcast(context, 1, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
 // 创建通知
-function sendNotify(notifyTitle, contentText, subText) {
-    let notifyTicker = "";
-    var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
-    var notification;
-    if (device.sdkInt >= 26) {
-        var channel = new android.app.NotificationChannel("channel_ruler", "律者状态显示与控制", android.app.NotificationManager.IMPORTANCE_DEFAULT);
-        channel.enableLights(true);
-        channel.setLightColor(0xff0000);
-        channel.setShowBadge(false);
-        manager.createNotificationChannel(channel);
-        notification = new android.app.Notification.Builder(context, "channel_ruler")
+    function sendNotify(notifyTitle, contentText, subText) {
+        let notifyTicker = "";
+        var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
+        var notification;
+        if (device.sdkInt >= 26) {
+            var channel = new android.app.NotificationChannel("channel_ruler", "律者状态显示与控制", android.app.NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true);
+            channel.setLightColor(0xff0000);
+            channel.setShowBadge(false);
+            manager.createNotificationChannel(channel);
+            notification = new android.app.Notification.Builder(context, "channel_ruler")
             // .setTicker(contentText)
             .setContentTitle(notifyTitle)
-            .setContentText(contentText)
+                .setContentText(contentText)
             // .setSubText(subText)
-            .setWhen(new Date().getTime())
-            .setSmallIcon(-1) //org.autojs.autojs.R.drawable.autojs_material)
+            .setWhen(new Date()
+                .getTime())
+                .setSmallIcon(-1) //org.autojs.autojs.R.drawable.autojs_material)
             .setOngoing(true)
-            .setAutoCancel(false)
-            .setContentIntent(snoozePendingIntent) //点击跳转activity
+                .setAutoCancel(false)
+                .setContentIntent(snoozePendingIntent) //点击跳转activity
             .addAction(-1, "设置", snoozePendingIntent) //图标，文字，点击事件 //
             .addAction(-1, "停止服务", stopServiceIntent) //图标，文字，点击事件 // 
 
             .build();
-    } else {
-        notification = new android.app.Notification.Builder(context)
-            .setContentTitle(notifyTitle)
-            .setContentText(notifyText)
-            .setWhen(new Date().getTime())
-            .setSmallIcon(-1)
-            .setTicker(notifyTicker)
-            .setOngoing(false)
-            .build();
+        } else {
+            notification = new android.app.Notification.Builder(context)
+                .setContentTitle(notifyTitle)
+                .setContentText(notifyText)
+                .setWhen(new Date()
+                .getTime())
+                .setSmallIcon(-1)
+                .setTicker(notifyTicker)
+                .setOngoing(false)
+                .build();
+        }
+
+        manager.notify(NotifyID, notification);
+
     }
 
-    manager.notify(NotifyID, notification);
+    function removeNotify() {
+        var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
+        //应该选择自己的通知进行remove
+        manager.cancel(NotifyID);
+        //manager.cancelAll();
+        exit();
+        //engines.stopAll();
+        //sendNotify("律者","服务已被关闭")
+    }
 
-}
-
-function removeNotify() {
-    var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
-    //应该选择自己的通知进行remove
-    manager.cancel(NotifyID);
-    //manager.cancelAll();
-    exit();
-    //engines.stopAll();
-    //sendNotify("律者","服务已被关闭")
-}
-
-function toUishowMenu() {
-    launch("cn.zzerx.selfruler");
-    /* //运行脚本
+    function toUishowMenu() {
+        launch("cn.zzerx.selfruler");
+        /* //运行脚本
      let e = engines.execScriptFile("./main.js");
      setTimeout(function() {
          e.getEngine().emit("msg", "launch_window");
      }, 2000);
      //向该脚本发送事件*/
-}
+    }
 
-/*function stopService(){
+    /*function stopService(){
  if(window != null){
   window.close();
   exit();
  }
 }*/
-sendNotify("律者", "服务已启动", );
+    sendNotify("律者", "服务已启动", );
 
 toastLog("注册广播成功")
 BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
@@ -160,7 +163,10 @@ let myDialog = DialogPlus.setView(loadLayouts.alertLayout)
     .setEmptyMode(true)
     .build()
 //去除dialog白色背景         
-myDialog.getDialog().getWindow().getDecorView().setBackground(null);
+myDialog.getDialog()
+    .getWindow()
+    .getDecorView()
+    .setBackground(null);
 loadLayouts.alertLayout.floatImgBack.on("click", function() {
 
     myDialog.dismiss();
@@ -223,7 +229,7 @@ function isEvilActivitys(activity) {
         EvilActivity.forEach(function(value, key) {
             //console. log(activityName,value, key, list);
             if (value.activity == activity) {
-                console.log(" is Evil:",activity);
+                console.log(" is Evil:", activity);
                 is_evil = true;
                 return;
             }
@@ -254,32 +260,9 @@ function isWhiteListActivitys(activity) {
     }
     return is_white_list;
 }
-function dynamicText() {
-    var date = new Date();
-    var str = util.format("时间: %d:%d:%d\n", date.getHours(), date.getMinutes(), date.getSeconds());
-    str += util.format("内存使用量: %d%%\n", getMemoryUsage());
-    str += "当前包名: " + currentPackage() + "\n";
-    str += "当前应用名: " + app.getAppName(currentPackage()) + "\n";
-    str += "当前活动: \n" + currentActivity();
-    return str;
-}
 
-//获取内存使用率
-function getMemoryUsage() {
-    var usage = (100 * device.getAvailMem() / device.getTotalMem());
-    //保留一位小数
-    return Math.round(usage * 100) / 100;
-}
 
-//启用按键监听 
-events.observeKey();
-//监听音量上键按下 
-events.onKeyDown("volume_up", function(event) {
-    return 0;
-});
-/*}catch(e){
-toastLog(e)
-}*/
+
 //保活
 setInterval(function() {
     BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
