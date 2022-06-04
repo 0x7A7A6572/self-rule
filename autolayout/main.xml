@@ -215,11 +215,12 @@
                     padding="50"
                     margin="0 10 0 10"
                     bg="#2300ff00" />
-                <linear margin="0 15 0 10">
+                <linear margin="0 15 0 10" id="alert_explan">
                     <img
                         src="@drawable/ic_report_black_48dp"
                         tint="#8888ff" />
                     <text
+                       
                         text="Alert警告词"
                         textSize="18sp"
                         textStyle="bold"
@@ -228,6 +229,7 @@
                         marginLeft="5"
                         color="#2B2B2B" />
                     <img
+                        
                         src="@drawable/question"
                         padding="5 0 5 0"
                         h="20dp" />
