@@ -1,4 +1,80 @@
-<relative h="*">
+<drawer id="drawer">
+    <vertical>
+        <appbar>
+                 <relative
+        id="toolbar"
+        clipChildren="false"
+        bg="#ffffff"
+        padding="10px 10px 10px 0px">
+        <img
+            src="@drawable/logo"
+            h="55dp"
+            marginTop="-20px" />
+        <relative
+            h="30"
+            gravity="right"
+            id="title_button"
+            layout_alignParentRight="true"
+            clipChildren="false"
+            bg="#ffffff">
+
+            <img
+                id="imgRunService"
+                src="@drawable/rocket"
+                w="55dp"
+                paddingLeft="30" />
+            <text
+                text="开启"
+                textSize="10sp"
+                layout_toRightOf="@id/imgRunService"
+                color="#2B2B2B" />
+            <img
+                id="showfloatwindow"
+                src="@drawable/activity_list_add_90"
+                paddingLeft="30"
+                w="55dp"
+                layout_toRightOf="@id/imgRunService" />
+            <text
+                text="添加"
+                textSize="10sp"
+                layout_toRightOf="@id/showfloatwindow"
+                color="#2B2B2B" />
+            <img
+                id="imgSyncCloud"
+                src="@drawable/cloud-download"
+                paddingLeft="30"
+                w="56dp"
+                layout_toRightOf="@id/showfloatwindow" />
+            <text
+                text="同步"
+                textSize="10sp"
+                layout_toRightOf="@id/imgSyncCloud"
+                color="#2B2B2B" />
+            <!--img
+                id="imgInfo"
+                src="@drawable/leaf"
+                w="53dp"
+                paddingLeft="30"
+                layout_toRightOf="@id/imgSyncCloud" />
+            <text
+                text="关于"
+                textSize="10sp"
+                layout_toRightOf="@id/imgInfo"
+                color="#2B2B2B" /-->
+          <img
+               id="setting"
+               paddingLeft="30"
+               w="53dp"
+              layout_toRightOf="@id/imgSyncCloud"
+              src="@drawable/setting" />
+         <text
+                text="设置"
+                textSize="10sp"
+                layout_toRightOf="@id/setting"
+                color="#2B2B2B" />
+        </relative>
+    </relative>
+             </appbar>
     <ScrollView layout_below="@id/toolbar">
         <relative h="*">
 
@@ -80,23 +156,20 @@
                 </linear>
                 <list
                     id="blacklist"
-                    h="300"
+                    h="200" w="*"
                     padding="10"
                     margin="0 10 0 10"
                     bg="#23ff0000">
                     <card
-                        w="*"
-                        h="70"
+                        h="70" w="*"
                         margin="0 5"
                         cardCornerRadius="10"
                         cardElevation="1dp"
                         foreground="?selectableItemBackground"
-                        gravity="right"
-                        w="*">
+                        gravity="right">
 
                         <vertical
                             padding="5"
-                            layout_weight="1"
                             w="*">
                             <text
                                 id="activity"
@@ -104,8 +177,7 @@
                                 textColor="#FF5555"
                                 text="{{activity}}"
                                 textStyle="bold"
-                                paddingRight="50"
-                                w="*" />
+                                paddingRight="50" />
                             <text
                                 id="pckage"
                                 textSize="10sp"
@@ -215,7 +287,7 @@
                     padding="50"
                     margin="0 10 0 10"
                     bg="#2300ff00" />
-                <linear margin="0 15 0 10" id="alert_explan">
+                <linear margin="0 15 0 10" >
                     <img
                         src="@drawable/ic_report_black_48dp"
                         tint="#8888ff" />
@@ -229,13 +301,14 @@
                         marginLeft="5"
                         color="#2B2B2B" />
                     <img
-                        
+                        id="alert_explan"
                         src="@drawable/question"
                         padding="5 0 5 0"
                         h="20dp" />
                     <linear
                         layout_weight="1"
                         gravity="right">
+                      
 
                         <img
                             id="preview_alert"
@@ -256,163 +329,9 @@
             </vertical>
         </relative>
     </ScrollView>
+        
 
-    <relative
-        id="toolbar"
-        clipChildren="false"
-        bg="#ffffff"
-        padding="10px 10px 10px 0px">
-        <img
-            src="@drawable/logo"
-            h="55dp"
-            marginTop="-20px" />
-        <relative
-            h="30"
-            gravity="right"
-            id="title_button"
-            layout_alignParentRight="true"
-            clipChildren="false"
-            bg="#ffffff">
-
-            <img
-                id="imgRunService"
-                src="@drawable/rocket"
-                w="55dp"
-                paddingLeft="30" />
-            <text
-                text="开启"
-                textSize="10sp"
-                layout_toRightOf="@id/imgRunService"
-                color="#2B2B2B" />
-            <img
-                id="showfloatwindow"
-                src="@drawable/activity_list_add_90"
-                paddingLeft="30"
-                w="55dp"
-                layout_toRightOf="@id/imgRunService" />
-            <text
-                text="添加"
-                textSize="10sp"
-                layout_toRightOf="@id/showfloatwindow"
-                color="#2B2B2B" />
-            <img
-                id="imgSyncCloud"
-                src="@drawable/cloud-download"
-                paddingLeft="30"
-                w="56dp"
-                layout_toRightOf="@id/showfloatwindow" />
-            <text
-                text="同步"
-                textSize="10sp"
-                layout_toRightOf="@id/imgSyncCloud"
-                color="#2B2B2B" />
-            <img
-                id="imgInfo"
-                src="@drawable/leaf"
-                w="53dp"
-                paddingLeft="30"
-                layout_toRightOf="@id/imgSyncCloud" />
-            <text
-                text="关于"
-                textSize="10sp"
-                layout_toRightOf="@id/imgInfo"
-                color="#2B2B2B" />
-        </relative>
-    </relative>
-    <relative
-        id="cardInfoLayout"
-        visibility="gone"
-        w="*"
-        h="*"
-        bg="#CC000000"
-        layout_centerInparent="true">
-        <card
-        bg="#00000000"
-            w="*" 
-            layout_centerHrizontal="true"
-            layout_centerVertical="true"
-            margin="30 30 30 30"
-            cardCornerRadius="10"
-            cardElevation="1dp"
-            foreground="?selectableItemBackground">
-            <!--img bg="@drawable/logo" h="350" w="350dp" layout_gravity="top|right" alpha="0.5"/-->
-            <ScrollView padding="5">
-                <vertical
-                    layout_weight="1"
-                    padding="30">
-                    <!--text textSize="23sp" textColor="#000000" text="律已" textStyle="bold|italic" />
-    <text textSize="16sp" textColor="#000000" text="开发者: zzerX"/-->
-                    <text
-                        textSize="40sp"
-                        textColor="#f4a386">律</text>
-                    <text
-                        margin="40sp -30sp"
-                        textSize="40sp"
-                        textColor="#f46677">已</text>
-                    <text textSize="12sp" color="white">v1.0.0</text>
-                    <View bg="#55cccc"
-                        h="3"
-                        w="40sp"
-                        margin="0 0 0 0" />
-                    <View
-                        bg="#55cccc"
-                        h="3"
-                        w="260"
-                        margin="10 10 0 0" />
-                     <linear>
-                     <img src="@drawable/hammer" tint="white" h="14sp" marginTop="20"/>
-                    <text id="info_mypage" marginTop="20" textColor="white">zzerX (0x7A7A6572)</text>
-                    </linear>
-                    
-                      <linear>
-                     <img src="@drawable/github" tint="white" h="14sp"/>
-                    <text id="info_open" textColor="white">开源项目地址 -></text>
-                    </linear>
-                    
-                      <linear>
-                     <img src="@drawable/mail" tint="white" h="14sp"/>
-                    <text id="info_mail" textColor="white">zzerx@qq.com -></text>
-                    </linear>
-                    
-                      <linear>
-                     <img src="@drawable/bubbles2" tint="white" h="14sp"/>
-                     <text id="info_group" textColor="white">交流群: 782523813 -></text>
-                       </linear>
-
-                    <text
-                        padding="8"
-                        marginTop="10"
-                        w="*"
-                        textColor="white"
-                        bg="#33dbdbdb">更多信息 -></text>
-             <text autoLink="all" color="grey" marginTop="15" w="*" gravity="center"> .:       逃离时间的黑洞！    :.</text>
-            <img
-                id="imgCloseInfo"
-                src="@drawable/enter"
-                layout_gravity="center"
-                w="54"
-                h="54"
-                tint="white"
-                marginTop="30" />
-                </vertical>
-
-            </ScrollView>
-            <!--View
-                bg="#f4a386"
-                h="4"
-                w="*"
-                layout_gravity="top" /-->
-            <!--img
-                id="imgCloseInfo"
-                src="@drawable/ic_clear_black_48dp"
-                layout_gravity="top|right"
-                w="44"
-                h="44"
-                tint="white"
-                paddingRight="10" /-->
-        </card>
-
-    </relative>
+ 
     <!--card id="permission_status" w="100" cardCornerRadius="10"  layout_alignParentLeft="true" margin="30 0 30 0">
 
 <linear padding="5" bg="#2b2b2b">
@@ -422,4 +341,65 @@
     <text id="ps_battery_opt" layout_weight="1" text="●电池优化" textSize="12sp" color="red" textStyle="bold"/>
 </linear>
 </card-->
-</relative>
+   <!--/relative-->
+   
+</vertical>
+
+<vertical id="setting_layout" layout_gravity="right" bg="#2B2B2B" w="*" >
+   <linear gravity="center|left" h="100" bg="#2B2B2B" id="_setting_title" layout_weight="1">
+       <img src="@drawable/setting2" h="100" padding="10 10 0 10" tint="#FF0000"/>
+       <text text="Setting" textSize="28sp" textStyle="bold"  color="#FF0000" padding="10" ></text>
+   </linear> 
+         <View h="2" w="*" margin="20 0 20 0" bg="#565B5B"/>
+   <linear padding="15 20 0 0" gravity="center|left" >
+     <img src="@drawable/warning" tint="#FF8800" h="18sp"/>
+     <text text="警告弹窗触发行为" textSize="18sp" textStyle="bold" color="#FFFFFF" ></text>
+   </linear>
+
+   <vertical id="setting_content" margin="20 5 20 30" padding="10">
+        <radiogroup>
+            <radio text="等待返回" color="#FFFFFF" />
+            <radio text="直接返回" color="#FFFFFF" checked="true"/>
+            <radio text="直接跳转至指定白名单Activity" color="#FFFFFF"/>
+         <spinner  entries="cn.zzerx.selfruler|xxx|xxx" textSize="13sp" marginLeft="16sp" textColor="#33FF66"/>
+        </radiogroup>
+   </vertical>
+<linear paddingLeft="15" gravity="center|left">
+    <img src="@drawable/pushpin" tint="#FF8800" h="18sp"/>
+<Switch  w="*" textSize="18sp" textStyle="bold" color="#FFFFFF" theme="@style/Theme.MyTheme"
+text="惩罚策略(待开发)" marginRight="20" clickable="true" trackTint="#FFFFFF" thumbTint="#FF8800"/>
+</linear> 
+   <vertical id="setting_punish" margin="20 5 20 30" padding="10">
+        <linear gravity="center">
+          <text text="警告值:" color="#FFFFFF"/>
+          <text text="0" textSize="20sp" textStyle="bold" color="#FF3333"/>
+      </linear>
+      <View h="2" w="*" margin="20 0 20 0" bg="#565B5B"/>
+      
+    <linear>
+          <text text="惩罚时间:" color="#FFFFFF" margin="20 0"/>
+          <input text="100" inputType="number" focusable="false" color="#FFFFFF"/>
+          <text text="秒" color="#FFFFFF" />
+      </linear>
+      <Switch color="#FFFFFF" text="叠加惩罚时间" clickable="false" margin="20 10 20 10"/>
+      
+      <linear>
+          <text text="触发惩罚警告值:" color="#FFFFFF" margin="20 0"/>
+          <input text="10" inputType="number" focusable="false" color="#FFFFFF"/>
+      </linear>
+      <!--Switch color="#FFFFFF" text="惩罚后重置次数" clickable="false"/-->
+      <View h="2" w="*" margin="20 0 20 0" bg="#565B5B"/>
+      <text text="次数重置规则" margin="20 10" textStyle="bold" color="#FFFFFF"/>
+     <radiogroup >
+            <radio text="惩罚后重置" color="#FFFFFF" clickable="false" checked="true"/>
+            <radio text="零点重置" color="#FFFFFF" clickable="false" />
+            <radio text="不重置" color="#FFFFFF" clickable="false"/>
+    </radiogroup>
+   </vertical>
+     <linear padding="15 20 0 20" gravity="center|left" id="imgInfo" w="*">
+     <img src="@drawable/leaf" tint="#FF8800" h="18sp"/>
+     <text text="关于律已" textSize="18sp" textStyle="bold" color="#FFFFFF" ></text>
+   </linear>
+</vertical>
+
+</drawer>

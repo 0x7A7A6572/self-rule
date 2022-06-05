@@ -3,9 +3,10 @@ importClass(android.app.PendingIntent);
 //importClass(android.content.BroadcastReceiver);
 importClass(android.content.IntentFilter);
 importClass(android.widget.Button);
-BroadcastUtil = require('./util/BroadcastUtil.js');
-let loadLayouts = require('./components/dialogplus_alert.js')
-DialogPlus = require("./components/DialogPlus.js");
+let BroadcastUtil = require('./util/BroadcastUtil.js');
+//let loadLayouts = require('./components/dialogplus_alert.js')
+//DialogPlus = require("./components/DialogPlus.js");
+let denyAlert = require("./components/denyAlert.js");
 //注册接收广播start
 let ExtraKey = "SELF_RULER_SERVICE_STATU";
 let serviceStatu;
@@ -158,7 +159,7 @@ BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
 {packageName:"com.taobao.idlefish",evilActivity:["com.taobao.idlefish.fun.detail.post.FunPostDetailActivity"]},
 };*/
 
-let myDialog = DialogPlus.setView(loadLayouts.alertLayout)
+/*let myDialog = DialogPlus.setView(loadLayouts.alertLayout)
     .setTitle(null)
     .setEmptyMode(true)
     .build()
@@ -177,7 +178,8 @@ loadLayouts.alertLayout.floatImgBack.on("click", function() {
     }, 800);
 
 
-});
+});*/
+denyAlert.init();
 
 var ruler_thread = threads.start(function() {
     //在子线程执行的定时器 
@@ -188,8 +190,8 @@ var ruler_thread = threads.start(function() {
             alertTipsText = rulerStorage.get("alertTipsText");
             // alert(alertTipsText);
             ui.run(() => {
-                loadLayouts.alertLayout.floatTextAlertText.setText(alertTipsText);
-                myDialog.show();
+                denyAlert.setText(alertTipsText);
+                denyAlert.show();
                 isAlertWindowShow = true;
             });
         }
