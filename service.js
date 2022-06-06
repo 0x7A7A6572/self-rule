@@ -67,7 +67,6 @@ function doBroadcastSignal(signal) {
     }
 }
 
-//console.log('>>常亮值',ACTION_STOP,ACTION_MENU);
 var stopIntent = new Intent();
 stopIntent.setAction("BroadcastReceiver");
 stopIntent.putExtra("action", ACTION_STOP);
@@ -268,4 +267,4 @@ function isWhiteListActivitys(activity) {
 //保活
 setInterval(function() {
     BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
-}, 1000);
+}, 5000);

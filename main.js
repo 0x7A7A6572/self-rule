@@ -13,10 +13,8 @@ importClass(android.text.Spannable);
 importClass(android.text.SpannableStringBuilder);
 importClass(android.text.style.ForegroundColorSpan);
 importClass(android.view.Gravity);
+let config = require("./config.js");
 let BroadcastUtil = require('util/BroadcastUtil.js');
-//let DialogPlus = require("./components/DialogPlus.js");
-//let icon_base64 = require("images/icon_bese64.js");
-//let loadLayouts = require('./components/dialogplus_alert.js');
 let denyAlert = require("./components/denyAlert.js");
 let explanAlert = require("./components/explanAlert.js");
 let infoAlert = require("./components/infoAlert.js");
@@ -78,19 +76,21 @@ function initEvent() {
 
     let tasks = $timers.queryIntentTasks(SERVICE_SCRIPT_PATH);
     let taskIsExist = false;
+    let exist_task = null;
     tasks.forEach(t => {
         if (t.scriptPath == files.path(SERVICE_SCRIPT_PATH)) {
             taskIsExist = true;
+            exist_task = t;
         }
     });
     if (!taskIsExist) {
-        $timers.addIntentTask({
+       let creat_task = $timers.addIntentTask({
             path: SERVICE_SCRIPT_PATH,
             action: Intent.ACTION_BOOT_COMPLETED
         })
-        console.verbose("创建开机启动任务")
+        console.verbose("创建开机启动任务->", creat_task)
     } else {
-        console.verbose("开机启动任务已存在")
+        console.verbose("开机启动任务已存在->",exist_task)
     }
     //注册广播监听服务状态
     BroadcastUtil.register(function(context, intent) {
@@ -121,7 +121,7 @@ function initEvent() {
             console.log("关闭window_thread");
         }
     });
-    //包活&动态更新一些东西
+    //保活&动态更新一些东西
     setInterval(function() {
         //检查悬浮状态并更新ui
         if (menuWindow != null) {
