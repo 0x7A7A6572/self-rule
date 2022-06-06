@@ -256,12 +256,12 @@ ui.imgRunService.on("click", function() {
     }
 })
 
-ui.tips_input.addTextChangedListener(new TextWatcher() {
+ui.tips_input.addTextChangedListener(new TextWatcher({
     afterTextChanged: function(s, start, count, after) {
         alertTipsText = s;
         updatesRulerStorage("alertTipsText", alertTipsText)
     }
-})
+}));
 
 
 let mv = null;
