@@ -1,16 +1,15 @@
 let DialogPlus = require("./DialogPlus.js");
 let JavaUtil = require("../util/JavaUtil.js");
 let _explan_layout = $ui.inflate(
-    <vertical  layout_gravity="center" gravity="center">
+    <vertical layout_gravity="center" gravity="center">
         <text id="floatTextAlertText" color="white" textSize="20" textStyle="bold" text="关键词">
         </text>
-        <text  id="explan_text" textIsSelectable="true" text="" color="#FFFFFF" textSize="12sp" />
-        <View w="*" h="2" bg="#ffffff" margin="10 0 10 0"/>
-        <text  text=".: 知道了 :." id="floatImgBack" w="*" gravity="center" marginTop="10" color="#FF6666" textSize="20"/>
-
+        <text id="explan_text" textIsSelectable="true" text="" color="#FFFFFF" textSize="12sp" />
+        <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
+        <text text=".: 知道了 :." id="floatImgBack" w="*" gravity="center" marginTop="10" color="#FF6666" textSize="20" />
     </vertical>
-    );
-    _explan_layout.explan_text.setText(`你可以使用以下关键词进行自定义你的警告词：
+);
+_explan_layout.explan_text.setText(`你可以使用以下关键词进行自定义你的警告词：
 {{倒计时：2023/06/02}}
       表示需要倒计时的时间，弹窗显示时会自动换算成剩余天数。
 {{正计时：2022/06/02}}
@@ -20,10 +19,10 @@ let _explan_layout = $ui.inflate(
 
      ：为中文符号 /为英文符号
     `);
-    _explan_layout.floatImgBack.on("click", () => {
-        explanAlert.dialog.dismiss();
-        
-    });
+_explan_layout.floatImgBack.on("click", () => {
+    explanAlert.dialog.dismiss();
+
+});
 let explanAlert = {
     dialog: null,
     keyword: {

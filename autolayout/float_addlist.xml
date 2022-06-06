@@ -1,48 +1,13 @@
-<vertical
-    id="floatlayout"
-    gravity="center"
-    bg="#CC000000"
-    padding="20px">
+<vertical id="floatlayout" gravity="center" bg="#CC000000" padding="20px">
     <linear>
-        <img
-            src="@drawable/ic_touch_app_black_48dp"
-            h="15"
-            w="15"
-            tint="#FFB8B8FF"
-            layout_gravity="center" />
-        <text
-            id="appname"
-            textSize="10sp"
-            text="appName"
-            layout_gravity="center"
-            color="#ffffff"
-            padding="1 0 1 0"
-            bg="#8888ff"
-            marginRight="2" />
-        <text
-            id="activityText"
-            textSize="10sp"
-            textColor="#FF8888FF"
-            text="currentActivity..." />
+        <img src="@drawable/ic_touch_app_black_48dp" h="15" w="15" tint="#FFB8B8FF" layout_gravity="center" />
+        <text id="appname" textSize="10sp" text="appName" layout_gravity="center" color="#ffffff" padding="1 0 1 0" bg="#8888ff" marginRight="2" />
+        <text id="activityText" textSize="10sp" textColor="#FF8888FF" text="currentActivity..." />
     </linear>
-    <View
-        bg="#FFB8B8FF"
-        w="*"
-        h="1" />
+    <View bg="#FFB8B8FF" w="*" h="1" />
     <horizontal padding="5">
-        <text
-            id="saveActivityButton"
-            textSize="12sp"
-            color="#FF3400"
-            text="+黑名单"
-            marginRight="30px"
-            textStyle="bold"> 加入黑名单</text>
-        <text
-            id="rmActivityButton"
-            textSize="12sp"
-            color="#33ff00"
-            text="+白名单"
-            textStyle="bold"> 加入白名单</text>
+        <text id="saveActivityButton" textSize="12sp" color="#FF3400" text="+黑名单" marginRight="30px" textStyle="bold"> 加入黑名单</text>
+        <text id="rmActivityButton" textSize="12sp" color="#33ff00" text="+白名单" textStyle="bold"> 加入白名单</text>
 
     </horizontal>
 </vertical>

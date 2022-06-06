@@ -1,23 +1,21 @@
 
 let DialogPlus = require("./DialogPlus.js");
-let _alert_layout  = $ui.inflate(<vertical layout_gravity="center" gravity="center">
+let _alert_layout = $ui.inflate(<vertical layout_gravity="center" gravity="center">
     <img id="imgLock" src="file://./images/lock_200.png" w="150" h="150" />
     <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
     </text>
     <ScrollView layout_weight="1">
-    <text id="floatTextAlertText" color="white" textSize="18" textStyle="bold" text="要想有空余时间，就不要浪费时间">
-    </text>
+        <text id="floatTextAlertText" color="white" textSize="18" textStyle="bold" text="要想有空余时间，就不要浪费时间">
+        </text>
     </ScrollView>
     <vertical >
-    <View w="*" h="2" bg="#ffffff" margin="10 0 10 0"/>
-    <img id="floatImgBack" marginTop="10" w="50" h="50" src="@drawable/ic_keyboard_return_black_48dp" tint="white" layout_gravity="center" gravity="center">
-    </img>
+        <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
+        <img id="floatImgBack" marginTop="10" w="50" h="50" src="@drawable/ic_keyboard_return_black_48dp" tint="white" layout_gravity="center" gravity="center">
+        </img>
     </vertical>
 
 </vertical>);
-_alert_layout.floatImgBack.on("click", () => {
-    denyAlert.dialog.dismiss();
-});
+
 let denyAlert = {
     dialog: null,
     keyword: {
@@ -26,7 +24,7 @@ let denyAlert = {
         current_time: "当前时间",
 
     },
-    init: function () {
+    init: (bindImgBackFunc) => {
         this.dialog = DialogPlus.setView(_alert_layout)
             .setTitle(null)
             .setEmptyMode(true)
@@ -36,23 +34,28 @@ let denyAlert = {
             .getWindow()
             .getDecorView()
             .setBackground(null);
+        _alert_layout.floatImgBack.on("click", () => {
+            this.dialog.dismiss();
+            bindImgBackFunc();
+        });
+        return this;
     },
-    show: function () {
+    show: () => {
         if (this.dialog != null) {
             this.dialog.show();
+        } else {
+            console.warn("dialog = nill");
         }
     },
     setText: function (text) {
         text = text.toString();
         let match_array = findKeytext(text);
         match_array.forEach(function (e) {
-            text = text.replace("{{"+e+"}}", formatKeyText(e));
+            text = text.replace("{{" + e + "}}", formatKeyText(e));
         });
         _alert_layout.floatTextAlertText.setText(text);
-    },
-    // setText: function(text) {
-    //     loadLayouts.alertLayout.floatTextAlertText.setText(text);
-    // }
+        return this;
+    }
 }
 
 function formatKeyText(keytext) {
@@ -67,11 +70,11 @@ function formatKeyText(keytext) {
             replace_text = (replace_text / 60 / 60 / 24 / 1000).toFixed(1);
             break;
         case denyAlert.keyword.timing:
-            replace_text = new Date() - new Date(keytext_options) ;
+            replace_text = new Date() - new Date(keytext_options);
             replace_text = (replace_text / 60 / 60 / 24 / 1000).toFixed(1);
             break;
         case denyAlert.keyword.current_time:
-            replace_text = formatDate(new Date(),keytext_options);
+            replace_text = formatDate(new Date(), keytext_options);
             // new Date().format(keytext_options);
             break;
     }
@@ -103,31 +106,31 @@ function findKeytext(text) {
 }
 
 
-    function formatDate(time,format){
-        var date = new Date(time);
-    
-        var year = date.getFullYear(),
-            month = date.getMonth()+1,//月份是从0开始的
-            day = date.getDate(),
-            hour = date.getHours(),
-            min = date.getMinutes(),
-            sec = date.getSeconds();
-        var preArr = ["00","01","02","03","04","05","06","07","08","09"];
-        // new Array.apply(null,Array(10)).map(function(elem, index) {
-        //     return '0'+index;
-        // });
-    
-        var newTime = format.replace(/YY/g,year)
-                            .replace(/MM/g,preArr[month]||month)
-                            .replace(/DD/g,preArr[day]||day)
-                            .replace(/hh/g,preArr[hour]||hour)
-                            .replace(/mm/g,preArr[min]||min)
-                            .replace(/ss/g,preArr[sec]||sec);
-    
-        return newTime;			
-    }
-    // formatDate(new Date().getTime());//2017-05-12 10:05:44
-    // formatDate(new Date().getTime(),'YY年MM月DD日');//2017年05月12日
-    // formatDate(new Date().getTime(),'今天是YY/MM/DD hh:mm:ss');//今天是2017/05/12 10:07:45
-    
+function formatDate(time, format) {
+    var date = new Date(time);
+
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1,//月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+    var preArr = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"];
+    // new Array.apply(null,Array(10)).map(function(elem, index) {
+    //     return '0'+index;
+    // });
+
+    var newTime = format.replace(/YY/g, year)
+        .replace(/MM/g, preArr[month] || month)
+        .replace(/DD/g, preArr[day] || day)
+        .replace(/hh/g, preArr[hour] || hour)
+        .replace(/mm/g, preArr[min] || min)
+        .replace(/ss/g, preArr[sec] || sec);
+
+    return newTime;
+}
+// formatDate(new Date().getTime());//2017-05-12 10:05:44
+// formatDate(new Date().getTime(),'YY年MM月DD日');//2017年05月12日
+// formatDate(new Date().getTime(),'今天是YY/MM/DD hh:mm:ss');//今天是2017/05/12 10:07:45
+
 module.exports = denyAlert;

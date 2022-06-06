@@ -84,16 +84,16 @@ function initEvent() {
         }
     });
     if (!taskIsExist) {
-       let creat_task = $timers.addIntentTask({
+        let creat_task = $timers.addIntentTask({
             path: SERVICE_SCRIPT_PATH,
             action: Intent.ACTION_BOOT_COMPLETED
         })
         console.verbose("创建开机启动任务->", creat_task)
     } else {
-        console.verbose("开机启动任务已存在->",exist_task)
+        console.verbose("开机启动任务已存在->", exist_task)
     }
     //注册广播监听服务状态
-    BroadcastUtil.register(function(context, intent) {
+    BroadcastUtil.register(function (context, intent) {
         serviceStatu = intent.getStringExtra(SERVICE_EXTRA_KEY);
         switch (serviceStatu) {
             case "STOP_SERVICE":
@@ -108,13 +108,13 @@ function initEvent() {
     });
 
     //其他脚本传入信息时
-    events.on("msg", function(words) {
+    events.on("msg", function (words) {
         if (words == "launch_window") {
             shouFloatWindow();
         }
     });
     //脚本退出监听
-    events.on("exit", function() {
+    events.on("exit", function () {
         if (window_thread != null) {
             window_thread = null;
             float.closeAll();
@@ -122,7 +122,7 @@ function initEvent() {
         }
     });
     //保活&动态更新一些东西
-    setInterval(function() {
+    setInterval(function () {
         //检查悬浮状态并更新ui
         if (menuWindow != null) {
             try { //判断悬浮窗是否被其他方式关闭 而主界面按钮未更新
@@ -174,26 +174,26 @@ function initUi() {
     setBackgroundRoundGradientCornerRadii(ui.whitelist, "#6300ff00", "#2300ff00");
     setBackgroundRoundGradientCornerRadii(ui.tips_input, "#8888ff", "#bbbbff");
     setBackgroundRoundGradientCornerRadii(ui.permission_status, "#ff8800", "#2b3b2b");
-    setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800","#232B2B");
-    setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800","#232B2B");
+    setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800", "#232B2B");
+    setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800", "#232B2B");
 
     //Activity黑白名单显示
     updateActivityListView();
-        //黑白名单数据绑定
+    //黑白名单数据绑定
     ui.blacklist.setDataSource(evilActivity);
     ui.whitelist.setDataSource(whitelistActivity);
 }
 /* 阻止点击穿透 防止误点 */
 ui.setting_layout.setOnClickListener(null);
 
-ui.setting.on("click", function(v) {
+ui.setting.on("click", function (v) {
     if (ui.drawer.isDrawerOpen(Gravity.RIGHT)) {
         ui.drawer.closeDrawer(Gravity.RIGHT);
     } else {
         ui.drawer.openDrawer(Gravity.RIGHT);
     }
 })
-ui.ps_accessibility.on("click", function() {
+ui.ps_accessibility.on("click", function () {
     if (auto.service == null) {
         app.startActivity({
             action: "android.settings.ACCESSIBILITY_SETTINGS"
@@ -205,7 +205,7 @@ ui.ps_accessibility.on("click", function() {
 
 })
 
-ui.ps_floatwindow.on("click", function() {
+ui.ps_floatwindow.on("click", function () {
     if (!$floaty.checkPermission()) {
         // 没有悬浮窗权限，提示用户并跳转请求
         // toast("本脚本需要悬浮窗权限来显示悬浮窗，请在随后的界面中允许并重新运行本脚本。");
@@ -219,12 +219,12 @@ ui.ps_floatwindow.on("click", function() {
     //toast("在「权限管理」中找到「显示悬浮窗」并授权");
 })
 
-ui.ps_startauto.on("click", function() {
+ui.ps_startauto.on("click", function () {
     app.openAppSetting("cn.zzerx.selfruler");
     toast("在「自启动」中授权");
 })
 
-ui.ps_battery_opt.on("click", function() {
+ui.ps_battery_opt.on("click", function () {
 
     if (!$power_manager.isIgnoringBatteryOptimizations()) {
         toast("未开启忽略电池优化");
@@ -240,11 +240,11 @@ ui.ps_battery_opt.on("click", function() {
 
 
 
-ui.showfloatwindow.on("click", function() {
+ui.showfloatwindow.on("click", function () {
     shouFloatWindow()
 });
 
-ui.imgRunService.on("click", function() {
+ui.imgRunService.on("click", function () {
     if (serviceStatu != 'SERVICE_RUNNING') {
         runService();
         device.vibrate(200);
@@ -257,7 +257,7 @@ ui.imgRunService.on("click", function() {
 })
 
 ui.tips_input.addTextChangedListener(new TextWatcher({
-    afterTextChanged: function(s, start, count, after) {
+    afterTextChanged: function (s, start, count, after) {
         alertTipsText = s;
         updatesRulerStorage("alertTipsText", alertTipsText)
     }
@@ -265,18 +265,18 @@ ui.tips_input.addTextChangedListener(new TextWatcher({
 
 
 let mv = null;
-ui.imgSyncCloud.on("click", function() {
-    evilActivity.forEach(function(v, k) {
+ui.imgSyncCloud.on("click", function () {
+    evilActivity.forEach(function (v, k) {
         mv = mv + v.activity + " " + v.package + v.appname + "\n";
         setClip(mv);
     })
 
 });
 
-ui.imgInfo.on("click", function(e) {
+ui.imgInfo.on("click", function (e) {
     infoAlert.init()
     infoAlert.show()
-    setBackgroundRoundGradientCornerRadii(infoAlert.getDecorView(), "#FF8800","#232B2B");
+    setBackgroundRoundGradientCornerRadii(infoAlert.getDecorView(), "#FF8800", "#232B2B");
 });
 
 
@@ -286,8 +286,8 @@ ui.imgInfo.on("click", function(e) {
 });
 */
 
-ui.blacklist.on("item_bind", function(itemView, itemHolder) {
-    itemView.deleteItem.on("click", function() {
+ui.blacklist.on("item_bind", function (itemView, itemHolder) {
+    itemView.deleteItem.on("click", function () {
         let item = itemHolder.item;
         evilActivity.splice(itemHolder.position, 1);
         updatesRulerStorage("evilActivity", evilActivity);
@@ -297,8 +297,8 @@ ui.blacklist.on("item_bind", function(itemView, itemHolder) {
     });
 })
 
-ui.whitelist.on("item_bind", function(itemView, itemHolder) {
-    itemView.deleteItem.on("click", function() {
+ui.whitelist.on("item_bind", function (itemView, itemHolder) {
+    itemView.deleteItem.on("click", function () {
         let item = itemHolder.item;
         whitelistActivity.splice(itemHolder.position, 1);
         updatesRulerStorage("whitelistActivity", whitelistActivity);
@@ -345,7 +345,7 @@ $ui.expand_img_switch_whitelist.on("click", (v) => {
 });
 
 $ui.preview_alert.on("click", () => {
-    denyAlert.init()
+    denyAlert.init(() => { })
     denyAlert.setText($ui.tips_input.getText())
     denyAlert.show()
 });
@@ -360,10 +360,10 @@ function shouFloatWindow() {
         return;
     } else {
         if (menuWindow == null) {
-            window_thread = threads.start(function() {
+            window_thread = threads.start(function () {
                 menuWindow = floaty.window($files.read("./autolayout/float_addlist.xml"));
                 //menuWindow.exitOnClose();
-                menuWindow.saveActivityButton.click(function() {
+                menuWindow.saveActivityButton.click(function () {
                     let cactInfo = getCurrentActivityInfo();
                     //检查是否重复
                     if (!isRepeatActivity(cactInfo.activity, evilActivity)) {
@@ -374,7 +374,7 @@ function shouFloatWindow() {
                         toast("当前Activity已在黑名单列表，无需重复添加");
                     }
                 });
-                menuWindow.rmActivityButton.click(function() {
+                menuWindow.rmActivityButton.click(function () {
                     let cactInfo = getCurrentActivityInfo();
                     //检查是否重复
                     if (!isRepeatActivity(cactInfo.activity, evilActivity)) {
@@ -389,7 +389,7 @@ function shouFloatWindow() {
                         toast("当前Activity已在黑名单列表，无法直接添加到白名单");
                     }
                 });
-                menuWindow.floatlayout.click(function() {
+                menuWindow.floatlayout.click(function () {
                     menuWindow.setAdjustEnabled(!menuWindow.isAdjustEnabled());
 
                 });
@@ -397,9 +397,9 @@ function shouFloatWindow() {
                 menuWindow.setPosition(50, 120);
                 setBackgroundRoundGradientCornerRadii(menuWindow.appname, "#8888ff", "#8888ff", 5);
                 setBackgroundRoundGradientCornerRadii(menuWindow.floatlayout, "#63ff0000", "#a3000000");
-                setInterval(function() {
+                setInterval(function () {
                     let current_activity = currentActivity();
-                    ui.run(function() {
+                    ui.run(function () {
                         menuWindow.activityText.setText(current_activity);
                         menuWindow.appname.setText(getAppName(currentPackage()));
                     });
@@ -418,7 +418,7 @@ function shouFloatWindow() {
     }
 }
 
-$ui.alert_explan.on("click", function(e) {
+$ui.alert_explan.on("click", function (e) {
     /*检查悬浮窗权限*/
     if (!floaty.checkPermission()) {
         // 没有悬浮窗权限，提示用户并跳转请求
@@ -466,7 +466,7 @@ function updatesRulerStorage(name, mdata) {
 /* 判断Activity是否重复 */
 function isRepeatActivity(act, arry) {
     let IsRepeat = false;
-    arry.forEach(function(value, key) {
+    arry.forEach(function (value, key) {
         if (value.activity == act) {
             IsRepeat = true;
             return;
@@ -560,7 +560,7 @@ function unfreeze() {
     configField.setAccessible(true);
     configField.set(bridge, configField.getType().newInstance());
     bridge.setWindowFilter(new JavaAdapter(AccessibilityBridge$WindowFilter, {
-        filter: function(info) {
+        filter: function (info) {
             return true;
         }
     }));

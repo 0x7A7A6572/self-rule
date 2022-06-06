@@ -1,14 +1,14 @@
+let RULE_RESET = {
+   AFTER_PUNISHED: 0,
+   AFTER_ZERO_CLOCK: 1,
+   DONT_RESE: 2
+}
+let RULE_TIGGER = {
+   RETURN_WAIT: 0,
+   RETURN_NOW: 1,
+   JUMP_TO_ACTIVITY: 2
+}
 let config = {
-   RULE_RESET: {
-      AFTER_PUNISHED: 0,
-      AFTER_ZERO_CLOCK: 1,
-      DONT_RESE: 2
-   },
-   RULE_TIGGER: {
-      RETURN_WAIT: 0,
-      RETURN_NOW: 1,
-      JUMP_TO_ACTIVITY: 2
-   },
    SERVICE_EXTRA_KEY: "SELF_RULER_SERVICE_STATU",
    SERVICE_SCRIPT_PATH: "./service.js",
    ACTION_STOP: "STOP_RULER_SERVICE",
@@ -21,7 +21,7 @@ let config = {
    //defaultAlertTipsText: "想要有空余时间，就不要浪费时间。",
    startupTaskId: null,
    //setting
-   triggerOnAlertTipsShow: this.RULE_TIGGER.RETURN_NOW, //[0,1,2] => [等待返回，直接返回，跳转Act]
+   triggerOnAlertTipsShow: RULE_TIGGER.RETURN_NOW, //[0,1,2] => [等待返回，直接返回，跳转Act]
    JumpActivity: "cn.zzerx.selfruler",
    punishOptions: false,
    alertValue: 0,
@@ -29,7 +29,7 @@ let config = {
    punishTimeSuperposition: false,
    superpositionedCount: 0,
    punishBindAlertValue: 10,
-   alertValueResetRule: this.RULE_RESET.AFTER_PUNISHED, 
+   alertValueResetRule: RULE_RESET.AFTER_PUNISHED, 
    init: function(){
     this.rulerStorage = storages.create("ruler:activityLists");
     this.evilActivity = this.rulerStorage.get("evilActivity");
