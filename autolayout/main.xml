@@ -11,17 +11,6 @@
                     <text text="添加" textSize="10sp" layout_toRightOf="@id/showfloatwindow" color="#2B2B2B" />
                     <img id="imgSyncCloud" src="@drawable/cloud-download" paddingLeft="30" w="56dp" layout_toRightOf="@id/showfloatwindow" />
                     <text text="同步" textSize="10sp" layout_toRightOf="@id/imgSyncCloud" color="#2B2B2B" />
-                    <!--img
-                id="imgInfo"
-                src="@drawable/leaf"
-                w="53dp"
-                paddingLeft="30"
-                layout_toRightOf="@id/imgSyncCloud" />
-            <text
-                text="关于"
-                textSize="10sp"
-                layout_toRightOf="@id/imgInfo"
-                color="#2B2B2B" /-->
                     <img id="setting" paddingLeft="30" w="53dp" layout_toRightOf="@id/imgSyncCloud" src="@drawable/setting" />
                     <text text="设置" textSize="10sp" layout_toRightOf="@id/setting" color="#2B2B2B" />
                 </relative>
