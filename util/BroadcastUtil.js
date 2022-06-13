@@ -17,7 +17,7 @@ let BroadcastUtil = {
     send: function(extraKey, extraValue) {
             var intent = new Intent();
             intent.setAction("BroadcastReceiver")
-            intent.putExtra(extraKey, extraValue + "");
+            intent.putExtra(extraKey, extraValue);
             context.sendBroadcast(intent);
 
     },
