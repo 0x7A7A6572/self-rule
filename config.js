@@ -10,7 +10,9 @@ let RULE_ACTION = {
     RETURN_NOW: 1,
     JUMP_TO_ACTIVITY: 2
 }
-let needlog = ["evilActivity","whitelistActivity","alertTipsText","startupTaskId","rulerAction","JumpActivity","punishOptions","alertValueResetRule","punishBindAlertValue","superpositionedCount","punishTimeSuperposition","punishTime","alertValue"];
+let _config = {punishOptions: false}
+
+let needlog = ["evilActivity","whitelistActivity","alertTipsText","startupTaskId","rulerAction","jumpActivity","punishOptions","alertValueResetRule","punishBindAlertValue","superpositionedCount","punishTimeSuperposition","punishTime","alertValue"];
 let config = {
     SERVICE_EXTRA_KEY: "SELF_RULER_SERVICE_STATU",
     SERVICE_SCRIPT_PATH: "./service.js",
@@ -26,7 +28,7 @@ let config = {
     startupTaskId: null,
     //setting
     rulerAction: RULE_ACTION.RETURN_NOW,
-    JumpActivity: "cn.zzerx.selfruler",
+    jumpActivity: "微信",
     punishOptions: false,
     alertValue: 0,
     punishTime: 100,
@@ -62,24 +64,37 @@ let config = {
         this.evilActivity = this.rulerStorage.get("evilActivity");
         this.whitelistActivity = this.rulerStorage.get("whitelistActivity");
         this.alertTipsText = this.rulerStorage.get("alertTipsText");
-        //设置
+        
+        //设置界面配置
         this.rulerAction = this.storage.get("rulerAction",1);
+        this.jumpActivity = this.storage.get("jumpActivity","律已");
+        this.punishOptions = this.storage.get("punishOptions",false);
+        this.punishTime = this.storage.get("punishTime",99);
+        this.punishTimeSuperposition = this.storage.get("punishTimeSuperposition",false);
+        this.punishBindAlertValue = this.storage.get("punishBindAlertValue",10);
+        this.alertValueResetRule = this.storage.get("alertValueResetRule",RULE_RESET.AFTER_PUNISHED);
+        this.alertValue = this.storage.get("alertValue",0);
+        
+        
         if (!nolog) {
             console.info("初始化配置结束->");
             console.verbose(JSON.stringify(this, needlog, 2));
         } else {
             console.verbose("配置变更<-->");
-            toast("配置变更" + files.cwd())
+            //toast("配置变更" + files.cwd())
         }
     },
     /*
      * 跨脚本通知(ui配置变更通知)
      */
-    notifyConfigChange: function() {
+    notifyConfigChange: function(key,value) {
      /* 处理一些需要自己存储的 */
-        this.storage.put("rulerAction",this.rulerAction);
-        console.info("change:",this.rulerAction)
-        this.init(true);
+       // this.storage.put("rulerAction",this.rulerAction);
+        //this.storage.put("jumpActivity",this.jumpActivity);
+       // this.storage.put("punishOptions",this.punishOptions);
+        this.storage.put(key, value);
+        this[key] = value;
+        //this.init(true);
         /*this.configChangeTrigger();*/
     },
     release: function() {
@@ -87,15 +102,23 @@ let config = {
             BroadcastUtil.destroy(this.dateChangedRegister);
             this.dateChangedRegister = null;
             console.info("Broadcast-selfruler 销毁广播 ");
-        } else {
-            toast(this.dateChangedRegister);
-        }
-    }
+        } 
+    },
 
     /*  addOnConfigChangeListen: function(listenFunc) {
         this.configChangeTrigger = listenFunc;
     }
 */
+     /* 每次更改都init no 后面有空改为 */
+     setConfig: function(k,v){
+         _config[k] = v;
+         this.storage.put(k,v);
+         //sendBroadcast
+         // other
+     },
+     getConfig: function(k){
+         return _config[k];
+     }
 
 }
 

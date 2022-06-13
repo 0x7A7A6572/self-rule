@@ -1,7 +1,7 @@
 /* setting界面相关
-*   在main ui加载完毕后才requre,所以main中的已加载的方法可用(bad?)
-*
-*/
+ *   在main ui加载完毕后才requre,所以main中的已加载的方法可用(bad?)
+ *
+ */
 
 $ui.inflate(
     <vertical>
@@ -29,33 +29,33 @@ $ui.inflate(
         <!-- 惩罚策略 -->
         <linear paddingLeft="15" gravity="center|left">
             <img src="@drawable/pushpin" tint="#FF8800" h="18sp" />
-            <Switch w="*" textSize="18sp" textStyle="bold" color="#FFFFFF" theme="@style/Theme.MyTheme" text="惩罚策略(待开发)" marginRight="20" clickable="true" trackTint="#FFFFFF" thumbTint="#FF8800" />
+            <Switch id="switch_punish" w="*" textSize="18sp" textStyle="bold" color="#FFFFFF" theme="@style/Theme.MyTheme" text="惩罚策略(待开发)" marginRight="20" clickable="true" trackTint="#FFFFFF" thumbTint="#FF8800" />
         </linear>
         <vertical id="setting_punish" margin="20 5 20 30" padding="10">
             <linear gravity="center">
                 <text text="警告值:" color="#FFFFFF" />
-                <text text="0" textSize="20sp" textStyle="bold" color="#FF3333" />
+                <text id="alertValue" text="0" textSize="20sp" textStyle="bold" color="#FF3333" />
             </linear>
             <View h="2" w="*" margin="20 0 20 0" bg="#565B5B" />
             
             <linear>
                 <text text="惩罚时间:" color="#FFFFFF" margin="20 0" />
-                <input text="100" inputType="number" focusable="false" color="#FFFFFF" />
+                <input id="punishTime" text="100" inputType="number" focusable="true" color="#FFFFFF" />
                 <text text="秒" color="#FFFFFF" />
             </linear>
-            <Switch color="#FFFFFF" text="叠加惩罚时间" clickable="false" margin="20 10 20 10" />
+            <Switch id="punishTimeSuperposition" color="#FFFFFF" text="叠加惩罚时间"  margin="20 10 20 10" />
             
             <linear>
                 <text text="触发惩罚警告值:" color="#FFFFFF" margin="20 0" />
-                <input text="10" inputType="number" focusable="false" color="#FFFFFF" />
+                <input id="punishBindAlertValue" text="10" inputType="number"  color="#FFFFFF" />
             </linear>
             <!--Switch color="#FFFFFF" text="惩罚后重置次数" clickable="false"/-->
             <View h="2" w="*" margin="20 0 20 0" bg="#565B5B" />
             <text text="次数重置规则" margin="20 10" textStyle="bold" color="#FFFFFF" />
-            <radiogroup>
-                <radio text="惩罚后重置" color="#FFFFFF" clickable="false" checked="true" />
-                <radio text="零点重置" color="#FFFFFF" clickable="false" />
-                <radio text="不重置" color="#FFFFFF" clickable="false" />
+            <radiogroup id="alertValueResetRule">
+                <radio text="惩罚后重置" color="#FFFFFF" checked="true" />
+                <radio text="零点重置" color="#FFFFFF"  />
+                <radio text="不重置" color="#FFFFFF"  />
             </radiogroup>
         </vertical>
         <linear padding="15 20 0 20" gravity="center|left" id="imgInfo" w="*">
@@ -65,25 +65,86 @@ $ui.inflate(
         </linear>
     </vertical>, $ui.setting_layout, true);
 
+settingDataInit();
+settingUiInit();
+
+function settingDataInit(){
 //设置界面数据初始化
 let whitelistForSpinner = activityListToSpinnerList(whitelistActivity);
 changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
+$ui.return_act_spinner.setSelection(getSpinnerIndex(whitelistForSpinner, config.jumpActivity));
+AutojsUtil.setRadioGroupChecked($ui.set_rule_action, config.rulerAction);
+$ui.switch_punish.setChecked(config.punishOptions);
+$ui.punishTime.setText(config.punishTime.toString());
+$ui.punishTimeSuperposition.setChecked(config.punishTimeSuperposition);
+$ui.punishBindAlertValue.setText(config.punishBindAlertValue.toString());
+AutojsUtil.setRadioGroupChecked($ui.alertValueResetRule, config.alertValueResetRule);
+$ui.alertValue.setText(config.alertValue.toString());
+}
 
+
+function settingUiInit(){
 //设置界面ui初始化
 /* main@setBackgroundRoundGradientCornerRadii */
+
+if (config.rulerAction != 2) { //2 == is jumpActivity
+    $ui.return_act_spinner.setEnabled(false);
+}
 setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800", "#232B2B");
 setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800", "#232B2B");
+}
+
 
 //设置界面事件初始化
-AutojsUtil.setRadioGroupChecked(ui.set_rule_action, config.rulerAction);
 
-AutojsUtil.RadioGroupCheckedListener(ui.set_rule_action,(index,radio,checkedId)=>{
-    config.rulerAction = index;
-    config.notifyConfigChange();
+AutojsUtil.RadioGroupCheckedListener(ui.set_rule_action, (index, radio, checkedId) => {
+    //config.rulerAction = index;
+    $ui.return_act_spinner.setEnabled(index == 2);
+    //radio.setTextColor(activity.resources.getColor($ui.R.color.mainColorAccent));
+    config.notifyConfigChange("rulerAction",index);
 })
 
 
+$ui.return_act_spinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener({
+    onItemSelected: function(parent, view, position, id) {
+       // config.jumpActivity = whitelistForSpinner[id];
+        config.notifyConfigChange("jumpActivity", whitelistForSpinner[id]);
+    }
+}))
 
+$ui.switch_punish.on("check", (checked)=> {
+    if(checked) {
+        $ui.punishTime.setEnabled(true);
+        toast("敬请期待");
+       setTimeout(()=>{
+           $ui.switch_punish.setChecked(false);
+       },500);
+    }else{
+        
+    }
+    //config.punishOptions = checked;
+    config.notifyConfigChange("punishOptions",checked);
+});
+
+$ui.punishTime.addTextChangedListener(new android.text.TextWatcher({
+   afterTextChanged: function(s) {
+       config.notifyConfigChange("punishTime",Number(s))
+   }
+}));
+
+$ui.punishTimeSuperposition.on("check", (checked)=> {
+    config.notifyConfigChange("punishTimeSuperposition",checked);
+});
+
+$ui.punishBindAlertValue.addTextChangedListener(new android.text.TextWatcher({
+   afterTextChanged: function(s) {
+       config.notifyConfigChange("punishBindAlertValue",Number(s))
+   }
+}));
+
+AutojsUtil.RadioGroupCheckedListener($ui.alertValueResetRule, (index, radio, checkedId) => {
+    config.notifyConfigChange("alertValueResetRule",index);
+})
 
 
 function activityListToSpinnerList(actlist) {
@@ -96,11 +157,17 @@ function activityListToSpinnerList(actlist) {
 }
 
 function changeSpinnerList(spinner, mCountries) {
-
-    sp = spinner
-
     adapter = new android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, mCountries);
     //adapter.setDropDownViewResource($ui.R.layout.spinner_dropdown);
-    sp.setAdapter(adapter);
-    //sp.setTextColor(0x33FF66)
+    spinner.setAdapter(adapter);
+    //spinner.setTextColor(0x33FF66)
+}
+
+function getSpinnerIndex(splist, txt) {
+    console.log(splist, txt)
+    for (let i = 0; i < splist.length; i++) {
+        if (splist[i] == txt)
+            return i;
+    }
+    return -1;
 }
