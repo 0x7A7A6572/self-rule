@@ -38,5 +38,14 @@
         <item name="colorControlNormal">#000000</item>
     </style>
 
+    <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/mainColorPrimary</item>
+        <item name="colorPrimaryDark">@color/mainColorPrimaryDark</item>
+        <item name="colorAccent">@color/mainColorAccent</item>
+    </style>
 
+    <color name="mainColorAccent">#FF5252</color>
+    <color name="mainColorPrimaryDark">#0097A7</color>
+    <color name="mainColorPrimary">#00BCD4</color>
 </resources>
+
