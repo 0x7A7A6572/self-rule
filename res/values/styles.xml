@@ -23,25 +23,16 @@
         <item name="android:background">#F2F2F2</item>
     </style>
 
-    <!-- 全局样式-->
-    <style name="DefaultStyle" parent="@style/DefaultBgColor"></style>
 
-
-    <style name="ChessTheme" parent="Theme.AppCompat">
-        <item name="colorControlActivated">#ffdc7c</item>
-        <item name="colorControlNormal">#000000</item>
-        <!--  //colorControlActivated	选中后的颜色
-        //colorControlNormal	未选中时的颜色 -->
-    </style>
-    <style name="My_CheckBox" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="colorControlActivated">#ffdc7c</item>
-        <item name="colorControlNormal">#000000</item>
-    </style>
 
     <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/mainColorPrimary</item>
         <item name="colorPrimaryDark">@color/mainColorPrimaryDark</item>
         <item name="colorAccent">@color/mainColorAccent</item>
+        <!--item name="android:textSize">18px</item>
+        <item name="android:textColor">#00ff00</item-->
+        <!--item name="colorControlActivated">@color/mainColorPrimary</item-->
+        <item name="colorControlNormal">#888888</item>
     </style>
 
     <color name="mainColorAccent">#FF5252</color>

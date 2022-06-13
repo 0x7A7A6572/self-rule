@@ -21,7 +21,6 @@ let config = require("./config.js");
 let BroadcastUtil = require('util/BroadcastUtil.js');
 let denyAlert = require("./components/denyAlert.js");
 let explanAlert = require("./components/explanAlert.js");
-let infoAlert = require("./components/infoAlert.js");
 let AutojsUtil = require("./util/AutojsUtil.js");
 let SERVICE_EXTRA_KEY = "SELF_RULER_SERVICE_STATU";
 let SERVICE_SCRIPT_PATH = "./service.js";
@@ -281,6 +280,7 @@ ui.tips_input.addTextChangedListener(new TextWatcher({
 
 let mv = null;
 ui.imgSyncCloud.on("click", function () {
+    
     evilActivity.forEach(function (v, k) {
         mv = mv + v.activity + " " + v.package + v.appname + "\n";
         setClip(mv);
@@ -288,11 +288,6 @@ ui.imgSyncCloud.on("click", function () {
 
 });
 
-ui.imgInfo.on("click", function (e) {
-    infoAlert.init()
-    infoAlert.show()
-    setBackgroundRoundGradientCornerRadii(infoAlert.getDecorView(), "#FF8800", "#232B2B");
-});
 
 
 

@@ -14,6 +14,7 @@ let _config = {punishOptions: false}
 
 let needlog = ["evilActivity","whitelistActivity","alertTipsText","startupTaskId","rulerAction","jumpActivity","punishOptions","alertValueResetRule","punishBindAlertValue","superpositionedCount","punishTimeSuperposition","punishTime","alertValue"];
 let config = {
+    version: getPackageName(),
     SERVICE_EXTRA_KEY: "SELF_RULER_SERVICE_STATU",
     SERVICE_SCRIPT_PATH: "./service.js",
     ACTION_STOP: "STOP_RULER_SERVICE",
@@ -122,5 +123,15 @@ let config = {
 
 }
 
-
+function getPackageName() {
+    let manager = context.getPackageManager();
+    let name = null;
+    try {
+        let info = manager.getPackageInfo(context.getPackageName(), 0);
+        name = info.versionName;
+    } catch (e) {
+        e.printStackTrace();
+    }
+    return name;
+}
 module.exports = config;

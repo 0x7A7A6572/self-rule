@@ -94,28 +94,33 @@ var AutojsUtil = {
             return true;
         }
     },
-    
+
     /*
-    * 用于注册radio改变监听(没法通过R.id)
-    * @onChange (index,radio,checkedId)=>{}
-    */
+     * 用于注册radio改变监听(没法通过R.id)
+     * @onChange (index,radio,checkedId)=>{}
+     */
 
     RadioGroupCheckedListener: function(radioGroup, onChange) {
         radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener({
             onCheckedChanged: function(group, checkedId) {
                 for (let i = 0; i < group.getChildCount(); i++) {
                     if (checkedId == group.getChildAt(i).getId()) {
-                       return onChange(i, group.getChildAt(i), checkedId);
+                        return onChange(i, group.getChildAt(i), checkedId);
                     }
                 }
-               return onChange(-1, null, checkedId);
+                return onChange(-1, null, checkedId);
             }
         }));
     },
-    setRadioGroupChecked: function(radioGroup, index){
-        console.info("setRadioGroupChecked",index);
-        
+    setRadioGroupChecked: function(radioGroup, index) {
+        console.info("setRadioGroupChecked", index);
+
         radioGroup.getChildAt(index).setChecked(true);
+    },
+    setRadioGroupEnable: function(group,statu) {
+        for (let i = 0; i < group.getChildCount(); i++) {
+            group.getChildAt(i).setEnabled(statu);
+        }
     }
 
 };

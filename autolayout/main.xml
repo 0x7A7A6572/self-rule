@@ -104,8 +104,8 @@
 <!-- 设置界面 -->
     </vertical>
 
-    <vertical id="setting_layout" layout_gravity="right" bg="#2B2B2B" w="*">
+    <ScrollView id="setting_layout" layout_gravity="right" bg="#2B2B2B" w="*">
 
-    </vertical>
+    </ScrollView>
 
 </drawer>

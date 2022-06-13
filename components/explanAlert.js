@@ -4,9 +4,11 @@ let _explan_layout = $ui.inflate(
     <vertical layout_gravity="center" gravity="center">
         <text id="floatTextAlertText" color="white" textSize="20" textStyle="bold" text="关键词">
         </text>
+        <View w="*" h="2" bg="#ffffff" margin="10 8 10 8" />
         <text id="explan_text" textIsSelectable="true" text="" color="#FFFFFF" textSize="12sp" />
         <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
-        <text text=".: 知道了 :." id="floatImgBack" w="*" gravity="center" marginTop="10" color="#FF6666" textSize="20" />
+        <img src="@drawable/true" id="floatImgBack" w="*" gravity="center" marginTop="10" />
+        <!--text text=".: 知道了 :." id="floatImgBack" w="*" gravity="center" marginTop="10" color="#FF6666" textSize="20" /-->
     </vertical>
 );
 _explan_layout.explan_text.setText(`你可以使用以下关键词进行自定义你的警告词：
@@ -17,7 +19,8 @@ _explan_layout.explan_text.setText(`你可以使用以下关键词进行自定�
 {{当前时间：YY/MM/DD hh:mm:ss}}
       表示当前时间，：右边为显示的时间格式。
 
-     ：为中文符号 /为英文符号
+     ：为中文符号(hh:mm:ss为英文符号)
+     / 为英文符号 
     `);
 _explan_layout.floatImgBack.on("click", () => {
     explanAlert.dialog.dismiss();
@@ -31,7 +34,7 @@ let explanAlert = {
         current_time: "当前时间",
 
     },
-    init: function () {
+    init: function() {
         this.dialog = DialogPlus.setView(_explan_layout)
             .setTitle(null)
             .setEmptyMode(true)
@@ -42,7 +45,7 @@ let explanAlert = {
             .getDecorView()
             .setBackground(null)
     },
-    show: function () {
+    show: function() {
         if (this.dialog != null) {
             this.dialog.show();
         }
