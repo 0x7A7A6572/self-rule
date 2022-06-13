@@ -38,6 +38,7 @@ let expand_img_switch = {
     whitelist: 0,
     preview: 0
 }
+let broadcastResigner = null;
 
 $ui.layoutFile("./autolayout/main.xml");
 
@@ -105,7 +106,7 @@ function initEvent() {
         console.verbose("开机启动任务已存在->", exist_task)
     }
     //注册广播监听服务状态
-    BroadcastUtil.register(function (context, intent) {
+  broadcastResigner = BroadcastUtil.register(function (context, intent) {
         serviceStatu = intent.getStringExtra(SERVICE_EXTRA_KEY);
         switch (serviceStatu) {
             case "STOP_SERVICE":
@@ -132,12 +133,13 @@ function initEvent() {
             float.closeAll();
             console.log("关闭window_thread");
         }
-       console.error("<<",config.dateChangedRegister);
+       BroadcastUtil.destroy(broadcastResigner);
+      // console.error("<<",config.dateChangedRegister);
         
     });
     //保活&动态更新一些东西
     setInterval(function () {
-        //检查悬浮状态并更新ui
+        //检查悬浮状态并更新ui 因无法监听floatWindow退出 故用此方法
         if (menuWindow != null) {
             try { //判断悬浮窗是否被其他方式关闭 而主界面按钮未更新
                 menuWindow.getWidth();

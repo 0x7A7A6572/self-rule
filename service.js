@@ -12,7 +12,7 @@ let config = require("./config.js");
 let ExtraKey = "SELF_RULER_SERVICE_STATU";
 let serviceStatu;
 let isAlertWindowShow = false;
-let BroadcastData, clear;
+let broadcastResigner = null;
 let NotifyID = 0X7A7A6572;
 let ACTION_STOP = "STOP_RULER_SERVICE";
 let ACTION_MENU = "OPEN_RULER_MENU";
@@ -20,15 +20,18 @@ let filter = new IntentFilter();
 let alertTipsText;
 
 config.init();
-BroadcastUtil.register(function (context, intent) {
+broadcastResigner = BroadcastUtil.register(function(context, intent) {
     let getletServiceStatu = intent.getStringExtra(ExtraKey);
     if (getletServiceStatu == "STOP_SERVICE") {
         removeNotify();
     }
+    let notifyFunc = intent.getStringExtra("action");
+    if (notifyFunc != null)
+        doBroadcastSignal(notifyFunc);
 });
 
 
-filter.addAction("BroadcastReceiver");
+/*filter.addAction("BroadcastReceiver");
 new ContextWrapper(context)
     .registerReceiver(clear = new BroadcastReceiver({
         onReceive: function (context, intent) {
@@ -39,20 +42,15 @@ new ContextWrapper(context)
             doBroadcastSignal(BroadcastData); //obj -> string
             // doBroadcastSignal(BroadcastDataStopService);
         }
-    }), filter);
+    }), filter);*/
 
-//退出脚本时清理广播  
-events.on("exit", function () {
-    if (clear != null) {
-        new ContextWrapper(context)
-            .unregisterReceiver(clear);
-        BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
-        toastLog("service stop...");
-        removeNotify();
-        console.log("清理完毕");
-    }
-    clear = null;
-    
+//退出脚本时清理线程 ，广播和通知已在@removeNotify清理
+events.on("exit", function() {
+  if(ruler_thread != null){
+      ruler_thread.interrupt();
+  }
+  /* 蜜汁保险 */
+  threads.shutDownAll();
 });
 
 //end
@@ -125,8 +123,12 @@ function sendNotify(notifyTitle, contentText, subText) {
 }
 
 function removeNotify() {
+
     var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
     manager.cancel(NotifyID);
+    BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
+    BroadcastUtil.destroy(broadcastResigner);
+    toastLog("律已服务停止..")
     exit();
 }
 
@@ -146,21 +148,24 @@ window.close();
 exit();
 }
 }*/
-sendNotify("律已", "服务已启动",);
+sendNotify("律已", "服务已启动", );
 
-toastLog("注册广播成功")
+console.info("注册广播成功")
 BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
 denyAlert.init(() => {
     back();
     //延迟解锁服务 back返回需要时间     
-    setTimeout(function () {
+    setTimeout(function() {
         isAlertWindowShow = false;
     }, 800);
 });
-var ruler_thread = threads.start(function () {
+
+//监听Activity
+let ruler_thread = threads.start(function() {
     //在子线程执行的定时器 
-    setInterval(function () {
+    setInterval(function() {
         let current_activity = currentActivity();
+        
         if (isEvilActivitys(current_activity) && isAlertWindowShow == false) {
             //back();
             alertTipsText = rulerStorage.get("alertTipsText");
@@ -169,6 +174,7 @@ var ruler_thread = threads.start(function () {
                 denyAlert.setText(alertTipsText).show();
                 isAlertWindowShow = true;
             });
+            
         }
     }, 800);
 });
@@ -203,7 +209,7 @@ function isEvilActivitys(activity) {
     //重新获取EvilActivity
     EvilActivity = rulerStorage.get("evilActivity");
     try {
-        EvilActivity.forEach(function (value, key) {
+        EvilActivity.forEach(function(value, key) {
             //console. log(activityName,value, key, list);
             if (value.activity == activity) {
                 console.log(" is Evil:", activity);
@@ -223,7 +229,7 @@ function isWhiteListActivitys(activity) {
     //重新获取whitelistActivity
     whitelistActivity = rulerStorage.get("whitelistActivity");
     try {
-        whitelistActivity.forEach(function (value, key) {
+        whitelistActivity.forEach(function(value, key) {
             //console. log(activityName,value, key, list);
             if (value.activity == activity) {
                 console.log(" is white Activity");
@@ -241,6 +247,9 @@ function isWhiteListActivitys(activity) {
 
 
 //保活
-setInterval(function () {
-    BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
-}, 5000);
+setInterval(function() {
+    /*  为了以下情况
+    *  service启动后关闭ui界面，再次打开，开启服务按钮显示未开启，实际服务为开启状态
+    */
+     BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
+}, 3000);

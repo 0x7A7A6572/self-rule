@@ -65,33 +65,34 @@ $ui.inflate(
         </linear>
     </vertical>, $ui.setting_layout, true);
 
+let whitelistForSpinner = [];
 settingDataInit();
 settingUiInit();
 
-function settingDataInit(){
-//设置界面数据初始化
-let whitelistForSpinner = activityListToSpinnerList(whitelistActivity);
-changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
-$ui.return_act_spinner.setSelection(getSpinnerIndex(whitelistForSpinner, config.jumpActivity));
-AutojsUtil.setRadioGroupChecked($ui.set_rule_action, config.rulerAction);
-$ui.switch_punish.setChecked(config.punishOptions);
-$ui.punishTime.setText(config.punishTime.toString());
-$ui.punishTimeSuperposition.setChecked(config.punishTimeSuperposition);
-$ui.punishBindAlertValue.setText(config.punishBindAlertValue.toString());
-AutojsUtil.setRadioGroupChecked($ui.alertValueResetRule, config.alertValueResetRule);
-$ui.alertValue.setText(config.alertValue.toString());
+function settingDataInit() {
+    //设置界面数据初始化
+    whitelistForSpinner = activityListToSpinnerList(whitelistActivity);
+    changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
+    $ui.return_act_spinner.setSelection(getSpinnerIndex(whitelistForSpinner, config.jumpActivity));
+    AutojsUtil.setRadioGroupChecked($ui.set_rule_action, config.rulerAction);
+    $ui.switch_punish.setChecked(config.punishOptions);
+    $ui.punishTime.setText(config.punishTime.toString());
+    $ui.punishTimeSuperposition.setChecked(config.punishTimeSuperposition);
+    $ui.punishBindAlertValue.setText(config.punishBindAlertValue.toString());
+    AutojsUtil.setRadioGroupChecked($ui.alertValueResetRule, config.alertValueResetRule);
+    $ui.alertValue.setText(config.alertValue.toString());
 }
 
 
-function settingUiInit(){
-//设置界面ui初始化
-/* main@setBackgroundRoundGradientCornerRadii */
+function settingUiInit() {
+    //设置界面ui初始化
+    /* main@setBackgroundRoundGradientCornerRadii */
 
-if (config.rulerAction != 2) { //2 == is jumpActivity
-    $ui.return_act_spinner.setEnabled(false);
-}
-setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800", "#232B2B");
-setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800", "#232B2B");
+    if (config.rulerAction != 2) { //2 == is jumpActivity
+        $ui.return_act_spinner.setEnabled(false);
+    }
+    setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800", "#232B2B");
+    setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800", "#232B2B");
 }
 
 
@@ -101,49 +102,49 @@ AutojsUtil.RadioGroupCheckedListener(ui.set_rule_action, (index, radio, checkedI
     //config.rulerAction = index;
     $ui.return_act_spinner.setEnabled(index == 2);
     //radio.setTextColor(activity.resources.getColor($ui.R.color.mainColorAccent));
-    config.notifyConfigChange("rulerAction",index);
+    config.notifyConfigChange("rulerAction", index);
 })
 
 
 $ui.return_act_spinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener({
     onItemSelected: function(parent, view, position, id) {
-       // config.jumpActivity = whitelistForSpinner[id];
+        // config.jumpActivity = whitelistForSpinner[id];
         config.notifyConfigChange("jumpActivity", whitelistForSpinner[id]);
     }
 }))
 
-$ui.switch_punish.on("check", (checked)=> {
-    if(checked) {
+$ui.switch_punish.on("check", (checked) => {
+    if (checked) {
         $ui.punishTime.setEnabled(true);
         toast("敬请期待");
-       setTimeout(()=>{
-           $ui.switch_punish.setChecked(false);
-       },500);
-    }else{
-        
+        setTimeout(() => {
+            $ui.switch_punish.setChecked(false);
+        }, 500);
+    } else {
+
     }
     //config.punishOptions = checked;
-    config.notifyConfigChange("punishOptions",checked);
+    config.notifyConfigChange("punishOptions", checked);
 });
 
 $ui.punishTime.addTextChangedListener(new android.text.TextWatcher({
-   afterTextChanged: function(s) {
-       config.notifyConfigChange("punishTime",Number(s))
-   }
+    afterTextChanged: function(s) {
+        config.notifyConfigChange("punishTime", Number(s))
+    }
 }));
 
-$ui.punishTimeSuperposition.on("check", (checked)=> {
-    config.notifyConfigChange("punishTimeSuperposition",checked);
+$ui.punishTimeSuperposition.on("check", (checked) => {
+    config.notifyConfigChange("punishTimeSuperposition", checked);
 });
 
 $ui.punishBindAlertValue.addTextChangedListener(new android.text.TextWatcher({
-   afterTextChanged: function(s) {
-       config.notifyConfigChange("punishBindAlertValue",Number(s))
-   }
+    afterTextChanged: function(s) {
+        config.notifyConfigChange("punishBindAlertValue", Number(s))
+    }
 }));
 
 AutojsUtil.RadioGroupCheckedListener($ui.alertValueResetRule, (index, radio, checkedId) => {
-    config.notifyConfigChange("alertValueResetRule",index);
+    config.notifyConfigChange("alertValueResetRule", index);
 })
 
 
