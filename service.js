@@ -7,6 +7,7 @@ let BroadcastUtil = require('./util/BroadcastUtil.js');
 //let loadLayouts = require('./components/dialogplus_alert.js')
 //DialogPlus = require("./components/DialogPlus.js");
 let denyAlert = require("./components/denyAlert.js");
+let config = require("./config.js");
 //注册接收广播start
 let ExtraKey = "SELF_RULER_SERVICE_STATU";
 let serviceStatu;
@@ -17,6 +18,8 @@ let ACTION_STOP = "STOP_RULER_SERVICE";
 let ACTION_MENU = "OPEN_RULER_MENU";
 let filter = new IntentFilter();
 let alertTipsText;
+
+config.init();
 BroadcastUtil.register(function (context, intent) {
     let getletServiceStatu = intent.getStringExtra(ExtraKey);
     if (getletServiceStatu == "STOP_SERVICE") {
@@ -49,6 +52,7 @@ events.on("exit", function () {
         console.log("清理完毕");
     }
     clear = null;
+    
 });
 
 //end
@@ -142,7 +146,7 @@ window.close();
 exit();
 }
 }*/
-sendNotify("律者", "服务已启动",);
+sendNotify("律已", "服务已启动",);
 
 toastLog("注册广播成功")
 BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");

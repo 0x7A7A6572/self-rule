@@ -4,6 +4,10 @@
 //关闭音量上退出脚本
 $settings.setEnabled("stop_all_on_volume_up", false);
 $ui.useAndroidResources();
+// 设置自定义主题
+activity.theme.applyStyle(ui.R.style.MainTheme, true);
+
+//importClass
 importClass(android.text.TextWatcher);
 importClass(android.view.View);
 importClass(android.view.WindowManager)
@@ -18,6 +22,7 @@ let BroadcastUtil = require('util/BroadcastUtil.js');
 let denyAlert = require("./components/denyAlert.js");
 let explanAlert = require("./components/explanAlert.js");
 let infoAlert = require("./components/infoAlert.js");
+let AutojsUtil = require("./util/AutojsUtil.js");
 let SERVICE_EXTRA_KEY = "SELF_RULER_SERVICE_STATU";
 let SERVICE_SCRIPT_PATH = "./service.js";
 let serviceStatu;
@@ -27,7 +32,7 @@ let window_thread, menuWindow;
 let rulerStorage = storages.create("ruler:activityLists");
 let evilActivity, whitelistActivity, alertTipsText;
 let defaultAlertTipsText = "想要有空余时间，就不要浪费时间。"
-
+let whitelistForSpinner = []; 
 let expand_img_switch = {
     backlist: 0,
     whitelist: 0,
@@ -36,10 +41,11 @@ let expand_img_switch = {
 
 $ui.layoutFile("./autolayout/main.xml");
 
+config.init();
 initActivityDate();
 initEvent();
 initUi();
-
+require("setting.js");
 /*
  数据初始化
 */
@@ -57,13 +63,19 @@ function initActivityDate() {
         evilActivity = rulerStorage.get("evilActivity");
     }
     if (whitelistActivity == null) {
-        whitelistActivity = [];
+        whitelistActivity = [{
+            activity: "com.stardust.autojs.inrt.SplashActivity",
+            pckage: "cn.zzerx.selfruler",
+            appname: "律已"
+        }];
         rulerStorage.put("whitelistActivity", whitelistActivity);
     }
     if (alertTipsText == null) {
         alertTipsText = defaultAlertTipsText;
         rulerStorage.put("alertTipsText", alertTipsText);
     }
+    
+    
 
 }
 
@@ -120,6 +132,8 @@ function initEvent() {
             float.closeAll();
             console.log("关闭window_thread");
         }
+       console.error("<<",config.dateChangedRegister);
+        
     });
     //保活&动态更新一些东西
     setInterval(function () {
@@ -174,8 +188,7 @@ function initUi() {
     setBackgroundRoundGradientCornerRadii(ui.whitelist, "#6300ff00", "#2300ff00");
     setBackgroundRoundGradientCornerRadii(ui.tips_input, "#8888ff", "#bbbbff");
     setBackgroundRoundGradientCornerRadii(ui.permission_status, "#ff8800", "#2b3b2b");
-    setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800", "#232B2B");
-    setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800", "#232B2B");
+    
 
     //Activity黑白名单显示
     updateActivityListView();
@@ -241,7 +254,7 @@ ui.ps_battery_opt.on("click", function () {
 
 
 ui.showfloatwindow.on("click", function () {
-    shouFloatWindow()
+    shouFloatWindow();
 });
 
 ui.imgRunService.on("click", function () {
@@ -349,6 +362,8 @@ $ui.preview_alert.on("click", () => {
     denyAlert.setText($ui.tips_input.getText())
     denyAlert.show()
 });
+
+
 
 
 function shouFloatWindow() {
@@ -544,6 +559,7 @@ function updateActivityListView() {
         ui.whitelist.setVisibility(View.VISIBLE);
     }
 }
+
 
 function updatePermissionStatusView(view, statu) {
     let ownColor = colors.parseColor("green");
