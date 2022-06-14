@@ -18,7 +18,7 @@ let ACTION_STOP = "STOP_RULER_SERVICE";
 let ACTION_MENU = "OPEN_RULER_MENU";
 let filter = new IntentFilter();
 let alertTipsText;
-
+let isPunishTime = false;
 config.init();
 broadcastResigner = BroadcastUtil.register(function(context, intent) {
     let getletServiceStatu = intent.getStringExtra(ExtraKey);
@@ -156,6 +156,9 @@ denyAlert.init(() => {
     if (config.rulerAction == 0) { //等待返回
         back();
     }
+    if(config.alertValueResetRule == 0 && isPunishTime){
+        config.notifyConfigChange("alertValue",0);    
+     }
         //延迟解锁服务 back返回需要时间     
         setTimeout(function() {
             isAlertWindowShow = false;
@@ -187,9 +190,13 @@ let ruler_thread = threads.start(function() {
             // alert(alertTipsText);
             ui.run(() => {
                 config.alertValue++;
+                config.notifyConfigChange("alertValue",config.alertValue);  
+                if(config.punishOptions && config.alertValue >= config.punishBindAlertValue){
+                    toastLog("已达到警告值，将限制使用");
+                    isPunishTime = true;
+                }
                 denyAlert.setText(alertTipsText).show();
                 isAlertWindowShow = true;
-                toastLog( config.alertValue)
             });
 
         }

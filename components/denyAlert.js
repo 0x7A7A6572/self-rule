@@ -1,20 +1,23 @@
-
 let DialogPlus = require("./DialogPlus.js");
-let _alert_layout = $ui.inflate(<vertical layout_gravity="center" gravity="center">
-    <img id="imgLock" src="file://./images/lock_200.png" w="150" h="150" />
-    <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
-    </text>
-    <ScrollView layout_weight="1">
-        <text id="floatTextAlertText" color="white" textSize="18" textStyle="bold" text="要想有空余时间，就不要浪费时间">
+let _alert_layout = $ui.inflate(
+    <vertical layout_gravity="center" gravity="center">
+    <!--img src="@drawable/key" layout_gravity="left"  gravity="left|top" tint="#CCccCC" w="*" h="*"/-->
+        <img id="imgLock" src="file://./images/lock_200.png" w="150" h="150" />
+        <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
         </text>
-    </ScrollView>
-    <vertical >
-        <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
-        <img id="floatImgBack" marginTop="10" w="50" h="50" src="@drawable/ic_keyboard_return_black_48dp" tint="white" layout_gravity="center" gravity="center">
-        </img>
-    </vertical>
-
-</vertical>);
+        <ScrollView layout_weight="1">
+            <text id="floatTextAlertText" color="white" textSize="18" textStyle="bold" text="要想有空余时间，就不要浪费时间">
+            </text>
+        </ScrollView>
+        <vertical >
+            <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
+            <text id="lockCountDown" text="120" textSize="40dp" gravity="center" color="red" visibility="gone"/>
+            <img id="floatImgBack" marginTop="10" w="50" h="50" src="@drawable/ic_keyboard_return_black_48dp" tint="white" layout_gravity="center" gravity="center" >
+            </img>
+            
+        </vertical>
+        
+    </vertical>);
 
 let denyAlert = {
     dialog: null,
@@ -47,16 +50,39 @@ let denyAlert = {
             console.warn("dialog = nill");
         }
     },
-    setText: function (text) {
+    setText: function(text) {
         text = text.toString();
         let match_array = findKeytext(text);
-        match_array.forEach(function (e) {
+        match_array.forEach(function(e) {
             text = text.replace("{{" + e + "}}", formatKeyText(e));
         });
         _alert_layout.floatTextAlertText.setText(text);
         return this;
     },
-    
+    setLockEnable: function(enable, value) {
+        if (enable) {
+            _alert_layout.imgLock.setColorFilter(android.graphics.Color.RED);
+            _alert_layout.lockCountDown.setVisibility(View.VISIBLE);
+            _alert_layout.lockCountDown.setText(value.toString());
+            _alert_layout.floatImgBack.setVisibility(View.GONE);
+            let lockvalue = value;
+            let lockTimer = setInterval(()=> {
+                lockvalue--;
+                if (lockvalue < 0) {
+                    this.setLockEnable(false);
+                    clearInterval(lockTimer);
+                }
+                $ui.post(()=>{
+                    _alert_layout.lockCountDown.setText(lockvalue.toString());
+                });
+            }, 1000);
+        } else {
+            _alert_layout.lockCountDown.setVisibility(View.GONE);
+            _alert_layout.floatImgBack.setVisibility(View.VISIBLE);
+            _alert_layout.imgLock.setColorFilter(null);
+        }
+    }
+
 }
 
 function formatKeyText(keytext) {
@@ -81,6 +107,7 @@ function formatKeyText(keytext) {
     }
     return replace_text;
 }
+
 function findKeytext(text) {
     let keytext_arry = [];
     let [key_start_count, key_end_count] = [0, 0];
@@ -111,7 +138,7 @@ function formatDate(time, format) {
     var date = new Date(time);
 
     var year = date.getFullYear(),
-        month = date.getMonth() + 1,//月份是从0开始的
+        month = date.getMonth() + 1, //月份是从0开始的
         day = date.getDate(),
         hour = date.getHours(),
         min = date.getMinutes(),

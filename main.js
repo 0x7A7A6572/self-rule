@@ -358,6 +358,7 @@ $ui.preview_alert.on("click", () => {
     denyAlert.init(() => { })
     denyAlert.setText($ui.tips_input.getText())
     denyAlert.show()
+    denyAlert.setLockEnable(true,10);
 });
 
 

@@ -37,6 +37,7 @@ let config = {
     superpositionedCount: 0,
     punishBindAlertValue: 10,
     alertValueResetRule: RULE_RESET.AFTER_PUNISHED,
+    lastResetTime: 0,
     
     storage: storages.create("SELF-RULE-SETTING"),
     /* configChangeTrigger: () => {},*/
@@ -75,7 +76,10 @@ let config = {
         this.punishBindAlertValue = this.storage.get("punishBindAlertValue",10);
         this.alertValueResetRule = this.storage.get("alertValueResetRule",RULE_RESET.AFTER_PUNISHED);
         this.alertValue = this.storage.get("alertValue",0);
-        
+        if(this.alertValueResetRule == RULE_RESET.AFTER_ZERO_CLOCK
+           && getZeroClock - lastResetTime > 0){
+              this.notifyConfigChange("alertValue", 0);
+           }
         
         if (!nolog) {
             console.info("初始化配置结束->");
@@ -134,4 +138,10 @@ function getPackageName() {
     }
     return name;
 }
+
+
+function getZeroClock(){
+        let today = new Date();
+        return new Date(today.toDateString()).getTime();
+    }
 module.exports = config;
