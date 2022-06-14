@@ -280,11 +280,11 @@ ui.tips_input.addTextChangedListener(new TextWatcher({
 
 let mv = null;
 ui.imgSyncCloud.on("click", function () {
-    
-    evilActivity.forEach(function (v, k) {
+    toast("访问服务器失败")
+    /*evilActivity.forEach(function (v, k) {
         mv = mv + v.activity + " " + v.package + v.appname + "\n";
         setClip(mv);
-    })
+    })*/
 
 });
 

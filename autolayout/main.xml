@@ -1,19 +1,27 @@
+
 <drawer id="drawer">
+    <!-- <expand 
+    1. 一些aj控件无法应用style: android.view.InflateException: java.lang.NoSuchMethodException */__ui__.js:18 && 72
+          <text>-(x) <TextView>-(√)" 
+    2. 注释不能放在第一行.
+    3. layout_weight在style中设置无效.
+    4. input EditText 设置style后无法编辑
+    5. Switch 设置style后闪退: setting.js->31行 设置样式SettingTitleTextStyle
+    -->
     <vertical>
         <appbar>
             <relative id="toolbar" clipChildren="false" bg="#ffffff" padding="10px 10px 10px 0px">
                 <img src="@drawable/logo" h="55dp" marginTop="-20px" />
-                <relative h="30" gravity="right" id="title_button" layout_alignParentRight="true" clipChildren="false" bg="#ffffff">
-
+                <RelativeLayout h="30" gravity="right" id="title_button" layout_alignParentRight="true" clipChildren="false" bg="#ffffff">
                     <img id="imgRunService" src="@drawable/rocket" w="55dp" paddingLeft="30" />
-                    <text text="开启" textSize="10sp" layout_toRightOf="@id/imgRunService" color="#2B2B2B" />
+                    <TextView text="开启"  layout_toRightOf="@id/imgRunService"  style="@style/ToolbarTextStyle"/>
                     <img id="showfloatwindow" src="@drawable/activity_list_add_90" paddingLeft="30" w="55dp" layout_toRightOf="@id/imgRunService" />
-                    <text text="添加" textSize="10sp" layout_toRightOf="@id/showfloatwindow" color="#2B2B2B" />
-                    <img id="imgSyncCloud" src="@drawable/cloud-download" paddingLeft="30" w="56dp" layout_toRightOf="@id/showfloatwindow" />
-                    <text text="同步" textSize="10sp" layout_toRightOf="@id/imgSyncCloud" color="#2B2B2B" />
-                    <img id="setting" paddingLeft="30" w="53dp" layout_toRightOf="@id/imgSyncCloud" src="@drawable/setting" />
-                    <text text="设置" textSize="10sp" layout_toRightOf="@id/setting" color="#2B2B2B" />
-                </relative>
+                    <TextView text="添加"  layout_toRightOf="@id/showfloatwindow" style="@style/ToolbarTextStyle" />
+                    <img id="imgSyncCloud" src="@drawable/cloud-download" paddingLeft="30" w="55dp" layout_toRightOf="@id/showfloatwindow" />
+                    <TextView text="同步"  layout_toRightOf="@id/imgSyncCloud" style="@style/ToolbarTextStyle" />
+                    <img id="setting" paddingLeft="30" w="55dp" layout_toRightOf="@id/imgSyncCloud" src="@drawable/setting" />
+                    <TextView text="设置" layout_toRightOf="@id/setting" style="@style/ToolbarTextStyle" />
+                </RelativeLayout>
             </relative>
         </appbar>
         <ScrollView layout_below="@id/toolbar">
@@ -22,19 +30,19 @@
                 <vertical padding="30px" layout_gravity="center" h="*">
                     <linear margin="0 0 0 10">
                         <img src="@drawable/ic_flash_on_black_48dp" tint="#ff8800" />
-                        <text id="_textPromissTitle" text="Promiss权限" textSize="18sp" textStyle="bold" h="*" gravity="center" color="#2B2B2B" />
+                        <TextView id="_textPromissTitle" text="Promiss权限"  h="*" gravity="center" style="@style/TitleTextStyle" />
                     </linear>
 
                     <linear id="permission_status" w="*" margin="0 0 0 0" padding="12" bg="#2b2b2b">
-                        <text id="ps_accessibility" layout_weight="1" text="●无障碍" textSize="12sp" color="red" textStyle="bold" />
-                        <text id="ps_floatwindow" layout_weight="1" text="●悬浮窗" textSize="12sp" color="green" textStyle="bold" />
-                        <text id="ps_startauto" layout_weight="1" text="●开机自启" textSize="12sp" color="yellow" textStyle="bold" />
-                        <text id="ps_battery_opt" layout_weight="1" text="●电池优化" textSize="12sp" color="red" textStyle="bold" />
+                        <TextView id="ps_accessibility" layout_weight="1" text="●无障碍"  color="red"  style="@style/PowerTextStyle"/>
+                        <TextView id="ps_floatwindow" layout_weight="1" text="●悬浮窗"  color="green"  style="@style/PowerTextStyle"/>
+                        <TextView id="ps_startauto" layout_weight="1" text="●开机自启"  color="yellow"  style="@style/PowerTextStyle"/>
+                        <TextView id="ps_battery_opt" layout_weight="1" text="●电池优化"  color="red" style="@style/PowerTextStyle" />
                     </linear>
 
                     <linear margin="0 20 0 0">
                         <img src="@drawable/ic_security_black_48dp" tint="#ff8888" />
-                        <text text="Activity黑名单" textSize="18sp" h="*" gravity="center" textStyle="bold" color="#2B2B2B" />
+                        <TextView text="Activity黑名单"  h="*" gravity="center" style="@style/TitleTextStyle" />
                         <linear layout_weight="1" gravity="right">
                             <!--img src="@drawable/ic_search_black_48dp" padding="5 0 5 0"/-->
                             <img id="expand_img_switch_backlist" padding="10 0 10 0" src="@drawable/ic_unfold_more_black_48dp" bg="?selectableItemBackgroundBorderless" />
@@ -44,8 +52,8 @@
                         <card h="70" w="*" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
 
                             <vertical padding="5" w="*">
-                                <text id="activity" textSize="11sp" textColor="#FF5555" text="{{activity}}" textStyle="bold" paddingRight="50" />
-                                <text id="pckage" textSize="10sp" textColor="#000000" text="所属包名: {{pckage}}（{{appname}}）" />
+                                <TextView id="activity"  textColor="#FF5555" text="{{activity}}" paddingRight="50" style="@style/ActivityListTextStyle"/>
+                                <TextView id="pckage"  text="所属包名: {{pckage}}（{{appname}}）" style="@style/ActivityListPkgNameTextStyle"/>
                             </vertical>
 
                             <View bg="#f44336" h="*" w="46" layout_gravity="right" />
@@ -55,7 +63,7 @@
                     <text id="blacklist_empty" w="*" text="空" gravity="center" padding="50" />
                     <linear marginTop="15">
                         <img src="@drawable/ic_verified_user_black_48dp" tint="#88ff88" />
-                        <text text="Activity白名单" textSize="18sp" textStyle="bold" h="*" gravity="center" color="#2B2B2B" />
+                        <TextView text="Activity白名单"   h="*" gravity="center" style="@style/TitleTextStyle"/>
                         <linear layout_weight="1" gravity="right">
                             <!--img src="@drawable/ic_search_black_48dp" padding="5 0 5 0"/-->
                             <img id="expand_img_switch_whitelist" padding="5 0 15 0" src="@drawable/ic_unfold_more_black_48dp" bg="?selectableItemBackgroundBorderless" />
@@ -65,8 +73,8 @@
                         <card w="*" h="70" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
                             <linear padding="5" w="*">
                                 <vertical layout_weight="1" w="*">
-                                    <text id="activity" textSize="11sp" textColor="#55FF55" text="{{activity}}" textStyle="bold" paddingRight="50" w="*" />
-                                    <text id="pckage" textSize="10sp" textColor="#000000" text="所属包名: {{pckage}}（{{appname}}）" w="*" />
+                                    <TextView id="activity" textColor="#55FF55" text="{{activity}}" textStyle="bold" paddingRight="50" w="*" style="@style/ActivityListTextStyle"/>
+                                    <TextView id="pckage"  text="所属包名: {{pckage}}（{{appname}}）" w="*" style="@style/ActivityListPkgNameTextStyle"/>
                                 </vertical>
                             </linear>
                             <View bg="#43F436" h="*" w="46" layout_gravity="right" />
@@ -76,15 +84,14 @@
                     <text id="whitelist_empty" w="*" text="空" gravity="center" padding="50" margin="0 10 0 10" bg="#2300ff00" />
                     <linear margin="0 15 0 10">
                         <img src="@drawable/ic_report_black_48dp" tint="#8888ff" />
-                        <text text="Alert警告词" textSize="18sp" textStyle="bold" h="*" gravity="center" marginLeft="5" color="#2B2B2B" />
+                        <TextView text="Alert警告词" h="*" gravity="center" marginLeft="5" style="@style/TitleTextStyle"/> 
                         <img id="alert_explan" src="@drawable/question" padding="5 0 5 0" h="20dp" />
                         <linear layout_weight="1" gravity="right">
-
 
                             <img id="preview_alert" padding="5 0 15 0" src="@drawable/eye" />
                         </linear>
                     </linear>
-                    <input id="tips_input" hint="当前Activity为黑名单时，弹窗显示的文字内容。" padding="10" color="#ffffffff" textStyle="bold" textSize="14sp" marginBottom="20" />
+                    <input id="tips_input" hint="当前Activity为黑名单时，弹窗显示的文字内容。" padding="10"  marginBottom="20" textSize="16dp" color="#FFFFFF"/>
 
 
                 </vertical>

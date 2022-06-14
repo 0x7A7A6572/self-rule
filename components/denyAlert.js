@@ -55,7 +55,8 @@ let denyAlert = {
         });
         _alert_layout.floatTextAlertText.setText(text);
         return this;
-    }
+    },
+    
 }
 
 function formatKeyText(keytext) {

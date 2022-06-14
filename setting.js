@@ -13,9 +13,8 @@ $ui.inflate(
         <View h="2" w="*" margin="20 0 20 0" bg="#565B5B" />
         <!-- 警告弹窗 -->
         <linear padding="15 20 0 0" gravity="center|left">
-            <img src="@drawable/warning" tint="#FF8800" h="18sp" />
-            <text text="警告弹窗触发行为" textSize="18sp" textStyle="bold" color="#FFFFFF">
-            </text>
+            <img src="@drawable/warning" tint="#FF8800" h="20dp"/>
+            <TextView text="警告弹窗触发行为" style="@style/SettingTitleTextStyle"/>
         </linear>
         
         <vertical id="setting_content" margin="20 5 20 30" padding="10">
@@ -28,26 +27,26 @@ $ui.inflate(
         </vertical>
         <!-- 惩罚策略 -->
         <linear paddingLeft="15" gravity="center|left">
-            <img src="@drawable/pushpin" tint="#FF8800" h="18sp" />
-            <Switch id="switch_punish" w="*" textSize="18sp" textStyle="bold" color="#FFFFFF" theme="@style/Theme.MyTheme" text="惩罚策略" marginRight="20" clickable="true" trackTint="#FFFFFF" thumbTint="#FF8800" />
+            <img src="@drawable/pushpin" tint="#FF8800" h="20dp"/>
+            <Switch id="switch_punish" w="*"  text="惩罚策略" marginRight="20" clickable="true" trackTint="#FFFFFF" thumbTint="#FF8800" textSize="19dp" color="#FFFFFF" textStyle="bold"/>
         </linear>
         <vertical id="setting_punish" margin="20 5 20 30" padding="10">
             <linear gravity="center">
                 <text text="警告值:" color="#FFFFFF" />
-                <text id="alertValue" text="0" textSize="20sp" textStyle="bold" color="#FF3333" />
+                <text id="alertValue" text="0" textSize="20dp" textStyle="bold" color="#FF3333" />
             </linear>
             <View h="2" w="*" margin="20 0 20 0" bg="#565B5B" />
             
             <linear>
                 <text text="惩罚时间:" color="#FFFFFF" margin="20 0" />
-                <input id="punishTime" text="100" inputType="number" focusable="true" color="#FF0509" enabled="false"/>
+                <input id="punishTime" text="100" inputType="number" focusable="true" color="#FF0509" enabled="false" textSize="18dp"/>
                 <text text="秒" color="#FFFFFF" />
             </linear>
             <Switch id="punishTimeSuperposition" color="#FFFFFF" text="叠加惩罚时间"  margin="20 10 20 10" enabled="false"/>
             
             <linear>
                 <text text="触发惩罚警告值:" color="#FFFFFF" margin="20 0" />
-                <input id="punishBindAlertValue" text="10" inputType="number"  color="#FF0509" enabled="false"/>
+                <input id="punishBindAlertValue" text="10" inputType="number"  color="#FF0509" enabled="false" textSize="18dp"/>
             </linear>
             <!--Switch color="#FFFFFF" text="惩罚后重置次数" clickable="false"/-->
             <View h="2" w="*" margin="20 0 20 0" bg="#565B5B" />
@@ -60,9 +59,8 @@ $ui.inflate(
         </vertical>
         
         <linear padding="15 20 0 5" gravity="center|left"  w="*">
-            <img src="@drawable/leaf" tint="#FF8800" h="18sp" />
-            <text text="关于律已" textSize="18sp" textStyle="bold" color="#FFFFFF">
-            </text>
+            <img src="@drawable/leaf" tint="#FF8800" h="20dp" />
+            <TextView text="关于律已" style="@style/SettingTitleTextStyle"/>
             <text text="{{config.version}}" textSize="12sp" textStyle="bold" color="#FFFFFF"  gravity="bottom" marginLeft="5" h="*">
             </text>
         </linear>
@@ -73,25 +71,25 @@ $ui.inflate(
               <img src="@drawable/pro"w="60" h="60"/>
                 <text text=":."/>
             </linear>
-            <linear h="18sp">
-                <img src="@drawable/mug" tint="white"  />
+            <linear >
+                <img src="@drawable/mug" tint="white" h="16dp" />
                 <text id="info_mypage"  textColor="white" gravity="center">  |  zzerX (0x7A7A6572)</text>
             </linear>
             <View h="2" w="*" margin="15" bg="#565B5B" />
-            <linear h="18sp" >
-                <img src="@drawable/github" tint="white" />
+            <linear  >
+                <img src="@drawable/github" tint="white" h="16dp"/>
                 <text id="info_open" textColor="white" gravity="center">  | 开源项目地址
                 </text>
             </linear>
-            <View h="2" w="*" margin="15" bg="#565B5B" />
-            <linear h="18sp">
-                <img src="@drawable/mail" tint="white" />
+            <View h="2" w="*" margin="15" bg="#565B5B"/>
+            <linear >
+                <img src="@drawable/mail" tint="white" h="16dp"/>
                 <text id="info_mail" textColor="white" gravity="center">  | zzerx@qq.com
                 </text>
             </linear>
             <View h="2" w="*" margin="15" bg="#565B5B" />
-            <linear h="18sp">
-                <img src="@drawable/bubbles2" tint="white" />
+            <linear >
+                <img src="@drawable/bubbles2" tint="white" h="16dp"/>
                 <text id="info_group" textColor="white" gravity="center">  | 782523813
                 </text>
             </linear>

@@ -2,10 +2,10 @@ let DialogPlus = require("./DialogPlus.js");
 let JavaUtil = require("../util/JavaUtil.js");
 let _explan_layout = $ui.inflate(
     <vertical layout_gravity="center" gravity="center">
-        <text id="floatTextAlertText" color="white" textSize="20" textStyle="bold" text="关键词">
+        <text id="floatTextAlertText" color="white" textSize="20dp" textStyle="bold" text="关键词">
         </text>
         <View w="*" h="2" bg="#ffffff" margin="10 8 10 8" />
-        <text id="explan_text" textIsSelectable="true" text="" color="#FFFFFF" textSize="12sp" />
+        <text id="explan_text" textIsSelectable="true" text="" color="#FFFFFF" textSize="15dp" />
         <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
         <img src="@drawable/true" id="floatImgBack" w="*" gravity="center" marginTop="10" />
         <!--text text=".: 知道了 :." id="floatImgBack" w="*" gravity="center" marginTop="10" color="#FF6666" textSize="20" /-->

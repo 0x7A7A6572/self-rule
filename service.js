@@ -167,6 +167,17 @@ let ruler_thread = threads.start(function() {
         let current_activity = currentActivity();
         
         if (isEvilActivitys(current_activity) && isAlertWindowShow == false) {
+            switch(config.rulerAction){
+                case 0:
+                    
+                    break;
+                case 1:
+                    back();
+                    break;
+                    
+                case 2:
+                    break;
+            }
             //back();
             alertTipsText = rulerStorage.get("alertTipsText");
             // alert(alertTipsText);
