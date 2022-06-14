@@ -40,7 +40,7 @@ DialogPlus = {
                 negative: this.isEmptyMode ? null : this.negative,
                 wrapInScrollView: this.wrapInScrollView,
                 autoDismiss: this.autoDismiss,
-                cancelable: true
+                cancelable: false
             }).on("positive", this._onTrue)
                 .on("negative", this._onFalse)
             /*  this.dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);

@@ -46,11 +46,11 @@ new ContextWrapper(context)
 
 //退出脚本时清理线程 ，广播和通知已在@removeNotify清理
 events.on("exit", function() {
-  if(ruler_thread != null){
-      ruler_thread.interrupt();
-  }
-  /* 蜜汁保险 */
-  threads.shutDownAll();
+    if (ruler_thread != null) {
+        ruler_thread.interrupt();
+    }
+    /* 蜜汁保险 */
+    threads.shutDownAll();
 });
 
 //end
@@ -153,11 +153,14 @@ sendNotify("律已", "服务已启动", );
 console.info("注册广播成功")
 BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
 denyAlert.init(() => {
-    back();
-    //延迟解锁服务 back返回需要时间     
-    setTimeout(function() {
-        isAlertWindowShow = false;
-    }, 800);
+    if (config.rulerAction == 0) { //等待返回
+        back();
+    }
+        //延迟解锁服务 back返回需要时间     
+        setTimeout(function() {
+            isAlertWindowShow = false;
+        }, 800);
+    
 });
 
 //监听Activity
@@ -165,27 +168,30 @@ let ruler_thread = threads.start(function() {
     //在子线程执行的定时器 
     setInterval(function() {
         let current_activity = currentActivity();
-        
+
         if (isEvilActivitys(current_activity) && isAlertWindowShow == false) {
-            switch(config.rulerAction){
+            switch (config.rulerAction) {
                 case 0:
-                    
+
                     break;
                 case 1:
                     back();
                     break;
-                    
+
                 case 2:
+                    launchApp(config.jumpActivity);
                     break;
             }
             //back();
             alertTipsText = rulerStorage.get("alertTipsText");
             // alert(alertTipsText);
             ui.run(() => {
+                config.alertValue++;
                 denyAlert.setText(alertTipsText).show();
                 isAlertWindowShow = true;
+                toastLog( config.alertValue)
             });
-            
+
         }
     }, 800);
 });
@@ -260,7 +266,7 @@ function isWhiteListActivitys(activity) {
 //保活
 setInterval(function() {
     /*  为了以下情况
-    *  service启动后关闭ui界面，再次打开，开启服务按钮显示未开启，实际服务为开启状态
-    */
-     BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
+     *  service启动后关闭ui界面，再次打开，开启服务按钮显示未开启，实际服务为开启状态
+     */
+    BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
 }, 3000);

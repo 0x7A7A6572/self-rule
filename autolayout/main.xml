@@ -73,7 +73,7 @@
                         <card w="*" h="70" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
                             <linear padding="5" w="*">
                                 <vertical layout_weight="1" w="*">
-                                    <TextView id="activity" textColor="#55FF55" text="{{activity}}" textStyle="bold" paddingRight="50" w="*" style="@style/ActivityListTextStyle"/>
+                                    <TextView id="activity" textColor="#33CC55" text="{{activity}}" textStyle="bold" paddingRight="50" w="*" style="@style/ActivityListTextStyle"/>
                                     <TextView id="pckage"  text="所属包名: {{pckage}}（{{appname}}）" w="*" style="@style/ActivityListPkgNameTextStyle"/>
                                 </vertical>
                             </linear>
@@ -91,7 +91,7 @@
                             <img id="preview_alert" padding="5 0 15 0" src="@drawable/eye" />
                         </linear>
                     </linear>
-                    <input id="tips_input" hint="当前Activity为黑名单时，弹窗显示的文字内容。" padding="10"  marginBottom="20" textSize="16dp" color="#FFFFFF"/>
+                    <input id="tips_input" hint="当前Activity为黑名单时，弹窗显示的文字内容。" padding="10"  marginBottom="20" textSize="16dp" color="#FFFFFF" textStyle="bold"/>
 
 
                 </vertical>

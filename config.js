@@ -29,7 +29,7 @@ let config = {
     startupTaskId: null,
     //setting
     rulerAction: RULE_ACTION.RETURN_NOW,
-    jumpActivity: "微信",
+    jumpActivity: "微信", //原意使用acrivity 但是对于一般用户较为复杂 且不是所有Activity都可以成功跳转
     punishOptions: false,
     alertValue: 0,
     punishTime: 100,

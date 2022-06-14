@@ -22,13 +22,13 @@
     
          <!-- activity名单 activity文字-->
     <style name="ActivityListTextStyle">
-        <item name="android:textSize">13dp</item>
+        <item name="android:textSize">15dp</item>
         <item name="android:textStyle">bold</item>
     </style>
     
              <!-- activity名单 activity文字-->
     <style name="ActivityListPkgNameTextStyle">
-        <item name="android:textSize">11dp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/textTitleOnLight</item>
     </style>
     
