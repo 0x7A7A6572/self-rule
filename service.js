@@ -123,9 +123,10 @@ function sendNotify(notifyTitle, contentText, subText) {
 }
 
 function removeNotify() {
-
+    denyAlert.emergencyPauseControl(true);
     var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
     manager.cancel(NotifyID);
+    
     BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
     BroadcastUtil.destroy(broadcastResigner);
     toastLog("律已服务停止..")
@@ -157,7 +158,8 @@ denyAlert.init(() => {
         back();
     }
     if(config.alertValueResetRule == 0 && isPunishTime){
-        config.notifyConfigChange("alertValue",0);    
+        config.notifyConfigChange("alertValue",0);   
+        BroadcastUtil.send("DataChangeToUi","alertValue");
      }
         //延迟解锁服务 back返回需要时间     
         setTimeout(function() {
@@ -190,12 +192,17 @@ let ruler_thread = threads.start(function() {
             // alert(alertTipsText);
             ui.run(() => {
                 config.alertValue++;
-                config.notifyConfigChange("alertValue",config.alertValue);  
+                config.notifyConfigChange("alertValue",config.alertValue);
+                BroadcastUtil.send("DataChangeToUi","alertValue");
                 if(config.punishOptions && config.alertValue >= config.punishBindAlertValue){
                     toastLog("已达到警告值，将限制使用");
                     isPunishTime = true;
+                    denyAlert.setText("触发了惩罚")
+                    denyAlert.show();
+                    denyAlert.setLockEnable(true,100);
+                }else{
+                    denyAlert.setText(alertTipsText).show();
                 }
-                denyAlert.setText(alertTipsText).show();
                 isAlertWindowShow = true;
             });
 

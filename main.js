@@ -40,12 +40,12 @@ let expand_img_switch = {
 let broadcastResigner = null;
 
 $ui.layoutFile("./autolayout/main.xml");
-
 config.init();
 initActivityDate();
+require("setting.js"); //setting中某些配置依赖与initActivityDate
 initEvent();
 initUi();
-require("setting.js");
+
 /*
  数据初始化
 */
@@ -115,6 +115,16 @@ function initEvent() {
                 if (imgRunServiceStatu == false) {
                     updateImageButton(ui.imgRunService, "#ff8800", true);
                 }
+                break;
+        }
+    //监听service改变config 通知ui变更
+       let DataChangeToUi = intent.getStringExtra("DataChangeToUi");
+        switch (DataChangeToUi) {
+            case "alertValue":
+                $ui.alertValue.setText(config.alertValue.toString());
+                break;
+            case "punishTime":
+                $ui.punishTime.setText(config.punishTime.toString());
                 break;
         }
     });

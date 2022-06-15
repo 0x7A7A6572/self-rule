@@ -1,7 +1,7 @@
 let DialogPlus = require("./DialogPlus.js");
 let _alert_layout = $ui.inflate(
     <vertical layout_gravity="center" gravity="center">
-    <!--img src="@drawable/key" layout_gravity="left"  gravity="left|top" tint="#CCccCC" w="*" h="*"/-->
+        <!--img src="@drawable/key" layout_gravity="left"  gravity="left|top" tint="#CCccCC" w="*" h="*"/-->
         <img id="imgLock" src="file://./images/lock_200.png" w="150" h="150" />
         <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
         </text>
@@ -21,11 +21,15 @@ let _alert_layout = $ui.inflate(
 
 let denyAlert = {
     dialog: null,
+    lockvalue: 0, //临时计时
     keyword: {
         count_down: "倒计时",
         timing: "正计时",
         current_time: "当前时间",
-
+    },
+    emergencyData: {
+        punishTimeRemain: 0,
+        type: null
     },
     init: (bindImgBackFunc) => {
         this.dialog = DialogPlus.setView(_alert_layout)
@@ -47,7 +51,14 @@ let denyAlert = {
         if (this.dialog != null) {
             this.dialog.show();
         } else {
-            console.warn("dialog = nill");
+            console.warn("dialog is nill");
+        }
+    },
+    close: ()=>{
+        if (this.dialog != null) {
+            this.dialog.dismiss();
+        } else {
+            console.warn("dialog is nill. dout use close");
         }
     },
     setText: function(text) {
@@ -60,27 +71,51 @@ let denyAlert = {
         return this;
     },
     setLockEnable: function(enable, value) {
+        value = Number(value);
         if (enable) {
             _alert_layout.imgLock.setColorFilter(android.graphics.Color.RED);
-            _alert_layout.lockCountDown.setVisibility(View.VISIBLE);
+            _alert_layout.lockCountDown.setVisibility(android.view.View.VISIBLE);
             _alert_layout.lockCountDown.setText(value.toString());
-            _alert_layout.floatImgBack.setVisibility(View.GONE);
-            let lockvalue = value;
-            let lockTimer = setInterval(()=> {
-                lockvalue--;
-                if (lockvalue < 0) {
+            _alert_layout.floatImgBack.setVisibility(android.view.View.GONE);
+            this.lockvalue = value;
+            let lockTimer = setInterval(() => {
+                /* 系统来电，暂时放过你*/
+                /* .CALL_STATE_RINGING=1 响铃  */
+                if (context.getSystemService(android.content.Context.TELEPHONY_SERVICE).getCallState() == 1) {
+                    this.emergencyPauseControl(true);
+                    console.info("收到系统来电，关闭警告窗")
+                }
+                this.lockvalue--;
+                if (this.lockvalue < 0) {
                     this.setLockEnable(false);
                     clearInterval(lockTimer);
                 }
-                $ui.post(()=>{
-                    _alert_layout.lockCountDown.setText(lockvalue.toString());
+                $ui.post(() => {
+                    _alert_layout.lockCountDown.setText(this.lockvalue.toString());
                 });
             }, 1000);
         } else {
-            _alert_layout.lockCountDown.setVisibility(View.GONE);
-            _alert_layout.floatImgBack.setVisibility(View.VISIBLE);
+            _alert_layout.lockCountDown.setVisibility(android.view.View.GONE);
+            _alert_layout.floatImgBack.setVisibility(android.view.View.VISIBLE);
             _alert_layout.imgLock.setColorFilter(null);
         }
+    },
+    /*  正在进行的工作:
+     *   监听来电接听挂机状态，并相应启动/暂停服务
+     *   qq 微信 钉钉等电话监听功能未实现，考虑通过通知栏
+     */
+    emergencyPauseControl: function(pause) {
+        if (pause) {
+            this.emergencyData.punishTimeRemain = this.lockvalue;
+            this.lockvalue = -1; //停止定时器
+            this.setLockEnable(false);
+            this.close();
+        } else {
+            this.lockvalue = this.emergencyData.punishTimeRemain;
+            this.show();
+            this.setLockEnable(true, this.lockvalue);
+        }
+
     }
 
 }
@@ -90,7 +125,7 @@ function formatKeyText(keytext) {
     let split_keytext = keytext.split("\：");
     keytext = split_keytext[0];
     keytext_options = split_keytext[1];
-    console.verbose("formatKeyText:  keytext_options, keytext ->", keytext_options, keytext);
+    //console.verbose("formatKeyText:  keytext_options, keytext ->", keytext_options, keytext);
     switch (keytext) {
         case denyAlert.keyword.count_down:
             replace_text = new Date(keytext_options) - new Date();
