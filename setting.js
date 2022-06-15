@@ -1,5 +1,5 @@
 /* setting界面相关
- *   在main ui加载完毕后才requre,所以main中的已加载的方法可用(bad?)
+ *   在main 数据加载完毕后才requre,所以main中的已加载的方法可用(bad?)
  *
  */
 
@@ -22,7 +22,8 @@ $ui.inflate(
                 <radio text="等待返回" color="#FFFFFF" />
                 <radio  text="直接返回" color="#FFFFFF" checked="true" />
                 <radio text="直接跳转至指定白名单应用" color="#FFFFFF" />
-                <spinner id="return_act_spinner" textSize="13sp" marginLeft="16sp" textColor="#33FF66" />
+                <!-- Spinner 动态数据时填入的自定义布局报错了(？o？) -->
+                <Spinner id="return_act_spinner" textSize="13sp" marginLeft="16sp" />
             </radiogroup>
         </vertical>
         <!-- 惩罚策略 -->
@@ -65,37 +66,43 @@ $ui.inflate(
             </text>
         </linear>
         <vertical id="setting_info" margin="20 5 20 30" padding="15">
-            <linear layout_gravity="left|center" paddingBottom="9">
-                <img src="@drawable/logo" />               
-                <img src="@drawable/and" tint="#FFFFFF" layout_gravity="center"/>
-              <img src="@drawable/pro"w="60" h="60"/>
-                <text text=":."/>
-            </linear>
+
             <linear >
                 <img src="@drawable/mug" tint="white" h="16dp" />
                 <text id="info_mypage"  textColor="white" gravity="center">  |  zzerX (0x7A7A6572)</text>
             </linear>
-            <View h="2" w="*" margin="15" bg="#565B5B" />
+            <View h="2" w="*" margin="10dp" bg="#565B5B" />
             <linear  >
-                <img src="@drawable/github" tint="white" h="16dp"/>
-                <text id="info_open" textColor="white" gravity="center">  | 开源项目地址
+                <img src="@drawable/github" tint="white" h="18dp"/>
+                <text id="info_open" textColor="white" gravity="center">  | 开源项目地址(MIT License)
                 </text>
             </linear>
-            <View h="2" w="*" margin="15" bg="#565B5B"/>
+            <View h="2" w="*" margin="10dp" bg="#565B5B"/>
             <linear >
-                <img src="@drawable/mail" tint="white" h="16dp"/>
+                <img src="@drawable/mail" tint="white" h="18dp"/>
                 <text id="info_mail" textColor="white" gravity="center">  | zzerx@qq.com
                 </text>
             </linear>
-            <View h="2" w="*" margin="15" bg="#565B5B" />
+            <View h="2" w="*" margin="10dp" bg="#565B5B" />
             <linear >
-                <img src="@drawable/bubbles2" tint="white" h="16dp"/>
+                <img src="@drawable/bubbles2" tint="white" h="18dp"/>
                 <text id="info_group" textColor="white" gravity="center">  | 782523813
                 </text>
             </linear>
+                        <View h="2" w="*" margin="10dp" bg="#565B5B" />
+            <linear >
+                <img src="@drawable/sad2" tint="white" h="18dp"/>
+                <text id="info_problem" textColor="white" gravity="center">  | 常见问题
+                </text>
+            </linear>
+
             <text autoLink="all" color="grey" marginTop="25" w="*" gravity="center"> .:       逃离时间的黑洞！    :.</text>
             
-            
+              <linear gravity="center" padding="0 5 0 9">
+                <img src="@drawable/logo" w="35dp" h="35dp"/>               
+                <img src="@drawable/and" tint="#FFFFFF" layout_gravity="center" w="15dp" h="15dp" margin="5 0 5 0"/>
+              <img src="@drawable/pro"w="35dp" h="35dp"/>
+            </linear>
         </vertical>
     </vertical>, $ui.setting_layout, true);
 
@@ -134,9 +141,11 @@ function settingUiInit() {
 //设置界面事件初始化
 
 AutojsUtil.RadioGroupCheckedListener(ui.set_rule_action, (index, radio, checkedId) => {
-    //config.rulerAction = index;
-    $ui.return_act_spinner.setEnabled(index == 2);
+
+    $ui.return_act_spinner.setEnabled(index == 2); /* 不是跳转就禁用*/
+    //$ui.return_act_spinner.setSelection(getSpinnerIndex(whitelistForSpinner, config.jumpActivity)); /* (无效) 因为通过xml修改样式失败，用了这么一个方法 */
     //radio.setTextColor(activity.resources.getColor($ui.R.color.mainColorAccent));
+   /* config.rulerAction = index; */
     config.notifyConfigChange("rulerAction", index);
 })
 
@@ -144,6 +153,13 @@ AutojsUtil.RadioGroupCheckedListener(ui.set_rule_action, (index, radio, checkedI
 $ui.return_act_spinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener({
     onItemSelected: function(parent, view, position, id) {
         // config.jumpActivity = whitelistForSpinner[id];
+        view.setTextSize(13);
+       if(parent.isEnabled()){
+        view.setTextColor(Color.GREEN);
+        }else{
+          view.setTextColor(Color.GRAY)
+        }
+        
         config.notifyConfigChange("jumpActivity", whitelistForSpinner[id]);
     }
 }))
@@ -154,16 +170,11 @@ $ui.switch_punish.on("check", (checked) => {
         $ui.punishTimeSuperposition.setEnabled(true);
         $ui.punishBindAlertValue.setEnabled(true);
         AutojsUtil.setRadioGroupEnable($ui.alertValueResetRule, true);
-        //$ui.alertValueResetRule.setEnabled(true);
-        /* toast("敬请期待");
-         setTimeout(() => {
-             $ui.switch_punish.setChecked(false);
-         }, 500);*/
+
     } else {
         $ui.punishTime.setEnabled(false);
         $ui.punishTimeSuperposition.setEnabled(false);
         $ui.punishBindAlertValue.setEnabled(false);
-        // $ui.alertValueResetRule.setEnabled(false);
         AutojsUtil.setRadioGroupEnable($ui.alertValueResetRule, false);
 
     }
@@ -203,7 +214,9 @@ $ui.info_mail.on('click', () => {
 $ui.info_group.on('click', () => {
     app.openUrl("https://jq.qq.com/?_wv=1027&k=EtBifiAs");
 });
-
+$ui.info_problem.on('click', () => {
+    app.openUrl("https://zzerx.cn/self-ruler-problem");
+});
 
 
 
@@ -218,7 +231,7 @@ function activityListToSpinnerList(actlist) {
 
 function changeSpinnerList(spinner, mCountries) {
     adapter = new android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, mCountries);
-    //adapter.setDropDownViewResource($ui.R.layout.spinner_dropdown);
+   // adapter.setDropDownViewResource(ui.R.layout.spinner_dropdown);
     spinner.setAdapter(adapter);
     //spinner.setTextColor(0x33FF66)
 }
@@ -237,3 +250,4 @@ function getSpinnerIndex(splist, txt) {
 let whitelistForSpinner = [];
 settingDataInit();
 settingUiInit();
+
