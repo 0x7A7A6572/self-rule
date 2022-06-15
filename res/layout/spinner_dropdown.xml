@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android ="http://schemas.android.com/apk/res/android"
- 		  android:id="@+id/SpinnerText"
- 		  android:layout_gravity="center_vertical|left"
- 		  android:layout_width="fill_parent"
- 		  android:layout_height="wrap_content"
- 		  android:textSize="12pt"
- 		  android:textColor="#33FF66"
- 		  android:layout_marginTop="8px"
- 		  android:layout_marginBottom="8px"
-/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal" >
+    
+ 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:gravity="right"
+        android:textSize="14sp"/>
+ 
+</LinearLayout>
