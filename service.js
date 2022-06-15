@@ -1,3 +1,4 @@
+
 importClass(android.content.ContextWrapper);
 importClass(android.app.PendingIntent);
 //importClass(android.content.BroadcastReceiver);
@@ -197,7 +198,7 @@ let ruler_thread = threads.start(function() {
                 if(config.punishOptions && config.alertValue >= config.punishBindAlertValue){
                     toastLog("已达到警告值，将限制使用");
                     isPunishTime = true;
-                    denyAlert.setText("触发了惩罚")
+                    //denyAlert.setText("触发了惩罚")
                     denyAlert.show();
                     denyAlert.setLockEnable(true,100);
                 }else{

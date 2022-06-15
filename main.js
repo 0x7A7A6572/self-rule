@@ -367,8 +367,8 @@ $ui.expand_img_switch_whitelist.on("click", (v) => {
 $ui.preview_alert.on("click", () => {
     denyAlert.init(() => { })
     denyAlert.setText($ui.tips_input.getText())
-    denyAlert.show()
-    denyAlert.setLockEnable(true,10);
+    denyAlert.show();
+    //denyAlert.setLockEnable(true,10);
 });
 
 
@@ -489,7 +489,7 @@ function updatesRulerStorage(name, mdata) {
 /* 判断Activity是否重复 */
 function isRepeatActivity(act, arry) {
     let IsRepeat = false;
-    arry.forEach(function (value, key) {
+    arry.forEach( (value, key) =>{
         if (value.activity == act) {
             IsRepeat = true;
             return;
@@ -575,7 +575,7 @@ function updatePermissionStatusView(view, statu) {
     // view.setTextColor(statu ? ownColor : notOwned);
     view.textColor = statu ? ownColor : notOwned;
 }
-/*解除限制*/
+/*解除限制?*/
 function unfreeze() {
     importClass(com.stardust.autojs.core.accessibility.AccessibilityBridge.WindowFilter);
     let bridge = runtime.accessibilityBridge;

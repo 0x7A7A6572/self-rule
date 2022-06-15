@@ -8,12 +8,12 @@
   },
   "assets": [],
   "build": {
-    "build_id": "79E03EBA-50",
-    "build_number": 50,
-    "build_time": 1655139342264,
+    "build_id": "A56648AE-51",
+    "build_number": 51,
+    "build_time": 1655277488570,
     "release": false
   },
-  "encryptLevel": 3,
+  "encryptLevel": 0,
   "useFeatures": [],
   "icon": "images/ic_app_logo.png",
   "launchConfig": {

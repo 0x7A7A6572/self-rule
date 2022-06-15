@@ -1,22 +1,32 @@
 let DialogPlus = require("./DialogPlus.js");
 let _alert_layout = $ui.inflate(
-    <vertical layout_gravity="center" gravity="center">
-        <!--img src="@drawable/key" layout_gravity="left"  gravity="left|top" tint="#CCccCC" w="*" h="*"/-->
-        <img id="imgLock" src="file://./images/lock_200.png" w="150" h="150" />
-        <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
-        </text>
-        <ScrollView layout_weight="1">
-            <text id="floatTextAlertText" color="white" textSize="18" textStyle="bold" text="要想有空余时间，就不要浪费时间">
+    <vertical >
+        <vertical id="lock_layout" layout_gravity="center" gravity="center">
+            <!--img src="@drawable/key" layout_gravity="left"  gravity="left|top" tint="#CCccCC" w="*" h="*"/-->
+            <img id="imgLock" src="file://./res/drawable/lock_200.png" w="150" h="150" />
+            <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
             </text>
-        </ScrollView>
-        <vertical >
-            <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
-            <text id="lockCountDown" text="120" textSize="40dp" gravity="center" color="red" visibility="gone"/>
-            <img id="floatImgBack" marginTop="10" w="50" h="50" src="@drawable/ic_keyboard_return_black_48dp" tint="white" layout_gravity="center" gravity="center" >
-            </img>
-            
+            <ScrollView layout_weight="1">
+                <text id="floatTextAlertText" color="white" textSize="18" textStyle="bold" text="要想有空余时间，就不要浪费时间">
+                </text>
+            </ScrollView>
+            <vertical >
+                <View w="*" h="2" bg="#ffffff" margin="10 0 10 0" />
+                <img id="floatImgBack" marginTop="10" w="50" h="50" src="@drawable/ic_keyboard_return_black_48dp" tint="white" layout_gravity="center" gravity="center" >
+                </img>
+            </vertical>
         </vertical>
         
+        <vertical id="punish_layout"  padding="10dp" margin="20dp" bg="#88ff0000" layout_gravity="center" gravity="center" visibility="gone">
+            <View h="5dp" text=" 》》》》》》》》》》》》》》》》》》》》》》"  bg="#EEEEEE" textSize="20dp" textStyle="bold" gravity="center" margin="-20dp 0dp -20dp 0dp" />
+            <linear gravity="center|left">
+                <img  src="@drawable/ic_warning_black_48dp"  w="30dp" tint="#FFCC00"/>
+                <text text="惩罚时间" color="#EEEEEE" textSize="20dp" textStyle="bold" gravity="center" />
+            </linear>
+            <text id="lockCountDown" text="120" textSize="50dp" gravity="center" color="#EFCC00" margin="10dp" textStyle="bold"/>
+            <View h="5dp"  text="《《《《《《《《《《《《《《《《《《《《《《《《" bg="#EEEEEE" textSize="20dp" textStyle="bold" gravity="center" margin="-20dp 0dp -20dp 0dp" />
+            
+        </vertical>
     </vertical>);
 
 let denyAlert = {
@@ -54,7 +64,7 @@ let denyAlert = {
             console.warn("dialog is nill");
         }
     },
-    close: ()=>{
+    close: () => {
         if (this.dialog != null) {
             this.dialog.dismiss();
         } else {
@@ -73,10 +83,16 @@ let denyAlert = {
     setLockEnable: function(enable, value) {
         value = Number(value);
         if (enable) {
+            /* 先显示再隐藏
+             */
+            _alert_layout.punish_layout.setVisibility(android.view.View.VISIBLE);
+            _alert_layout.lock_layout.setVisibility(android.view.View.GONE)
+
+            /*
             _alert_layout.imgLock.setColorFilter(android.graphics.Color.RED);
             _alert_layout.lockCountDown.setVisibility(android.view.View.VISIBLE);
             _alert_layout.lockCountDown.setText(value.toString());
-            _alert_layout.floatImgBack.setVisibility(android.view.View.GONE);
+            _alert_layout.floatImgBack.setVisibility(android.view.View.GONE);*/
             this.lockvalue = value;
             let lockTimer = setInterval(() => {
                 /* 系统来电，暂时放过你*/
@@ -87,17 +103,23 @@ let denyAlert = {
                 }
                 this.lockvalue--;
                 if (this.lockvalue < 0) {
-                    this.setLockEnable(false);
                     clearInterval(lockTimer);
-                }
+                    this.setLockEnable(false);
+                }else{
                 $ui.post(() => {
                     _alert_layout.lockCountDown.setText(this.lockvalue.toString());
                 });
+                }
             }, 1000);
         } else {
-            _alert_layout.lockCountDown.setVisibility(android.view.View.GONE);
-            _alert_layout.floatImgBack.setVisibility(android.view.View.VISIBLE);
-            _alert_layout.imgLock.setColorFilter(null);
+            _alert_layout.lock_layout.setVisibility(android.view.View.VISIBLE);
+            _alert_layout.punish_layout.setVisibility(android.view.View.GONE);
+            $ui.post(() => {
+                    _alert_layout.lockCountDown.setText("*");
+                });
+            /* _alert_layout.lockCountDown.setVisibility(android.view.View.GONE);
+             _alert_layout.floatImgBack.setVisibility(android.view.View.VISIBLE);
+             _alert_layout.imgLock.setColorFilter(null);*/
         }
     },
     /*  正在进行的工作:
