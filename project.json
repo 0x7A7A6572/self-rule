@@ -8,9 +8,9 @@
   },
   "assets": [],
   "build": {
-    "build_id": "BE4AE3C8-53",
-    "build_number": 53,
-    "build_time": 1655512750347,
+    "build_id": "49B2250B-55",
+    "build_number": 55,
+    "build_time": 1655542863945,
     "release": false
   },
   "encryptLevel": 0,
@@ -149,9 +149,9 @@
   },
   "scripts": {},
   "signingConfig": {
-    "alias": "",
-    "keystore": "",
-    "uuid": ""
+    "alias": "zzerX",
+    "keystore": "/storage/emulated/0/AutoProProject/.keystore/autojspro.jks",
+    "uuid": "3f5dc0b6-fb43-4ff9-a1fe-ec99d30a135b"
   },
   "versionCode": 1,
   "versionName": "1.0.0"

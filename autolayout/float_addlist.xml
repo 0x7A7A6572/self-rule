@@ -4,9 +4,9 @@
         <text id="appname" textSize="10sp" text="appName" layout_gravity="center" color="#ffffff" padding="1 0 1 0" bg="#8888ff" marginRight="2" />
         <text id="activityText" textSize="10sp" textColor="#FF8888FF" text="currentActivity..." />
     </linear>
-    <linear>
+    <!--linear>
     <input hint="添加描述:" textSize="10sp" />
-    </linear>
+    </linear-->
     <View bg="#FFB8B8FF" w="*" h="1" />
     <horizontal padding="5">
         <text id="saveActivityButton" textSize="12sp" color="#FF3400" text="+黑名单" marginRight="30px" textStyle="bold"> 加入黑名单</text>

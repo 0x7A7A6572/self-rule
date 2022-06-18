@@ -303,24 +303,54 @@ ui.tips_input.addTextChangedListener(new TextWatcher({
 }));
 
 
-let mv = null;
+
 ui.imgSyncCloud.on("click", function() {
-    toast("访问服务器失败")
-    /*  evilActivity.forEach(function (v, k) {
-          mv = mv + v.activity + " " + v.package + v.appname + "\n";
-          setClip(mv);
-      })*/
-    setClip(JSON.stringify(evilActivity, null, 1));
+    let cloudActivity = null;
+    dialogs.select("选择数据更新方式", ["合并本地数据", "覆盖本地数据", "清空本地数据"]).then(select => {
+        switch (select) {
+            case -1:
+                toast("取消更改");
+                break;
+            case 0:
+                cloudActivity = getCloudData();
+                if (cloudActivity != null) {
+                    whitelistActivity = mergeArray(cloudActivity.whitelistActivity, whitelistActivity, "activity", true);
+                    evilActivity = mergeArray(cloudActivity.evilActivity, evilActivity, "activity", true);
+                    toast("合并更改");
+                } else {
+                    toast("合并失败");
+                }
+                break;
+            case 1:
+                cloudActivity = getCloudData();
+                if (cloudActivity != null) {
+                    whitelistActivity = cloudActivity.whitelistActivity;
+                    evilActivity = cloudActivity.evilActivity;
+                    toast("覆盖更改");
+                } else {
+                    toast("覆盖失败");
+                }
+                break;
+            case 2:
+                evilActivity = [];
+                whitelistActivity = [];
+                toast("清空本地数据完成");
+                break;
+        }
+        updatesRulerStorage("whitelistActivity", whitelistActivity);
+        updatesRulerStorage("evilActivity", evilActivity)
+
+        ui.blacklist.setDataSource(evilActivity);
+        ui.whitelist.setDataSource(whitelistActivity);
+
+    });
+
+    //setClip(JSON.stringify(whitelistActivity, null, 1));
 
 });
 
 
 
-
-/*ui.blacklist.on("item_click", function(item, i, itemView, listView){
-    toast("被点击的人名字为: " + item.name + "，年龄为: " + item.age);
-});
-*/
 
 ui.blacklist.on("item_bind", function(itemView, itemHolder) {
     itemView.deleteItem.on("click", function() {
@@ -388,6 +418,75 @@ $ui.preview_alert.on("click", () => {
 });
 
 
+/*
+ *  数组合并去重
+ 
+ *  @main 主数组
+ *  @branch 从数组
+ *  @key 当数组里的数是对象时指定key
+ *  @notRepeat main或branch中是否无重复值
+ */
+
+function mergeArray(main, branch, key, notRepeat) {
+    let delArr = [];
+    let delCount = 0;
+    for (let i = 0; i < main.length; i++) {
+        for (let j = 0; j < branch.length; j++) {
+            if (key != null) {
+                if (main[i][key] == branch[j][key]) {
+                    delArr.push(i);
+                    if (notRepeat)
+                        break;
+                }
+            } else {
+                if (main[i] == branch[j]) {
+                    delArr.push(i);
+                    if (notRepeat)
+                        break;
+                }
+
+            }
+        }
+
+    }
+
+    for (let i = 0; i < delArr.length; i++) {
+        main.splice(delArr[i] - delCount, 1);
+        delCount++;
+    }
+    return main.concat(branch);
+}
+
+function getCloudData() {
+    let url = "http://service.zzerx.cn:3868";
+    let type = "selfruler-activitylist";
+    let res = null;
+    let html = null;
+    let postRes = null
+    try {
+        postRes = http.post(url, {
+            "type": type,
+            "version": config.version,
+            "uuid": ""
+        });
+        html = postRes.body.string();
+    } catch (e) {
+        console.warn("访问服务器失败", e);
+        toast("获取失败" + e);
+    }
+
+    if (html != "null" && html != null) {
+        console.error(typeof html, html.substring(1, html.length - 1))
+        let cloudActivity = JSON.parse(html.substring(1, html.length - 1));
+        toast("获取成功");
+        postRes = cloudActivity;
+        //console.info("cloudActivity:",html);
+    } else {
+        toast("获取失败");
+        postRes = null;
+    }
+    return postRes;
+}
 
 
 function shouFloatWindow() {
