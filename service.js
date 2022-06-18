@@ -20,6 +20,7 @@ let ACTION_MENU = "OPEN_RULER_MENU";
 let filter = new IntentFilter();
 let alertTipsText;
 let isPunishTime = false;
+let  _rvilActivity, _whitelistActivity;
 config.init();
 broadcastResigner = BroadcastUtil.register(function(context, intent) {
     let getletServiceStatu = intent.getStringExtra(ExtraKey);
@@ -189,7 +190,7 @@ let ruler_thread = threads.start(function() {
                     break;
             }
             //back();
-            alertTipsText = rulerStorage.get("alertTipsText");
+            alertTipsText = config.alertTipsText;
             // alert(alertTipsText);
             ui.run(() => {
                 config.alertValue++;
@@ -222,26 +223,26 @@ let EvilActivity = ["com.tencent.mm.plugin.finder.ui.FinderHomeAffinityUI",
 */
 
 //本地配置
-var rulerStorage = storages.create("ruler:activityLists");
-var EvilActivity, whitelistActivity;
-EvilActivity = rulerStorage.get("evilActivity");
-whitelistActivity = rulerStorage.get("whitelistActivity");
-if (EvilActivity == null) {
-    EvilActivity = [{
+//var rulerStorage = storages.create("ruler:activityLists");
+
+_evilActivity = config.evilActivity;
+_whitelistActivity = config.whitelistActivity;
+if (_evilActivity == null) {
+    _evilActivity = [{
         activity: "com.tencent.mm.plugin.finder.ui.FinderHomeAffinityUI",
         pckage: "com.tencent.mm",
-        name: "微信"
+        name: "微信",
+        summary: "微信视频号"
     }]
-    rulerStorage.put("evilActivity", EvilActivity);
-    EvilActivity = rulerStorage.get("evilActivity");
+    
 }
 
 function isEvilActivitys(activity) {
     let is_evil = false;
     //重新获取EvilActivity
-    EvilActivity = rulerStorage.get("evilActivity");
+    _evilActivity = config.evilActivity;
     try {
-        EvilActivity.forEach(function(value, key) {
+        _evilActivity.forEach(function(value, key) {
             //console. log(activityName,value, key, list);
             if (value.activity == activity) {
                 console.log(" is Evil:", activity);
@@ -250,7 +251,7 @@ function isEvilActivitys(activity) {
             }
         });
     } catch (e) {
-        console.log('EvilActivity.length:', EvilActivity.length, '\n', EvilActivity);
+        console.log('EvilActivity.length:', _evilActivity.length, '\n', _evilActivity);
         console.log(e)
     }
     return is_evil;
@@ -259,9 +260,9 @@ function isEvilActivitys(activity) {
 function isWhiteListActivitys(activity) {
     let is_white_list = false;
     //重新获取whitelistActivity
-    whitelistActivity = rulerStorage.get("whitelistActivity");
+    _whitelistActivity = config._whitelistActivity;
     try {
-        whitelistActivity.forEach(function(value, key) {
+        _whitelistActivity.forEach(function(value, key) {
             //console. log(activityName,value, key, list);
             if (value.activity == activity) {
                 console.log(" is white Activity");
@@ -270,7 +271,7 @@ function isWhiteListActivitys(activity) {
             }
         });
     } catch (e) {
-        console.log('whitelistActivity.length:', whitelistActivity.length, '\n', whitelistActivity);
+        console.log('whitelistActivity.length:', _whitelistActivity.length, '\n', _whitelistActivity);
         console.log(e)
     }
     return is_white_list;
