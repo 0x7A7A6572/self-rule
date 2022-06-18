@@ -8,13 +8,21 @@
 - 应用下载界面: https://zzerx.cn/apps
 
 ## 目录说明
-.
+
 └── autolayout      (autojs布局xml)
+
 └── components     (一些dialog组件)
+
 └── images       (转为安卓资源前的图片)
+
 └── res                (安卓资源)
+
 └── util                (一些工具类)
+
 ├── config.js        (配置控制)
+
 ├── main.js          (ui主界面)
+
 ├── service.js      (后台服务)
+
 ├── setting.js      (ui设置界面)
