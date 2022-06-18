@@ -1,4 +1,4 @@
-/* setting界面相关
+/* setting界面相关 main太大
  *   在main 数据加载完毕后才requre,所以main中的已加载的方法可用(bad?)
  *
  */
@@ -219,7 +219,7 @@ $ui.info_problem.on('click', () => {
 });
 
 
-
+/* 移到main.js加载 因为whitelistForSpinner需要更新
 function activityListToSpinnerList(actlist) {
     let splist = [];
     for (let k in actlist) {
@@ -229,6 +229,7 @@ function activityListToSpinnerList(actlist) {
     return splist;
 }
 
+
 function changeSpinnerList(spinner, mCountries) {
     //console.warn(mCountries)
     adapter = new android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, mCountries);
@@ -236,6 +237,7 @@ function changeSpinnerList(spinner, mCountries) {
     spinner.setAdapter(adapter);
     //spinner.setTextColor(0x33FF66)
 }
+*/
 
 function getSpinnerIndex(splist, txt) {
     console.log(splist, txt)

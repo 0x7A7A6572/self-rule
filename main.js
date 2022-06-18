@@ -42,7 +42,7 @@ let broadcastResigner = null;
 $ui.layoutFile("./autolayout/main.xml");
 config.init();
 initActivityDate();
-require("setting.js"); //setting中某些配置依赖与initActivityDate
+let settingUi = require("setting.js"); //setting中某些配置依赖与initActivityDate
 initEvent();
 initUi();
 
@@ -614,6 +614,12 @@ function updatesRulerStorage(name, mdata) {
             alertTipsText = mdata;
             break;
     }*/
+   if(name == "whitelistActivity"){
+        //更新设置页面的spinner
+       // changeSpinnerList(ui.return_act_spinner, activityListToSpinnerList(_whitelistActivity));
+       whitelistForSpinner = activityListToSpinnerList(_whitelistActivity);
+       changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
+    }
    config.notifyConfigChange(["evilActivity","whitelistActivity","alertTipsText"], [_evilActivity, _whitelistActivity, config.alertTipsText]);
    updateActivityListView();
 }
@@ -707,6 +713,29 @@ function updatePermissionStatusView(view, statu) {
     // view.setTextColor(statu ? ownColor : notOwned);
     view.textColor = statu ? ownColor : notOwned;
 }
+
+/* 原本位于setting.js*/
+
+function activityListToSpinnerList(actlist) {
+    let splist = [];
+    for (let k in actlist) {
+        // toast(JSON.stringify(actlist[i]));
+        splist.push(actlist[k].appname);
+    }
+    return splist;
+}
+
+
+function changeSpinnerList(spinner, mCountries) {
+    //console.warn(mCountries)
+    adapter = new android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, mCountries);
+   // adapter.setDropDownViewResource(ui.R.layout.spinner_dropdown);
+    spinner.setAdapter(adapter);
+    //spinner.setTextColor(0x33FF66)
+}
+
+/* setting.js  function end*/
+
 /*解除限制?*/
 /*
 function unfreeze() {
