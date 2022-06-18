@@ -48,12 +48,13 @@
                             <img id="expand_img_switch_backlist" padding="10 0 10 0" src="@drawable/ic_unfold_more_black_48dp" bg="?selectableItemBackgroundBorderless" />
                         </linear>
                     </linear>
-                    <list id="blacklist" h="200" w="*" padding="10" margin="0 10 0 10" bg="#23ff0000">
-                        <card h="70" w="*" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
+                    <list id="blacklist"  w="*" padding="10" margin="0 10 0 10" bg="#23ff0000">
+                        <card  w="*" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
 
                             <vertical padding="5" w="*">
                                 <TextView id="activity"  textColor="#FF5555" text="{{activity}}" paddingRight="50" style="@style/ActivityListTextStyle"/>
                                 <TextView id="pckage"  text="所属包名: {{pckage}}（{{appname}}）" style="@style/ActivityListPkgNameTextStyle"/>
+                                <TextView id="summary" text="描述: {{summary}}" style="@style/ActivityListSummaryTextStyle"/>
                             </vertical>
 
                             <View bg="#f44336" h="*" w="46" layout_gravity="right" />
@@ -69,12 +70,13 @@
                             <img id="expand_img_switch_whitelist" padding="5 0 15 0" src="@drawable/ic_unfold_more_black_48dp" bg="?selectableItemBackgroundBorderless" />
                         </linear>
                     </linear>
-                    <list id="whitelist" h="200" w="*" padding="10" margin="0 10 0 10" bg="#2388ff88">
-                        <card w="*" h="70" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
+                    <list id="whitelist" w="*" padding="10" margin="0 10 0 10" bg="#2388ff88">
+                        <card w="*" margin="0 5" cardCornerRadius="10" cardElevation="1dp" foreground="?selectableItemBackground" gravity="right">
                             <linear padding="5" w="*">
                                 <vertical layout_weight="1" w="*">
                                     <TextView id="activity" textColor="#33CC55" text="{{activity}}" textStyle="bold" paddingRight="50" w="*" style="@style/ActivityListTextStyle"/>
                                     <TextView id="pckage"  text="所属包名: {{pckage}}（{{appname}}）" w="*" style="@style/ActivityListPkgNameTextStyle"/>
+                                     <TextView id="summary" text="描述: {{summary}}" style="@style/ActivityListSummaryTextStyle"/>
                                 </vertical>
                             </linear>
                             <View bg="#43F436" h="*" w="46" layout_gravity="right" />

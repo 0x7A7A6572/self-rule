@@ -26,11 +26,19 @@
         <item name="android:textStyle">bold</item>
     </style>
     
-             <!-- activity名单 activity文字-->
+             <!-- activity名单 包名文字-->
     <style name="ActivityListPkgNameTextStyle">
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/textTitleOnLight</item>
     </style>
+
+                 <!-- activity名单 描述文字-->
+    <style name="ActivityListSummaryTextStyle">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+    
+
     
      <!-- alert输入框 
        设置后无法编辑文字-->
@@ -76,5 +84,6 @@
     <color name="mainColorPrimary">#00BCD4</color>
     <color name="textTitleOnLight">#2b2b2b</color>
     <color name="white">#FFFFFF</color>
+    <color name="grey">#CCCCCC</color>
 </resources>
 

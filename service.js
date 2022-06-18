@@ -1,4 +1,4 @@
-
+$debug.setMemoryLeakDetectionEnabled(true);
 importClass(android.content.ContextWrapper);
 importClass(android.app.PendingIntent);
 //importClass(android.content.BroadcastReceiver);
