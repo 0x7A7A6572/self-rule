@@ -287,7 +287,7 @@ ui.imgRunService.on("click", function() {
     if (serviceStatu != 'SERVICE_RUNNING') {
         runService();
         device.vibrate(200);
-        updateImageButton(ui.imgRunService, "#FF8800", true);
+        // 由runService 处理  updateImageButton(ui.imgRunService, "#FF8800", true);
     } else {
         // toastLog("发送停止服务")
         BroadcastUtil.send(SERVICE_EXTRA_KEY, "STOP_SERVICE");
@@ -569,8 +569,15 @@ $ui.alert_explan.on("click", function(e) {
 });
 
 function runService() {
-    engines.execScriptFile(SERVICE_SCRIPT_PATH);
-    updateImageButton(ui.imgRunService, "#6969ff", true);
+    if (auto.service == null) {
+        app.startActivity({
+            action: "android.settings.ACCESSIBILITY_SETTINGS"
+        });
+        toast("未授权无障碍，服务无法运行");
+    } else {
+        engines.execScriptFile(SERVICE_SCRIPT_PATH);
+        updateImageButton(ui.imgRunService, "#FF8800", true);
+    }
 }
 
 function getCurrentActivityInfo() {
