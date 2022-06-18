@@ -27,7 +27,7 @@ let config = {
     evilActivity: null,
     whitelistActivity: null,
     alertTipsText: "",
-    //defaultAlertTipsText: "想要有空余时间，就不要浪费时间。",
+    _defaultAlertTipsText: "想要有空余时间，就不要浪费时间。",
     startupTaskId: null,
     //setting
     rulerAction: RULE_ACTION.RETURN_NOW,
@@ -65,10 +65,13 @@ let config = {
             });
 
         }
-        this.rulerStorage = storages.create("ruler:activityLists");
+       /* this.rulerStorage = storages.create("ruler:activityLists");
         this.evilActivity = this.rulerStorage.get("evilActivity");
         this.whitelistActivity = this.rulerStorage.get("whitelistActivity");
-        this.alertTipsText = this.rulerStorage.get("alertTipsText");
+        this.alertTipsText = this.rulerStorage.get("alertTipsText");*/
+        this.evilActivity = this.storage.get("evilActivity",[]);
+        this.whitelistActivity = this.storage.get("whitelistActivity",[]);
+        this.alertTipsText = this.storage.get("alertTipsText",this._defaultAlertTipsText);
 
         //设置界面配置
         this.rulerAction = this.storage.get("rulerAction", 1);

@@ -109,7 +109,7 @@ $ui.inflate(
 
 function settingDataInit() {
     //设置界面数据初始化
-    whitelistForSpinner = activityListToSpinnerList(whitelistActivity);
+    whitelistForSpinner = activityListToSpinnerList(config.whitelistActivity);
     changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
     $ui.return_act_spinner.setSelection(getSpinnerIndex(whitelistForSpinner, config.jumpActivity));
     AutojsUtil.setRadioGroupChecked($ui.set_rule_action, config.rulerAction);
@@ -230,6 +230,7 @@ function activityListToSpinnerList(actlist) {
 }
 
 function changeSpinnerList(spinner, mCountries) {
+    //console.warn(mCountries)
     adapter = new android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, mCountries);
    // adapter.setDropDownViewResource(ui.R.layout.spinner_dropdown);
     spinner.setAdapter(adapter);

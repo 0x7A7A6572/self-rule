@@ -28,8 +28,8 @@ let serviceStatu;
 let imgRunServiceStatu = false;
 let floatWindowStatu = false;
 let window_thread, menuWindow;
-let rulerStorage = storages.create("ruler:activityLists");
-let evilActivity, whitelistActivity, alertTipsText;
+//let rulerStorage = storages.create("ruler:activityLists");
+let _evilActivity, _whitelistActivity;
 let defaultAlertTipsText = "想要有空余时间，就不要浪费时间。"
 let whitelistForSpinner = [];
 let expand_img_switch = {
@@ -50,31 +50,39 @@ initUi();
  数据初始化
 */
 function initActivityDate() {
-    evilActivity = rulerStorage.get("evilActivity");
+    /*evilActivity = rulerStorage.get("evilActivity");
     whitelistActivity = rulerStorage.get("whitelistActivity");
-    alertTipsText = rulerStorage.get("alertTipsText");
-    if (evilActivity == null) {
-        let EvilActivity = [{
+    alertTipsText = rulerStorage.get("alertTipsText");*/
+    _evilActivity = config.evilActivity;
+    _whitelistActivity = config.whitelistActivity;
+    //alertTipsText = config.alertTipsText;
+    
+    if (_evilActivity == null || _evilActivity == []) {
+        _evilActivity = [{
             activity: "com.tencent.mm.plugin.finder.ui.FinderHomeAffinityUI",
             pckage: "com.tencent.mm",
             appname: "微信",
-            summary: ""
+            summary: "视频号"
         }]
-        rulerStorage.put("evilActivity", EvilActivity);
-        evilActivity = rulerStorage.get("evilActivity");
+        config.notifyConfigChange("evilActivity", _evilActivity);
+        /*rulerStorage.put("evilActivity", EvilActivity);
+        evilActivity = rulerStorage.get("evilActivity");*/
     }
-    if (whitelistActivity == null) {
-        whitelistActivity = [{
+    if (_whitelistActivity == null || _whitelistActivity == []) {
+        _whitelistActivity = [{
             activity: "com.stardust.autojs.inrt.SplashActivity",
             pckage: "cn.zzerx.selfruler",
             appname: "律已",
             summary: ""
         }];
-        rulerStorage.put("whitelistActivity", whitelistActivity);
+        config.notifyConfigChange("whitelistActivity", _whitelistActivity);
+        //rulerStorage.put("whitelistActivity", whitelistActivity);
     }
-    if (alertTipsText == null) {
-        alertTipsText = defaultAlertTipsText;
+    if (config.alertTipsText == null) {
+        config.notifyConfigChange("alertTipsText", config.alertTipsText);
+       /* alertTipsText = defaultAlertTipsText;
         rulerStorage.put("alertTipsText", alertTipsText);
+        */
     }
 
 
@@ -189,10 +197,10 @@ function initUi() {
 
 
     //提示文本显示
-    if (alertTipsText == null) {
-        alertTipsText = "想要有空余时间，就不要浪费时间。";
+    if (config.alertTipsText == null) {
+        config.alertTipsText = "想要有空余时间，就不要浪费时间。";
     }
-    ui.tips_input.setText(alertTipsText);
+    ui.tips_input.setText(config.alertTipsText);
 
     //其他ui初始化
     setBackgroundRoundGradientCornerRadii(ui.blacklist_empty, "#63ff0000", "#23ff0000");
@@ -206,8 +214,8 @@ function initUi() {
     //Activity黑白名单显示
     updateActivityListView();
     //黑白名单数据绑定
-    ui.blacklist.setDataSource(evilActivity);
-    ui.whitelist.setDataSource(whitelistActivity);
+    ui.blacklist.setDataSource(_evilActivity);
+    ui.whitelist.setDataSource(_whitelistActivity);
 
     /* 限定list高度 */
     setTimeout(function() {
@@ -297,8 +305,8 @@ ui.imgRunService.on("click", function() {
 
 ui.tips_input.addTextChangedListener(new TextWatcher({
     afterTextChanged: function(s, start, count, after) {
-        alertTipsText = s;
-        updatesRulerStorage("alertTipsText", alertTipsText)
+        config.alertTipsText = s;
+        updatesRulerStorage("alertTipsText", config.alertTipsText)
     }
 }));
 
@@ -314,8 +322,8 @@ ui.imgSyncCloud.on("click", function() {
             case 0:
                 cloudActivity = getCloudData();
                 if (cloudActivity != null) {
-                    whitelistActivity = mergeArray(cloudActivity.whitelistActivity, whitelistActivity, "activity", true);
-                    evilActivity = mergeArray(cloudActivity.evilActivity, evilActivity, "activity", true);
+                    _whitelistActivity = mergeArray(cloudActivity.whitelistActivity, _whitelistActivity, "activity", true);
+                    _evilActivity = mergeArray(cloudActivity.evilActivity, _evilActivity, "activity", true);
                     toast("合并更改");
                 } else {
                     toast("合并失败");
@@ -324,24 +332,24 @@ ui.imgSyncCloud.on("click", function() {
             case 1:
                 cloudActivity = getCloudData();
                 if (cloudActivity != null) {
-                    whitelistActivity = cloudActivity.whitelistActivity;
-                    evilActivity = cloudActivity.evilActivity;
+                    _whitelistActivity = cloudActivity.whitelistActivity;
+                    _evilActivity = cloudActivity.evilActivity;
                     toast("覆盖更改");
                 } else {
                     toast("覆盖失败");
                 }
                 break;
             case 2:
-                evilActivity = [];
-                whitelistActivity = [];
+                _evilActivity = [];
+                _whitelistActivity = [];
                 toast("清空本地数据完成");
                 break;
         }
-        updatesRulerStorage("whitelistActivity", whitelistActivity);
-        updatesRulerStorage("evilActivity", evilActivity)
+        updatesRulerStorage("whitelistActivity", _whitelistActivity);
+        updatesRulerStorage("evilActivity", _evilActivity)
 
-        ui.blacklist.setDataSource(evilActivity);
-        ui.whitelist.setDataSource(whitelistActivity);
+        ui.blacklist.setDataSource(_evilActivity);
+        ui.whitelist.setDataSource(_whitelistActivity);
 
     });
 
@@ -355,9 +363,9 @@ ui.imgSyncCloud.on("click", function() {
 ui.blacklist.on("item_bind", function(itemView, itemHolder) {
     itemView.deleteItem.on("click", function() {
         let item = itemHolder.item;
-        evilActivity.splice(itemHolder.position, 1);
-        updatesRulerStorage("evilActivity", evilActivity);
-        if (evilActivity.length == 0) {
+        _evilActivity.splice(itemHolder.position, 1);
+        updatesRulerStorage("evilActivity", _evilActivity);
+        if (_evilActivity.length == 0) {
             updateActivityListView();
         }
     });
@@ -366,9 +374,9 @@ ui.blacklist.on("item_bind", function(itemView, itemHolder) {
 ui.whitelist.on("item_bind", function(itemView, itemHolder) {
     itemView.deleteItem.on("click", function() {
         let item = itemHolder.item;
-        whitelistActivity.splice(itemHolder.position, 1);
-        updatesRulerStorage("whitelistActivity", whitelistActivity);
-        if (whitelistActivity.length == 0) {
+        _whitelistActivity.splice(itemHolder.position, 1);
+        updatesRulerStorage("whitelistActivity", _whitelistActivity);
+        if (_whitelistActivity.length == 0) {
             updateActivityListView();
         }
     });
@@ -504,10 +512,10 @@ function shouFloatWindow() {
                 menuWindow.saveActivityButton.click(function() {
                     let cactInfo = getCurrentActivityInfo();
                     //检查是否重复
-                    if (!isRepeatActivity(cactInfo.activity, evilActivity)) {
-                        evilActivity.push(cactInfo);
+                    if (!isRepeatActivity(cactInfo.activity, _evilActivity)) {
+                        _evilActivity.push(cactInfo);
                         toast(" 已将当前Activity加入黑名单");
-                        updatesRulerStorage("evilActivity", evilActivity)
+                        updatesRulerStorage("evilActivity", _evilActivity)
                     } else {
                         toast("当前Activity已在黑名单列表，无需重复添加");
                     }
@@ -515,14 +523,14 @@ function shouFloatWindow() {
                 menuWindow.rmActivityButton.click(function() {
                     let cactInfo = getCurrentActivityInfo();
                     //检查是否重复
-                    if (!isRepeatActivity(cactInfo.activity, evilActivity)) {
-                        if (!isRepeatActivity(cactInfo.activity, whitelistActivity)) {
-                            whitelistActivity.push(cactInfo);
+                    if (!isRepeatActivity(cactInfo.activity, _evilActivity)) {
+                        if (!isRepeatActivity(cactInfo.activity, _whitelistActivity)) {
+                            _whitelistActivity.push(cactInfo);
                             toast(" 已将当前Activity加入白名单");
                         } else {
                             toast("当前Activity已在白名单列表，无需重复添加")
                         }
-                        updatesRulerStorage("whitelistActivity", whitelistActivity)
+                        updatesRulerStorage("whitelistActivity", _whitelistActivity)
                     } else {
                         toast("当前Activity已在黑名单列表，无法直接添加到白名单");
                     }
@@ -590,10 +598,10 @@ function getCurrentActivityInfo() {
 }
 
 function updatesRulerStorage(name, mdata) {
-    switch (name) {
+    /*switch (name) {
         case "evilActivity":
             rulerStorage.put("evilActivity", mdata);
-            evilActivity = mdata;
+            config.evilActivity = mdata;
             updateActivityListView();
             break;
         case "whitelistActivity":
@@ -605,7 +613,9 @@ function updatesRulerStorage(name, mdata) {
             rulerStorage.put(name, mdata);
             alertTipsText = mdata;
             break;
-    }
+    }*/
+   config.notifyConfigChange(["evilActivity","whitelistActivity","alertTipsText"], [_evilActivity, _whitelistActivity, config.alertTipsText]);
+   updateActivityListView();
 }
 
 /* 判断Activity是否重复 */
@@ -674,14 +684,14 @@ function updateImageButton(view, statuColor, statu) {
 }
 
 function updateActivityListView() {
-    if (evilActivity == null || evilActivity.length == 0) {
+    if (_evilActivity == null || _evilActivity.length == 0) {
         ui.blacklist_empty.setVisibility(View.VISIBLE);
         ui.blacklist.setVisibility(View.GONE);
     } else {
         ui.blacklist_empty.setVisibility(View.GONE);
         ui.blacklist.setVisibility(View.VISIBLE);
     }
-    if (whitelistActivity == null || whitelistActivity.length == 0) {
+    if (_whitelistActivity == null || _whitelistActivity.length == 0) {
         ui.whitelist_empty.setVisibility(View.VISIBLE);
         ui.whitelist.setVisibility(View.GONE);
     } else {
