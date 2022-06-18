@@ -153,13 +153,13 @@ AutojsUtil.RadioGroupCheckedListener(ui.set_rule_action, (index, radio, checkedI
 $ui.return_act_spinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener({
     onItemSelected: function(parent, view, position, id) {
         // config.jumpActivity = whitelistForSpinner[id];
+        console.log("onItemSelected:",position, id)
         view.setTextSize(13);
        if(parent.isEnabled()){
         view.setTextColor(Color.GREEN);
         }else{
           view.setTextColor(Color.GRAY)
         }
-        
         config.notifyConfigChange("jumpActivity", whitelistForSpinner[id]);
     }
 }))

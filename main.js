@@ -38,6 +38,7 @@ let expand_img_switch = {
     preview: 0
 }
 let broadcastResigner = null;
+let ban_post = false;
 
 $ui.layoutFile("./autolayout/main.xml");
 config.init();
@@ -56,7 +57,7 @@ function initActivityDate() {
     _evilActivity = config.evilActivity;
     _whitelistActivity = config.whitelistActivity;
     //alertTipsText = config.alertTipsText;
-    
+
     if (_evilActivity == null || _evilActivity == []) {
         _evilActivity = [{
             activity: "com.tencent.mm.plugin.finder.ui.FinderHomeAffinityUI",
@@ -80,9 +81,9 @@ function initActivityDate() {
     }
     if (config.alertTipsText == null) {
         config.notifyConfigChange("alertTipsText", config.alertTipsText);
-       /* alertTipsText = defaultAlertTipsText;
-        rulerStorage.put("alertTipsText", alertTipsText);
-        */
+        /* alertTipsText = defaultAlertTipsText;
+         rulerStorage.put("alertTipsText", alertTipsText);
+         */
     }
 
 
@@ -315,12 +316,14 @@ ui.tips_input.addTextChangedListener(new TextWatcher({
 ui.imgSyncCloud.on("click", function() {
     let cloudActivity = null;
     dialogs.select("选择数据更新方式", ["合并本地数据", "覆盖本地数据", "清空本地数据"]).then(select => {
+        console.log("imgSyncCloud select:",select)
         switch (select) {
             case -1:
                 toast("取消更改");
                 break;
             case 0:
                 cloudActivity = getCloudData();
+                console.log("cloudActivity.length:",cloudActivity.length)
                 if (cloudActivity != null) {
                     _whitelistActivity = mergeArray(cloudActivity.whitelistActivity, _whitelistActivity, "activity", true);
                     _evilActivity = mergeArray(cloudActivity.evilActivity, _evilActivity, "activity", true);
@@ -467,31 +470,40 @@ function mergeArray(main, branch, key, notRepeat) {
 
 function getCloudData() {
     let url = "http://service.zzerx.cn:3868";
-    let type = "selfruler-activitylist";
-    let res = null;
-    let html = null;
-    let postRes = null
-    try {
-        postRes = http.post(url, {
-            "type": type,
-            "version": config.version,
-            "uuid": ""
-        });
-        html = postRes.body.string();
-    } catch (e) {
-        console.warn("访问服务器失败", e);
-        toast("获取失败" + e);
-    }
+        let type = "selfruler-activitylist";
+        let res = null;
+        let html = null;
+        let postRes = null
+    if (ban_post == false) {
+        try {
+            postRes = http.post(url, {
+                "type": type,
+                "version": config.version,
+                "uuid": ""
+            });
+            html = postRes.body.string();
+        } catch (e) {
+            console.warn("访问服务器失败", e);
+            toast("获取失败" + e);
+        }
 
-    if (html != "null" && html != null) {
-        console.error(typeof html, html.substring(1, html.length - 1))
-        let cloudActivity = JSON.parse(html.substring(1, html.length - 1));
-        toast("获取成功");
-        postRes = cloudActivity;
-        //console.info("cloudActivity:",html);
+        if (html != "null" && html != null) {
+            console.verbose(typeof html, html.substring(1, html.length - 1))
+            let cloudActivity = JSON.parse(html.substring(1, html.length - 1));
+           // toast("获取成功");
+            postRes = cloudActivity;
+
+            //console.info("cloudActivity:",html);
+        } else {
+            toast("获取失败");
+            postRes = null;
+        }
+        ban_post = true;
+        setTimeout(() => {
+            ban_post = false
+        }, 5000);
     } else {
-        toast("获取失败");
-        postRes = null;
+        toast("请求太频繁，请稍候再试");
     }
     return postRes;
 }
@@ -614,14 +626,14 @@ function updatesRulerStorage(name, mdata) {
             alertTipsText = mdata;
             break;
     }*/
-   if(name == "whitelistActivity"){
+    if (name == "whitelistActivity") {
         //更新设置页面的spinner
-       // changeSpinnerList(ui.return_act_spinner, activityListToSpinnerList(_whitelistActivity));
-       whitelistForSpinner = activityListToSpinnerList(_whitelistActivity);
-       changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
+        // changeSpinnerList(ui.return_act_spinner, activityListToSpinnerList(_whitelistActivity));
+        whitelistForSpinner = activityListToSpinnerList(_whitelistActivity);
+        changeSpinnerList(ui.return_act_spinner, whitelistForSpinner);
     }
-   config.notifyConfigChange(["evilActivity","whitelistActivity","alertTipsText"], [_evilActivity, _whitelistActivity, config.alertTipsText]);
-   updateActivityListView();
+    config.notifyConfigChange(["evilActivity", "whitelistActivity", "alertTipsText"], [_evilActivity, _whitelistActivity, config.alertTipsText]);
+    updateActivityListView();
 }
 
 /* 判断Activity是否重复 */
@@ -729,7 +741,7 @@ function activityListToSpinnerList(actlist) {
 function changeSpinnerList(spinner, mCountries) {
     //console.warn(mCountries)
     adapter = new android.widget.ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, mCountries);
-   // adapter.setDropDownViewResource(ui.R.layout.spinner_dropdown);
+    // adapter.setDropDownViewResource(ui.R.layout.spinner_dropdown);
     spinner.setAdapter(adapter);
     //spinner.setTextColor(0x33FF66)
 }
