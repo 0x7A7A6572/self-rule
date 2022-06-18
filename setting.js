@@ -215,7 +215,7 @@ $ui.info_group.on('click', () => {
     app.openUrl("https://jq.qq.com/?_wv=1027&k=EtBifiAs");
 });
 $ui.info_problem.on('click', () => {
-    app.openUrl("https://zzerx.cn/self-ruler-problem");
+    app.openUrl("https://zzerx.cn/apps/#help-anchor-point");
 });
 
 
