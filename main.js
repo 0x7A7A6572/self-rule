@@ -121,6 +121,9 @@ function initEvent() {
         switch (serviceStatu) {
             case "STOP_SERVICE":
                 updateImageButton(ui.imgRunService, "#000000", false);
+                if (denyAlert != null) {
+                    denyAlert.close();
+                }
                 break;
             case "SERVICE_RUNNING":
                 if (imgRunServiceStatu == false) {
@@ -152,6 +155,9 @@ function initEvent() {
             window_thread = null;
             float.closeAll();
             console.log("关闭window_thread");
+        }
+        if (denyAlert != null) {
+            denyAlert.close();
         }
         BroadcastUtil.destroy(broadcastResigner);
         // console.error("<<",config.dateChangedRegister);
@@ -316,14 +322,14 @@ ui.tips_input.addTextChangedListener(new TextWatcher({
 ui.imgSyncCloud.on("click", function() {
     let cloudActivity = null;
     dialogs.select("选择数据更新方式", ["合并本地数据", "覆盖本地数据", "清空本地数据"]).then(select => {
-        console.log("imgSyncCloud select:",select)
+        console.log("imgSyncCloud select:", select)
         switch (select) {
             case -1:
                 toast("取消更改");
                 break;
             case 0:
                 cloudActivity = getCloudData();
-                console.log("cloudActivity.length:",cloudActivity.length)
+                console.log("cloudActivity.length:", cloudActivity.length)
                 if (cloudActivity != null) {
                     _whitelistActivity = mergeArray(cloudActivity.whitelistActivity, _whitelistActivity, "activity", true);
                     _evilActivity = mergeArray(cloudActivity.evilActivity, _evilActivity, "activity", true);
@@ -470,10 +476,10 @@ function mergeArray(main, branch, key, notRepeat) {
 
 function getCloudData() {
     let url = "http://service.zzerx.cn:3868";
-        let type = "selfruler-activitylist";
-        let res = null;
-        let html = null;
-        let postRes = null
+    let type = "selfruler-activitylist";
+    let res = null;
+    let html = null;
+    let postRes = null
     if (ban_post == false) {
         try {
             postRes = http.post(url, {
@@ -490,7 +496,7 @@ function getCloudData() {
         if (html != "null" && html != null) {
             console.verbose(typeof html, html.substring(1, html.length - 1))
             let cloudActivity = JSON.parse(html.substring(1, html.length - 1));
-           // toast("获取成功");
+            // toast("获取成功");
             postRes = cloudActivity;
 
             //console.info("cloudActivity:",html);
