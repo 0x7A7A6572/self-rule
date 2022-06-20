@@ -176,7 +176,6 @@ $ui.switch_punish.on("check", (checked) => {
         $ui.punishTimeSuperposition.setEnabled(false);
         $ui.punishBindAlertValue.setEnabled(false);
         AutojsUtil.setRadioGroupEnable($ui.alertValueResetRule, false);
-
     }
     //config.punishOptions = checked;
     config.notifyConfigChange("punishOptions", checked);

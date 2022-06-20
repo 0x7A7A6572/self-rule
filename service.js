@@ -201,7 +201,7 @@ let ruler_thread = threads.start(function() {
                     isPunishTime = true;
                     //denyAlert.setText("触发了惩罚")
                     denyAlert.show();
-                    denyAlert.setLockEnable(true,100);
+                    denyAlert.setLockEnable(true,config.punishTime);
                 }else{
                     denyAlert.setText(alertTipsText).show();
                 }
