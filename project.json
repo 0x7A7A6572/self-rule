@@ -8,9 +8,9 @@
   },
   "assets": [],
   "build": {
-    "build_id": "786D384F-61",
-    "build_number": 61,
-    "build_time": 1655699496325,
+    "build_id": "01144F25-64",
+    "build_number": 64,
+    "build_time": 1655741009667,
     "release": false
   },
   "encryptLevel": 0,
@@ -135,12 +135,24 @@
       "android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"
     ]
   },
+  "publish": {
+    "category": "实用工具",
+    "details": "现在不管什么软件都塞了短视频，社区，让人眼花缭乱，一刷就是几个小时，所以写了个工具来\"管一管\"自己，通过无障碍权限监听前台Activity来判断是否为禁用列表，根据相应策略阻止使用。最新的变动在https://github.com/0x7A7A6572/self-rule",
+    "maxAutoJsVersion": 0,
+    "maxProVersion": 0,
+    "minAutoJsVersion": 0,
+    "minProVersion": 0,
+    "minSdkVersion": 0,
+    "permissions": [],
+    "summary": "逃离时间黑洞",
+    "tags": []
+  },
   "scripts": {},
   "signingConfig": {
     "alias": "zzerX",
     "keystore": "/storage/emulated/0/AutoProProject/.keystore/autojspro.jks",
     "uuid": "3f5dc0b6-fb43-4ff9-a1fe-ec99d30a135b"
   },
-  "versionCode": 106,
-  "versionName": "v1.0.6"
+  "versionCode": 107,
+  "versionName": "v1.0.7"
 }

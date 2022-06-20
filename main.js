@@ -530,12 +530,12 @@ function shouFloatWindow() {
                 menuWindow.saveActivityButton.click(function() {
                     let cactInfo = getCurrentActivityInfo();
                     //检查是否重复
-                    if (!isRepeatActivity(cactInfo.activity, _evilActivity)) {
+                    if (!isRepeatActivity(cactInfo.activity, _evilActivity) && !isRepeatActivity(cactInfo.activity, _whitelistActivity)) {
                         _evilActivity.push(cactInfo);
                         toast(" 已将当前Activity加入黑名单");
                         updatesRulerStorage("evilActivity", _evilActivity)
                     } else {
-                        toast("当前Activity已在黑名单列表，无需重复添加");
+                        toast("当前Activity已在黑/白名单列表，无需重复添加");
                     }
                 });
                 menuWindow.rmActivityButton.click(function() {
