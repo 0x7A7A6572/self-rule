@@ -155,11 +155,13 @@ sendNotify("律已", "服务已启动", );
 
 console.info("注册广播成功")
 BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
+//初始化弹窗
 denyAlert.init(() => {
     if (config.rulerAction == 0) { //等待返回
         back();
     }
     if(config.alertValueResetRule == 0 && isPunishTime){
+        config.notifyConfigChange("superpositionedCount",0); 
         config.notifyConfigChange("alertValue",0);   
         BroadcastUtil.send("DataChangeToUi","alertValue");
      }
@@ -198,10 +200,15 @@ let ruler_thread = threads.start(function() {
                 BroadcastUtil.send("DataChangeToUi","alertValue");
                 if(config.punishOptions && config.alertValue >= config.punishBindAlertValue){
                     toastLog("已达到警告值，将限制使用");
+                    if(config.punishTimeSuperposition){ //叠加时间
+                    config.superpositionedCount = config.superpositionedCount+1;
+                        config.notifyConfigChange("superpositionedCount",config.superpositionedCount++);
+                    }
+                    let _superpositionValue = config.superpositionedCount == 0 ? 1 : config.superpositionedCount;
                     isPunishTime = true;
                     //denyAlert.setText("触发了惩罚")
                     denyAlert.show();
-                    denyAlert.setLockEnable(true,config.punishTime);
+                    denyAlert.setLockEnable(true,config.punishTime * _superpositionValue);
                 }else{
                     denyAlert.setText(alertTipsText).show();
                 }

@@ -83,10 +83,11 @@ let config = {
         this.alertValueResetRule = this.storage.get("alertValueResetRule", RULE_RESET.AFTER_PUNISHED);
         this.alertValue = this.storage.get("alertValue", 0);
         this.lastResetTime = this.storage.get("lastResetTime", 0);
+        this.superpositionedCount = this.storage.get("superpositionedCount",0);
         if (this.alertValueResetRule == RULE_RESET.AFTER_ZERO_CLOCK &&
             getZeroClock() - this.lastResetTime > 0) {
             console.info(getZeroClock(), this.lastResetTime)
-            this.notifyConfigChange(["alertValue", "lastResetTime"], [0, new Date().getTime()]);
+            this.notifyConfigChange(["alertValue", "lastResetTime", "superpositionedCount"], [0, new Date().getTime(), 0]);
         }
 
         if (!nolog) {
