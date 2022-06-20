@@ -13,14 +13,14 @@
             <relative id="toolbar" clipChildren="false" bg="#ffffff" padding="10px 10px 10px 0px">
                 <img src="@drawable/logo" h="55dp" marginTop="-20px" />
                 <RelativeLayout h="30" gravity="right" id="title_button" layout_alignParentRight="true" clipChildren="false" bg="#ffffff">
-                    <img id="imgRunService" src="@drawable/rocket" w="55dp" paddingLeft="30" />
-                    <TextView text="开启"  layout_toRightOf="@id/imgRunService"  style="@style/ToolbarTextStyle"/>
-                    <img id="showfloatwindow" src="@drawable/activity_list_add_90" paddingLeft="30" w="55dp" layout_toRightOf="@id/imgRunService" />
-                    <TextView text="添加"  layout_toRightOf="@id/showfloatwindow" style="@style/ToolbarTextStyle" />
-                    <img id="imgSyncCloud" src="@drawable/cloud-download" paddingLeft="30" w="55dp" layout_toRightOf="@id/showfloatwindow" />
-                    <TextView text="同步"  layout_toRightOf="@id/imgSyncCloud" style="@style/ToolbarTextStyle" />
-                    <img id="setting" paddingLeft="30" w="55dp" layout_toRightOf="@id/imgSyncCloud" src="@drawable/setting" />
-                    <TextView text="设置" layout_toRightOf="@id/setting" style="@style/ToolbarTextStyle" />
+                    <img id="imgRunService" src="@drawable/rocket" w="55dp" paddingRight="25" paddingLeft="5"/>
+                    <TextView text="开启"  layout_alignRight="@id/imgRunService"  style="@style/ToolbarTextStyle"/>
+                    <img id="showfloatwindow" src="@drawable/activity_list_add_90" paddingRight="25" paddingLeft="5" w="55dp" layout_toRightOf="@id/imgRunService" />
+                    <TextView text="添加"  layout_alignRight="@id/showfloatwindow" style="@style/ToolbarTextStyle" />
+                    <img id="imgSyncCloud" src="@drawable/cloud-download" paddingRight="25" paddingLeft="5" w="55dp" layout_toRightOf="@id/showfloatwindow" />
+                    <TextView text="同步"  layout_alignRight="@id/imgSyncCloud" style="@style/ToolbarTextStyle" />
+                    <img id="setting" paddingRight="25" paddingLeft="5" w="55dp" layout_toRightOf="@id/imgSyncCloud" src="@drawable/setting" />
+                    <TextView text="设置" layout_alignRight="@id/setting" style="@style/ToolbarTextStyle" />
                 </RelativeLayout>
             </relative>
         </appbar>

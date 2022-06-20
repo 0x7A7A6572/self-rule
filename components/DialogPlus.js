@@ -10,38 +10,38 @@ DialogPlus = {
     isEmptyMode: false,
     _onTrue: null,
     _onFalse: null,
-    setView: function (v) {
+    setView: function(v) {
         this.customView = v;
         //console.log(this)
         return this;
     },
-    setTitle: function (t) {
+    setTitle: function(t) {
         this.title = t;
         return this;
     },
-    onTrue: function (func) {
+    onTrue: function(func) {
         this._onTrue = func;
         return this;
     },
-    onFalse: function (func) {
+    onFalse: function(func) {
         this._onFalse = func;
         return this;
     },
-    setEmptyMode: function (b) {
+    setEmptyMode: function(b) {
         this.isEmptyMode = b;
         return this;
     },
-    build: function () {
+    build: function() {
         if (this.customView != null) {
             this.dialog = dialogs.build({
-                customView: this.customView,
-                title: this.isEmptyMode ? null : this.title,
-                positive: this.isEmptyMode ? null : this.positive,
-                negative: this.isEmptyMode ? null : this.negative,
-                wrapInScrollView: this.wrapInScrollView,
-                autoDismiss: this.autoDismiss,
-                cancelable: false
-            }).on("positive", this._onTrue)
+                    customView: this.customView,
+                    title: this.isEmptyMode ? null : this.title,
+                    positive: this.isEmptyMode ? null : this.positive,
+                    negative: this.isEmptyMode ? null : this.negative,
+                    wrapInScrollView: this.wrapInScrollView,
+                    autoDismiss: this.autoDismiss,
+                    cancelable: false
+                }).on("positive", this._onTrue)
                 .on("negative", this._onFalse)
             /*  this.dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
               let lp = this.dialog.getWindow().getAttributes();
@@ -53,31 +53,41 @@ DialogPlus = {
         }
         return this;
     },
-    show: function () {
+    show: function() {
         if (this.dialog != null) {
             this.dialog.show();
+            /* 充满屏幕 */
+           /*let dwindow = this.dialog.getWindow();
+              //dwindow.setGravity(Gravity.CEN);
+            //dwindow.setWindowAnimations(R.style.dialog_animation);
+            dwindow.getDecorView().setPadding(0, 0, 0, 0);
+            //dwindow.getDecorView().setMargin(0, 0, 0, 0);
+            let dlp = dwindow.getAttributes();
+            dlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            dlp.height = WindowManager.LayoutParams.MATCH_PARENT;
+            dwindow.setAttributes(dlp);*/
         }
         return this;
     },
-    dismiss: function () {
+    dismiss: function() {
         if (this.dialog != null) {
             this.dialog.dismiss();
         }
         return this;
     },
-    getDialog: function () {
+    getDialog: function() {
         return this.dialog;
     }
 
 }
 
 module.exports = DialogPlus;
- /*let myDialog = DialogPlus.setView(ui.inflate("<text text='hhhhh'></text>"))
-             .setTitle(null)
-             //.onTrue(function(){toast("确定")})
-             //.onFalse(function(){toast("取消")})
-             .setEmptyMode(true)
-             .build()
-             .show();
-  */
+/*let myDialog = DialogPlus.setView(ui.inflate("<text text='hhhhh'></text>"))
+            .setTitle(null)
+            //.onTrue(function(){toast("确定")})
+            //.onFalse(function(){toast("取消")})
+            .setEmptyMode(true)
+            .build()
+            .show();
+ */
 //view.password.setText("这是外部设置的数据")

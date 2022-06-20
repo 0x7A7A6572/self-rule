@@ -1,7 +1,7 @@
 let DialogPlus = require("./DialogPlus.js");
 let _alert_layout = $ui.inflate(
     <vertical >
-        <vertical id="lock_layout" layout_gravity="center" gravity="center">
+        <vertical id="lock_layout" layout_gravity="center" gravity="center" layout_weight="1" h="*" >
             <!--img src="@drawable/key" layout_gravity="left"  gravity="left|top" tint="#CCccCC" w="*" h="*"/-->
             <img id="imgLock" src="file://./res/drawable/lock_200.png" w="150" h="150" />
             <text color="white" textSize="40" textStyle="bold" text="律已" w="*">
@@ -27,6 +27,8 @@ let _alert_layout = $ui.inflate(
             <View h="5dp"  text="《《《《《《《《《《《《《《《《《《《《《《《《" bg="#EEEEEE" textSize="20dp" textStyle="bold" gravity="center" margin="-20dp 0dp -20dp 0dp" />
             
         </vertical>
+        <!--View h="*" bg="#ff9900" layout_weight="1" ></View>
+        <text text="com.zzerx.cjbk.hhgghgf.hhgffdfggfddfgffff" color="red" textStyle="bold" h="*" bg="#ffff00"/-->
     </vertical>);
 
 let denyAlert = {

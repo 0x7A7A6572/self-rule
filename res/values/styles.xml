@@ -4,6 +4,7 @@
     <style name="ToolbarTextStyle">
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/textTitleOnLight</item>
+        <!--  item name="android:layout_marginRight">10dp</item -->
     </style>
     
             <!-- 各功能栏标题 文字-->
