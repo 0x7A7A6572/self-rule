@@ -53,6 +53,7 @@ events.on("exit", function() {
     }
     /* 蜜汁保险 */
     threads.shutDownAll();
+     removeNotify();
 });
 
 //end
@@ -67,6 +68,8 @@ function doBroadcastSignal(signal) {
         case ACTION_STOP:
             // console.log("////")
             removeNotify();
+            toastLog("律已服务停止..")
+            exit();
             break;
     }
 }
@@ -131,8 +134,7 @@ function removeNotify() {
 
     BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
     BroadcastUtil.destroy(broadcastResigner);
-    toastLog("律已服务停止..")
-    exit();
+    
 }
 
 function toUishowMenu() {
