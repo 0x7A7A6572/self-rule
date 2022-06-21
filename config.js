@@ -87,7 +87,7 @@ let config = {
         if (this.alertValueResetRule == RULE_RESET.AFTER_ZERO_CLOCK &&
             getZeroClock() - this.lastResetTime > 0) {
             console.info(getZeroClock(), this.lastResetTime)
-            this.notifyConfigChange(["alertValue", "lastResetTime", "superpositionedCount"], [0, new Date().getTime(), 0]);
+            this.notifyConfigChange(["alertValue", "lastResetTime"], [0, new Date().getTime()]);
         }
 
         if (!nolog) {

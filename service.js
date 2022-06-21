@@ -20,7 +20,7 @@ let ACTION_MENU = "OPEN_RULER_MENU";
 let filter = new IntentFilter();
 let alertTipsText;
 let isPunishTime = false;
-let  _rvilActivity, _whitelistActivity;
+let _rvilActivity, _whitelistActivity;
 config.init();
 broadcastResigner = BroadcastUtil.register(function(context, intent) {
     let getletServiceStatu = intent.getStringExtra(ExtraKey);
@@ -128,7 +128,7 @@ function removeNotify() {
     denyAlert.emergencyPauseControl(true);
     var manager = context.getSystemService(android.app.Service.NOTIFICATION_SERVICE);
     manager.cancel(NotifyID);
-    
+
     BroadcastUtil.send(ExtraKey, "STOP_SERVICE");
     BroadcastUtil.destroy(broadcastResigner);
     toastLog("律已服务停止..")
@@ -160,16 +160,17 @@ denyAlert.init(() => {
     if (config.rulerAction == 0) { //等待返回
         back();
     }
-    if(config.alertValueResetRule == 0 && isPunishTime){
-        config.notifyConfigChange("superpositionedCount",0); 
-        config.notifyConfigChange("alertValue",0);   
-        BroadcastUtil.send("DataChangeToUi","alertValue");
-     }
-        //延迟解锁服务 back返回需要时间     
-        setTimeout(function() {
-            isAlertWindowShow = false;
-        }, 800);
-    
+    if (config.alertValueResetRule == 0 && isPunishTime) {
+        //config.notifyConfigChange("superpositionedCount",0); 
+        config.notifyConfigChange("alertValue", 0);
+        BroadcastUtil.send("DataChangeToUi", "alertValue");
+
+    }
+    //延迟解锁服务 back返回需要时间     
+    setTimeout(function() {
+        isAlertWindowShow = false;
+    }, 800);
+
 });
 
 //监听Activity
@@ -196,20 +197,22 @@ let ruler_thread = threads.start(function() {
             // alert(alertTipsText);
             ui.run(() => {
                 config.alertValue++;
-                config.notifyConfigChange("alertValue",config.alertValue);
-                BroadcastUtil.send("DataChangeToUi","alertValue");
-                if(config.punishOptions && config.alertValue >= config.punishBindAlertValue){
+                config.notifyConfigChange("alertValue", config.alertValue);
+                BroadcastUtil.send("DataChangeToUi", "alertValue");
+                if (config.punishOptions && config.alertValue >= config.punishBindAlertValue) {
                     toastLog("已达到警告值，将限制使用");
-                    if(config.punishTimeSuperposition){ //叠加时间
-                    config.superpositionedCount = config.superpositionedCount+1;
-                        config.notifyConfigChange("superpositionedCount",config.superpositionedCount++);
+                    if (config.punishTimeSuperposition) { //叠加时间
+                        config.superpositionedCount = config.superpositionedCount + 1;
+                        config.notifyConfigChange("superpositionedCount", config.superpositionedCount);
+                        BroadcastUtil.send("DataChangeToUi", "superposition");
+
                     }
                     let _superpositionValue = config.superpositionedCount == 0 ? 1 : config.superpositionedCount;
                     isPunishTime = true;
                     //denyAlert.setText("触发了惩罚")
                     denyAlert.show();
-                    denyAlert.setLockEnable(true,config.punishTime * _superpositionValue);
-                }else{
+                    denyAlert.setLockEnable(true, config.punishTime * _superpositionValue);
+                } else {
                     denyAlert.setText(alertTipsText).show();
                 }
                 isAlertWindowShow = true;
@@ -241,7 +244,7 @@ if (_evilActivity == null) {
         name: "微信",
         summary: "微信视频号"
     }]
-    
+
 }
 
 function isEvilActivitys(activity) {

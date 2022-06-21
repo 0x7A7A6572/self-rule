@@ -41,9 +41,14 @@ $ui.inflate(
             <linear>
                 <text text="惩罚时间:" color="#FFFFFF" margin="20 0" />
                 <input id="punishTime" text="100" inputType="number" focusable="true" color="#FF0509" enabled="false" textSize="18dp"/>
+                 <text id="superpositionValue" text="x1" color="red" textStyle="bold" textSize="18dp" padding="5dp 0dp 5dp 0dp"/>
                 <text text="秒" color="#FFFFFF" />
             </linear>
-            <Switch id="punishTimeSuperposition" color="#FFFFFF" text="叠加惩罚时间"  margin="20 10 20 10" enabled="false"/>
+            <linear>
+              <img id="resetSuperposition" src="@drawable/ic_autorenew_black_48dp" h="28dp" tint="#FF8800" layout_gravity="center"/>
+              <Switch id="punishTimeSuperposition" color="#FFFFFF" text="叠加惩罚时间"  margin="20 10 20 10" enabled="false" layout_weight="1"/>
+
+            </linear>
             
             <linear>
                 <text text="触发惩罚警告值:" color="#FFFFFF" margin="20 0" />
@@ -132,6 +137,16 @@ function settingUiInit() {
     if (config.rulerAction != 2) { //2 == is jumpActivity
         $ui.return_act_spinner.setEnabled(false);
     }
+    
+    if(config.punishTimeSuperposition){
+         ui.superpositionValue.setTextColor(Color.RED);
+    }else{
+        ui.superpositionValue.setTextColor(Color.GRAY);
+    }
+    let _tmp_superpositionedCount = config.superpositionedCount == 0 ? 1 : config.superpositionedCount;
+    ui.superpositionValue.setText("x" + (_tmp_superpositionedCount.toString()));
+
+
     setBackgroundRoundGradientCornerRadii(ui.setting_content, "#FF8800", "#232B2B");
     setBackgroundRoundGradientCornerRadii(ui.setting_punish, "#FF8800", "#232B2B");
     setBackgroundRoundGradientCornerRadii($ui.setting_info, "#FF8800", "#232B2B");
@@ -181,6 +196,12 @@ $ui.switch_punish.on("check", (checked) => {
     config.notifyConfigChange("punishOptions", checked);
 });
 
+$ui.resetSuperposition.on("click", ()=>{
+    config.notifyConfigChange("superpositionedCount",0);
+    ui.superpositionValue.setText("x1");
+    toastLog("叠加计数已重置");
+});
+
 $ui.punishTime.addTextChangedListener(new android.text.TextWatcher({
     afterTextChanged: function(s) {
         config.notifyConfigChange("punishTime", Number(s))
@@ -188,6 +209,11 @@ $ui.punishTime.addTextChangedListener(new android.text.TextWatcher({
 }));
 
 $ui.punishTimeSuperposition.on("check", (checked) => {
+    if(checked){
+        ui.superpositionValue.setTextColor(Color.RED);
+    }else{
+        ui.superpositionValue.setTextColor(Color.GRAY);
+    }
     config.notifyConfigChange("punishTimeSuperposition", checked);
 });
 

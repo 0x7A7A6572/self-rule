@@ -140,6 +140,9 @@ function initEvent() {
             case "punishTime":
                 $ui.punishTime.setText(config.punishTime.toString());
                 break;
+            case "superposition":
+                $ui.superpositionValue.setText("x" + config.superpositionedCount.toString());
+                break;
         }
     });
 
@@ -201,9 +204,7 @@ function initUi() {
     //键盘布局锁定
     activity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-
-
-    //提示文本显示
+        //提示文本显示
     if (config.alertTipsText == null) {
         config.alertTipsText = "想要有空余时间，就不要浪费时间。";
     }
@@ -235,7 +236,7 @@ function initUi() {
         vbl_pl.height = 400;
         vbl_white.setLayoutParams(vbl_pl);
         vbl_black, vbl_pl, vbl_white = null, null, null;
-    }, 800);
+    }, 500);
 }
 /* 阻止点击穿透 防止误点 */
 ui.setting_layout.setOnClickListener(null);
