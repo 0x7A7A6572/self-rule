@@ -396,7 +396,7 @@ $ui.expand_img_switch_backlist.on("click", (v) => {
     let vbl = $ui.blacklist;
     if (expand_img_switch.backlist == 1) {
         let vbl_pl = vbl.getLayoutParams();
-        vbl_pl.height = 400;
+        vbl_pl.height = 700;
         vbl.setLayoutParams(vbl_pl);
         v.setSource("@drawable/ic_unfold_more_black_48dp");
         expand_img_switch.backlist = 0;
