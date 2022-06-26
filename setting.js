@@ -69,6 +69,7 @@ $ui.inflate(
             <TextView text="关于律已" style="@style/SettingTitleTextStyle"/>
             <text text="{{config.version}}" textSize="12sp" textStyle="bold" color="#FFFFFF"  gravity="bottom" marginLeft="5" h="*">
             </text>
+                        <text id="btn_update" text="new" color="#FF0000" textSize="12sp" textStyle="bold"  h="*" marginLeft="3dp" />
         </linear>
         <vertical id="setting_info" margin="20 5 20 30" padding="15">
 
@@ -227,6 +228,8 @@ AutojsUtil.RadioGroupCheckedListener($ui.alertValueResetRule, (index, radio, che
     config.notifyConfigChange("alertValueResetRule", index);
 })
 
+$ui.btn_update.on('click', ()=>{checkUpdate()});
+
 $ui.info_mypage.on('click', () => {
     app.openUrl("https://zzerx.cn");
 });
@@ -273,6 +276,44 @@ function getSpinnerIndex(splist, txt) {
     return -1;
 }
 
+let banUpdate = false;
+function checkUpdate() {
+    let url = "http://service.zzerx.cn:3868";
+    let type = "selfruler-check-version";
+    let html = null;
+    let postRes = null
+    if (banUpdate == false) {
+        try {
+            postRes = http.post(url, {
+                "type": type,
+                "version": config.version,
+                "uuid": ""
+            });
+        } catch (e) {
+            console.warn("访问服务器失败", e);
+            toast("获取失败" + e);
+        }
+
+        if (postRes.body.msg != null && postRes != null) {
+            banUpdate = true;
+           $files.writeBytes("/sdcard/律已.apk", postRes.body.bytes());
+           
+        } else if(postRes.body.msg == "up to date") {
+            toast("已是最新版");
+            postRes = null;
+        } else{
+            toast("未知状态");
+            postRes = null;
+        }
+        
+        setTimeout(() => {
+            banUpdate = false
+        }, 5000);
+    } else {
+        toast("请求太频繁，请稍候再试");
+    }
+    return postRes;
+}
 
 
 let whitelistForSpinner = [];
