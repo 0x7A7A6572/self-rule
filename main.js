@@ -24,7 +24,7 @@ let explanAlert = require("./components/explanAlert.js");
 let AutojsUtil = require("./util/AutojsUtil.js");
 let SERVICE_EXTRA_KEY = "SELF_RULER_SERVICE_STATU";
 let SERVICE_SCRIPT_PATH = "./service.js";
-let serviceStatu;
+//let serviceStatu;
 let imgRunServiceStatu = false;
 let floatWindowStatu = false;
 let window_thread, menuWindow;
@@ -117,7 +117,7 @@ function initEvent() {
     }
     //注册广播监听服务状态
     broadcastResigner = BroadcastUtil.register(function(context, intent) {
-        serviceStatu = intent.getStringExtra(SERVICE_EXTRA_KEY);
+       let serviceStatu = intent.getStringExtra(SERVICE_EXTRA_KEY);
         switch (serviceStatu) {
             case "STOP_SERVICE":
                 updateImageButton(ui.imgRunService, "#000000", false);
@@ -300,14 +300,14 @@ ui.showfloatwindow.on("click", function() {
 });
 
 ui.imgRunService.on("click", function() {
-    if (serviceStatu != 'SERVICE_RUNNING') {
+    if (imgRunServiceStatu != true) {
         runService();
         device.vibrate(200);
         // 由runService 处理  updateImageButton(ui.imgRunService, "#FF8800", true);
     } else {
         // toastLog("发送停止服务")
         BroadcastUtil.send(SERVICE_EXTRA_KEY, "STOP_SERVICE");
-        updateImageButton(ui.imgRunService, "#000000", false);
+        //  广播处理 updateImageButton(ui.imgRunService, "#000000", false);
     }
 })
 

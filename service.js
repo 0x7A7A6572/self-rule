@@ -21,11 +21,14 @@ let filter = new IntentFilter();
 let alertTipsText;
 let isPunishTime = false;
 let _rvilActivity, _whitelistActivity;
+let liveInterval;
 config.init();
 broadcastResigner = BroadcastUtil.register(function(context, intent) {
     let getletServiceStatu = intent.getStringExtra(ExtraKey);
     if (getletServiceStatu == "STOP_SERVICE") {
+        toastLog("律已服务停止..")
         removeNotify();
+        exit();
     }
     let notifyFunc = intent.getStringExtra("action");
     if (notifyFunc != null)
@@ -54,6 +57,10 @@ events.on("exit", function() {
     /* 蜜汁保险 */
     threads.shutDownAll();
      removeNotify();
+     if(liveInterval != null){
+        clearInterval(liveInterval);
+        liveInterval = null;
+     }
 });
 
 //end
@@ -68,7 +75,6 @@ function doBroadcastSignal(signal) {
         case ACTION_STOP:
             // console.log("////")
             removeNotify();
-            toastLog("律已服务停止..")
             exit();
             break;
     }
@@ -292,9 +298,10 @@ function isWhiteListActivitys(activity) {
 
 
 //保活
-setInterval(function() {
+liveInterval = setInterval(function() {
     /*  为了以下情况
      *  service启动后关闭ui界面，再次打开，开启服务按钮显示未开启，实际服务为开启状态
      */
+    
     BroadcastUtil.send(ExtraKey, "SERVICE_RUNNING");
 }, 3000);
