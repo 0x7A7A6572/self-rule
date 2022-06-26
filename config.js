@@ -14,7 +14,9 @@ let _config = {
     punishOptions: false
 }
 
-
+console.setGlobalLogConfig({
+            "file": context.getExternalCacheDir() + "/log.txt",
+        });
 let config = {
     version: getPackageName(),
     SERVICE_EXTRA_KEY: "SELF_RULER_SERVICE_STATU",
