@@ -204,8 +204,7 @@ let ruler_thread = threads.start(function() {
             alertTipsText = config.alertTipsText;
             // alert(alertTipsText);
             ui.run(() => {
-                config.alertValue++;
-                config.notifyConfigChange("alertValue", config.alertValue);
+                config.notifyConfigChange("alertValue", config.alertValue + 1);
                 BroadcastUtil.send("DataChangeToUi", "alertValue");
                 if (config.punishOptions && config.alertValue >= config.punishBindAlertValue) {
                     toastLog("已达到警告值，将限制使用");

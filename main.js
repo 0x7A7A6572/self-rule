@@ -136,6 +136,7 @@ function initEvent() {
         switch (DataChangeToUi) {
             case "alertValue":
                 $ui.alertValue.setText(config.alertValue.toString());
+                //console.log("changeui - alertValue:",config.alertValue);
                 break;
             case "punishTime":
                 $ui.punishTime.setText(config.punishTime.toString());

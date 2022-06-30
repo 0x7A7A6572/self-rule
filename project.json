@@ -8,9 +8,9 @@
   },
   "assets": [],
   "build": {
-    "build_id": "4A88A364-73",
-    "build_number": 73,
-    "build_time": 1656261765811,
+    "build_id": "1465BC37-76",
+    "build_number": 76,
+    "build_time": 1656545886124,
     "release": false
   },
   "encryptLevel": 0,
@@ -68,6 +68,6 @@
     "keystore": "/storage/emulated/0/AutoProProject/.keystore/autojspro.jks",
     "uuid": "3f5dc0b6-fb43-4ff9-a1fe-ec99d30a135b"
   },
-  "versionCode": 109,
-  "versionName": "v1.0.9"
+  "versionCode": 1010,
+  "versionName": "v1.0.10"
 }
